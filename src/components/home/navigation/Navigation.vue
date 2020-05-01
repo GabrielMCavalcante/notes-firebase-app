@@ -1,0 +1,60 @@
+<template>
+  <nav>
+    <v-app-bar app >
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>
+        <v-img 
+          width="150" 
+          height="93" 
+          src="@/assets/logo.png" 
+          class="mx-auto"
+        ></v-img>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <div class="d-inline-flex" style="width: 400px;">
+          <v-icon left>mdi-magnify</v-icon>
+          <v-text-field 
+            placeholder="Search note..." 
+            solo 
+            style="margin-top: 25px;">
+          </v-text-field>
+      </div>
+    </v-app-bar>
+
+    <v-navigation-drawer app v-model="drawer">
+      <v-img width="200" height="93" src="@/assets/logo.png" class="mx-auto"></v-img>
+      <v-list>
+        <v-list-item-group>
+          <v-list-item v-for="option in navOptions" :key="option.icon">
+            <div class="container d-inline-flex" v-if="option.type === 'normal'">
+              <v-list-item-content>{{option.text}}</v-list-item-content>
+              <v-list-item-icon>
+                <v-icon>{{option.icon}}</v-icon>
+              </v-list-item-icon>
+            </div>
+            <div class="container" v-else-if="option.type === 'dropdown'">
+                <span class="caption">{{option.text}}</span>
+                <v-select solo v-model="option.first" :items="option.options"></v-select>
+            </div>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+  </nav>
+</template>
+
+<script>
+export default {
+  name: "Navigation",
+  data() {
+    return {
+      drawer: false,
+      selected: 0
+    };
+  },
+  methods: {
+      
+  },
+  props: ["navOptions"]
+};
+</script>
