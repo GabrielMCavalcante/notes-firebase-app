@@ -1,47 +1,55 @@
 <template>
   <v-container class="overview d-inline-flex">
     <v-row>
-      <v-col cols="3" v-for="note in notes" :key="note.id">
+
+      <!-- Note cards -->
+      <v-col cols="3" v-for="note in filteredNotes" :key="note.id">
         <v-hover v-slot:default="{ hover }">
           <v-card :elevation="hover?'8':'2'" class="grey lighten-3 note">
+            <div class="filter-bar" :style="{background: note.color}"></div>
             <v-card-title>{{note.title | minifyTitle}}</v-card-title>
-            <v-card-content>{{note.body | minifyContent}}</v-card-content>
+            <v-card-text>{{note.body | minifyContent}}</v-card-text>
           </v-card>
         </v-hover>
       </v-col>
+
+      <!-- Add new note card -->
       <v-col cols="3" v-if="loaded">
         <v-hover v-slot:default="{ hover }">
-          <v-card outlined="true" class="pa-3 note add-note" :elevation="hover?'8':'2'">
+          <v-card outlined class="pa-3 note add-note" :elevation="hover?'8':'2'">
             <v-card-title>
               <span class="mx-auto">Add Note</span>
             </v-card-title>
-            <v-card-content class="add-sign">
+            <v-card-text class="add-sign">
               <v-icon size="100">mdi-plus</v-icon>
-            </v-card-content>
+            </v-card-text>
           </v-card>
         </v-hover>
       </v-col>
+
     </v-row>
   </v-container>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Overview",
   data() {
     return {
-      loaded: false,
       options: [
         { text: "Add note", icon: "mdi-plus", type: "normal" },
         {
           text: "Order By",
-          first: "Name",
+          slug: "order-by",
+          first: "Title",
           icon: "mdi-order-alphabetical-ascending",
           type: "dropdown",
-          options: ["Name", "Creation", "Modification"]
+          options: ["Title", "Creation", "Modification"]
         },
         {
           text: "Filter",
+          slug: "filter",
           first: "All",
           icon: "mdi-flag",
           type: "dropdown",
@@ -64,38 +72,30 @@ export default {
           type: "normal"
         },
         { text: "Deleted notes", icon: "mdi-trash-can-outline", type: "normal" }
-      ],
-      notes: [
-        {
-          id: 1,
-          title: "List of books",
-          content:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
-        },
-        {
-          id: 2,
-          title: "Another anotation",
-          content:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
-        },
-        {
-          id: 3,
-          title: "My wonderfull day",
-          content:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
-        }
       ]
     };
   },
+  computed: {
+    ...mapGetters(["loaded", "notes", "search", "order", "filter"]),
+    filteredNotes() {
+      return this.notes.filter(note => {
+        if (note.title.match(this.search)) {
+          if (this.filter === "All") return note;
+          else if (note.color === this.filter) return note;
+        }
+      }).sort((a, b)=>{
+        if(a[this.order] > b[this.order]) return 1
+        else if(a[this.order] < b[this.order]) return -1
+        else return 0
+      })
+    }
+  },
+  methods: {
+    ...mapActions(["setNotes"])
+  },
   created() {
-    this.loaded = false;
     this.$emit("overview", this.options);
-    fetch("https://jsonplaceholder.typicode.com/posts?_limit=20").then(res => {
-      res.json().then(data => {
-        this.loaded = true;
-        this.notes = data;
-      });
-    });
+    this.setNotes();
   },
   filters: {
     minifyTitle(value) {
@@ -123,5 +123,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.overview .filter-bar {
+  width: 100%;
+  height: 5px;
 }
 </style>
