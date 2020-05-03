@@ -13,7 +13,8 @@
       <v-spacer></v-spacer>
       <div class="d-inline-flex" style="width: 400px;">
           <v-icon left>mdi-magnify</v-icon>
-          <v-text-field 
+          <v-text-field
+            @keyup="updateSearch" 
             placeholder="Search note..." 
             solo 
             style="margin-top: 25px;">
@@ -34,7 +35,13 @@
             </div>
             <div class="container" v-else-if="option.type === 'dropdown'">
                 <span class="caption">{{option.text}}</span>
-                <v-select solo v-model="option.first" :items="option.options"></v-select>
+                <v-select 
+                  :id="option.slug" 
+                  solo 
+                  v-model="option.first" 
+                  :items="option.options"
+                  @change="updateOrderFilter(option.first)"
+                ></v-select>
             </div>
           </v-list-item>
         </v-list-item-group>
@@ -44,6 +51,7 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
 export default {
   name: "Navigation",
   data() {
@@ -52,9 +60,24 @@ export default {
       selected: 0
     };
   },
-  methods: {
-      
+  computed: {
+    ...mapGetters(['search', 'order', 'filter'])
   },
-  props: ["navOptions"]
+  methods: {
+      ...mapActions(['setSearch', 'setOrder', 'setFilter']),
+      updateSearch(e) {
+        this.setSearch(e.target.value)
+      },
+      updateOrderFilter(option) {
+        if(['Title', 'Creation', 'Modification'].includes(option)) 
+          this.setOrder(option.toLowerCase())
+        else this.setFilter(option)
+      }
+  },
+  props: ["navOptions"],
+  created() {
+    this.setOrder('title')
+    this.setFilter('All')
+  }
 };
 </script>
