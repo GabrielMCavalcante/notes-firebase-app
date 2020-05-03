@@ -11,7 +11,7 @@
         ></v-img>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <div class="d-inline-flex" style="width: 400px;">
+      <div v-if="view === 'Overview'" class="d-inline-flex" style="width: 400px;">
           <v-icon left>mdi-magnify</v-icon>
           <v-text-field
             @keyup="updateSearch" 
@@ -26,7 +26,7 @@
       <v-img width="200" height="93" src="@/assets/logo.png" class="mx-auto"></v-img>
       <v-list>
         <v-list-item-group>
-          <v-list-item v-for="option in navOptions" :key="option.icon">
+          <v-list-item @click="option.click" v-for="option in navOptions" :key="option.icon">
             <div class="container d-inline-flex" v-if="option.type === 'normal'">
               <v-list-item-content>{{option.text}}</v-list-item-content>
               <v-list-item-icon>
@@ -35,8 +35,7 @@
             </div>
             <div class="container" v-else-if="option.type === 'dropdown'">
                 <span class="caption">{{option.text}}</span>
-                <v-select 
-                  :id="option.slug" 
+                <v-select  
                   solo 
                   v-model="option.first" 
                   :items="option.options"
@@ -61,7 +60,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['search', 'order', 'filter'])
+    ...mapGetters(['search', 'order', 'filter', 'view'])
   },
   methods: {
       ...mapActions(['setSearch', 'setOrder', 'setFilter']),
@@ -78,6 +77,11 @@ export default {
   created() {
     this.setOrder('title')
     this.setFilter('All')
+    for(const option of this.navOptions) {
+      if(option.type === 'dropdown') {
+        this.updateOrderFilter(option.first)
+      }
+    }
   }
 };
 </script>
