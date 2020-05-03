@@ -9,7 +9,8 @@ export default new Vuex.Store({
     notes: new Array(),
     search: new String(),
     order: new String(),
-    filter: new String()
+    filter: new String(),
+    view: 'Overview'
   },
   mutations: {
     setNotes(state, data) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     setFilter(state, newFilter) {
       state.filter = newFilter
+    },
+    setView(state, newView) {
+      state.view = newView
     }
   },
   getters: {
@@ -41,10 +45,16 @@ export default new Vuex.Store({
     },
     filter(state) {
       return state.filter
+    },
+    view(state) {
+      return state.view
     }
   },
   actions: {
     setNotes({commit}) {
+      /*
+        check if last order and filter choosen stay the same after editting note
+      */
       this.state.loaded = false
       fetch("https://jsonplaceholder.typicode.com/posts?_limit=20").then(res => {
         res.json().then(data => {
@@ -61,9 +71,9 @@ export default new Vuex.Store({
               "White"
             ][Math.abs(8 - Math.round(Math.random()*10))], 
             creation: Date.now() + Math.round(Math.random()*1000), 
-            modification: Date.now() + Math.round(Math.random()*1000)
+            modification: Date.now() + Math.round(Math.random()*1000),
+            selected: false
           }))
-          console.log(data)
           commit('setNotes', data)
         })
       })
@@ -76,6 +86,9 @@ export default new Vuex.Store({
     },
     setFilter({commit}, newFilter) {
       commit('setFilter', newFilter)
+    },
+    setView({commit}, newView) {
+      commit('setView', newView)
     }
   }
 })
