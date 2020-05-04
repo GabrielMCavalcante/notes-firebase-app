@@ -75,7 +75,8 @@ export default {
               .then(res=>{
                 const userData = res.user
                 db.collection('users').doc(userData.uid).set({
-                  notes: []
+                  notes: [],
+                  trash: []
                 }).then(()=>{
                   this.loading = false
                   this.$router.push('/home')
