@@ -68,9 +68,11 @@ export default {
         this.setSearch(e.target.value)
       },
       updateOrderFilter(option) {
-        if(['Title', 'Creation', 'Modification'].includes(option)) 
-          this.setOrder(option.toLowerCase())
-        else this.setFilter(option)
+        if(this.view === 'Overview') {
+          if(['Title', 'Creation', 'Modification'].includes(option)) 
+            this.setOrder(option.toLowerCase())
+          else this.setFilter(option)
+        }
       }
   },
   props: ["navOptions"],
