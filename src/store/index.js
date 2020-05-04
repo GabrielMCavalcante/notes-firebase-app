@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import db from '@/firebase/init.js'
+import firebase from 'firebase'
 
 Vue.use(Vuex)
 
@@ -8,14 +10,18 @@ export default new Vuex.Store({
     loaded: false,
     notes: new Array(),
     search: new String(),
-    order: new String(),
-    filter: new String(),
-    view: 'Overview'
+    order: 'Title',
+    filter: 'All',
+    view: 'Overview',
+    currentNote: null
   },
   mutations: {
     setNotes(state, data) {
       state.loaded = true
       state.notes = data
+    },
+    addNote(state, newNote) {
+      state.notes.push(newNote)
     },
     setSearch(state, searchItem) {
       state.search = searchItem
@@ -28,6 +34,9 @@ export default new Vuex.Store({
     },
     setView(state, newView) {
       state.view = newView
+    },
+    setCurrentNote(state, newCurrentNote) {
+      state.currentNote = newCurrentNote
     }
   },
   getters: {
@@ -48,6 +57,9 @@ export default new Vuex.Store({
     },
     view(state) {
       return state.view
+    },
+    currentNote(state) {
+      return state.currentNote
     }
   },
   actions: {
@@ -56,26 +68,48 @@ export default new Vuex.Store({
         check if last order and filter choosen stay the same after editting note
       */
       this.state.loaded = false
-      fetch("https://jsonplaceholder.typicode.com/posts?_limit=20").then(res => {
-        res.json().then(data => {
-          data.forEach(note=>Object.assign(note, {
-            color: [
-              "Orange",
-              "Green",
-              "Purple",
-              "Grey",
-              "Red",
-              "Yellow",
-              "Blue",
-              "Black",
-              "White"
-            ][Math.abs(8 - Math.round(Math.random()*10))], 
-            creation: Date.now() + Math.round(Math.random()*1000), 
-            modification: Date.now() + Math.round(Math.random()*1000),
-            selected: false
-          }))
-          commit('setNotes', data)
+      const user = firebase.auth().currentUser
+      db.collection('users').doc(user.uid).get()
+        .then(doc=>{ 
+          commit('setNotes', doc.data().notes)
         })
+    },
+    addNote({commit}, newNote) {
+      return new Promise((resolve, reject)=>{
+        const user = firebase.auth().currentUser
+        db.collection('users').doc(user.uid).get()
+          .then(doc=>{
+            const userNotes = doc.data().notes
+            Object.assign(newNote, {id: userNotes.length, userId: user.uid})
+            userNotes.push(newNote)
+            db.collection('users').doc(user.uid).update({
+              notes: userNotes
+            }).then(()=>{
+              commit('setCurrentNote', newNote)
+              commit('addNote', newNote)
+              resolve()
+            }).catch(err=>{reject(err)})
+          })
+      })
+    },
+    updateNote({commit}, newData) {
+      return new Promise((resolve, reject)=>{
+        db.collection('users').doc(newData.userId).get()
+        .then(doc=>{
+          const userNotes = doc.data().notes
+          for(let i=0; i < userNotes.length; i++) {
+            if(userNotes[i].id === newData.id) {
+              userNotes[i] = newData
+              break
+            }
+          }
+          db.collection('users').doc(newData.userId).update({
+            notes: userNotes
+          }).then(()=>{
+            commit('setNotes', userNotes)
+            resolve()
+          }).catch(err=>reject(err))
+        }).catch(err=>reject(err))
       })
     },
     setSearch({commit}, searchItem) {
@@ -89,6 +123,9 @@ export default new Vuex.Store({
     },
     setView({commit}, newView) {
       commit('setView', newView)
+    },
+    setCurrentNote({commit}, newCurrentNote) {
+      commit('setCurrentNote', newCurrentNote)
     }
   }
 })
