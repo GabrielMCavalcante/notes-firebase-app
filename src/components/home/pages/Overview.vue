@@ -127,7 +127,7 @@ export default {
         this.setCurrentNote(note)
         this.$emit('changeView', 'EditNote')
       }
-      else note.selected = !note.selected
+      else note.selected = !note.selected // multiselection logic here!!
     },
     addNewNote() {
       const newNote = {
@@ -146,7 +146,6 @@ export default {
       this.multiselect = !this.multiselect
     },
     capitalize(string) {
-      console.log('before capitalize: ', string)
       let result = string.split('')
       result[0] = result[0].toLocaleUpperCase()
       return result.join('')
