@@ -24,8 +24,13 @@
         </v-row>
         <v-row>
             <v-col cols="12" >
-                <v-btn :loading="loading" block>Login</v-btn>
+                <v-btn :loading="loading" @click="login" block>Login</v-btn>
             </v-col>
+        </v-row>
+        <v-row v-if="feedback">
+          <v-col cols="12">
+            <div class="red--text caption">{{feedback}}</div>
+          </v-col>
         </v-row>
         <v-row>
           <p class="caption mx-auto">
@@ -38,6 +43,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
     name: 'Login',
     data() {
@@ -45,6 +51,7 @@ export default {
         valid: false,
         loading: false,
         email: new String(),
+        feedback: null,
         emailRules: [
           v => !!v || 'Email is required',
           v => /.+@.+/.test(v) || 'Email must be valid'
@@ -54,6 +61,21 @@ export default {
           v => !!v || 'Password is required',
           v => /(?=.{8,})/.test(v) || 'Password must have 8 characters or long'
         ]
+      }
+    },
+    methods: {
+      login() {
+        const user = {email: this.email, password: this.password}
+        this.loading = true
+        this.feedback = null
+        firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+        .then(()=>{
+          this.loading = false
+          this.$router.push('/home')
+        }).catch(err=>{
+          this.feedback = err.message
+          this.loading = false
+        })
       }
     }
 };
