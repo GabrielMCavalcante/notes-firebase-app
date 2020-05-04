@@ -1,7 +1,16 @@
 <template>
   <v-container class="overview d-inline-flex">
-    <v-row>
-
+    <!-- Loading circle -->
+    <div v-if="!loaded">
+      <v-progress-circular
+        class="loading"
+        indeterminate
+        rotate
+        size="120"
+        color="grey darken-2"
+      ></v-progress-circular>
+    </div>
+    <v-row v-else>
       <!-- Note cards -->
       <v-col cols="3" v-for="note in filteredNotes" :key="note.id">
         <v-hover v-slot:default="{ hover }">
@@ -24,7 +33,7 @@
       <!-- Add new note card -->
       <v-col cols="3" v-if="loaded">
         <v-hover v-slot:default="{ hover }">
-          <v-card outlined class="pa-3 note add-note" :elevation="hover?'8':'2'">
+          <v-card @click="addNewNote" outlined class="pa-3 note add-note" :elevation="hover?'8':'2'">
             <v-card-title>
               <span class="mx-auto">Add Note</span>
             </v-card-title>
@@ -51,12 +60,12 @@ export default {
           text: "Add note", 
           icon: "mdi-plus", 
           type: "normal", 
-          click: function(){console.log('add note')} 
+          click: ()=>{this.addNewNote()} 
         },
         {
           text: "Order By",
           slug: "order-by",
-          first: "Title",
+          first: 'Title',
           icon: "mdi-order-alphabetical-ascending",
           type: "dropdown",
           options: ["Title", "Creation", "Modification"],
@@ -97,7 +106,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["loaded", "notes", "search", "order", "filter"]),
+    ...mapGetters(["loaded", "notes", "search", "order", "filter", "currentNote"]),
     filteredNotes() {
       return this.notes.filter(note => {
         if (note.title.match(this.search)) {
@@ -112,24 +121,47 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["setNotes", "setView"]),
+    ...mapActions(["setNotes", "setView", "setCurrentNote", "addNote"]),
     clickHandler(note) {
-      if(!this.multiselect)
+      if(!this.multiselect) {
+        this.setCurrentNote(note)
         this.$emit('changeView', 'EditNote')
+      }
       else note.selected = !note.selected
+    },
+    addNewNote() {
+      const newNote = {
+        title: 'untitled', 
+        body: '', 
+        color: 'Grey', 
+        creation: Date.now(), 
+        modification: Date.now(),
+        selected: false
+      }
+      this.addNote(newNote)
+        .then(()=>this.$emit('changeView', 'EditNote'))
+        .catch(err=>console.warn('there has been an error:',err))
     },
     multiselection() {
       this.multiselect = !this.multiselect
+    },
+    capitalize(string) {
+      console.log('before capitalize: ', string)
+      let result = string.split('')
+      result[0] = result[0].toLocaleUpperCase()
+      return result.join('')
     }
   },
   created() {
     this.$emit("changeOptions", this.options)
     this.setView('Overview')
     this.setNotes()
+    this.options[1].first = this.capitalize(this.order)
+    this.options[2].first = this.filter
   },
   filters: {
     minifyTitle(value) {
-      if (value.length > 20) return value.slice(0, 19) + "...";
+      if (value.length > 30) return value.slice(0, 29) + "...";
       return value;
     },
     minifyContent(value) {
@@ -141,6 +173,12 @@ export default {
 </script>
 
 <style>
+.overview .loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .overview .note {
   cursor: pointer;
   user-select: none;
