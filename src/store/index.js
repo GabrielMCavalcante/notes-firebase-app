@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '@/firebase/init.js'
 import firebase from 'firebase'
+import {v4 as uuidv4} from 'uuid'
 
 Vue.use(Vuex)
 
@@ -9,6 +10,7 @@ export default new Vuex.Store({
   state: {
     loaded: false,
     notes: new Array(),
+    trash: new Array(),
     search: new String(),
     order: 'Title',
     filter: 'All',
@@ -19,6 +21,9 @@ export default new Vuex.Store({
     setNotes(state, data) {
       state.loaded = true
       state.notes = data
+    },
+    setTrash(state, data) {
+      state.trash = data
     },
     addNote(state, newNote) {
       state.notes.push(newNote)
@@ -42,6 +47,9 @@ export default new Vuex.Store({
   getters: {
     notes(state) {
       return state.notes
+    },
+    trash(state) {
+      return state.trash
     },
     loaded(state) {
       return state.loaded
@@ -80,7 +88,7 @@ export default new Vuex.Store({
         db.collection('users').doc(user.uid).get()
           .then(doc=>{
             const userNotes = doc.data().notes
-            Object.assign(newNote, {id: userNotes.length, userId: user.uid})
+            Object.assign(newNote, {id: uuidv4(), userId: user.uid})
             userNotes.push(newNote)
             db.collection('users').doc(user.uid).update({
               notes: userNotes
@@ -110,6 +118,33 @@ export default new Vuex.Store({
             resolve()
           }).catch(err=>reject(err))
         }).catch(err=>reject(err))
+      })
+    },
+    sendToTrash({commit}, notesToTrash) {
+      return new Promise((resolve, reject)=>{
+        const user = firebase.auth().currentUser
+        
+        db.collection('users').doc(user.uid).get()
+          .then(snapshot=>{
+            const notes = snapshot.data().notes
+            const trash = snapshot.data().trash
+
+            notesToTrash.forEach(noteToTrash=>{
+              notes.forEach((note, index)=>{
+                if(noteToTrash.id === note.id) {
+                  notes.splice(index, 1)
+                  trash.push(noteToTrash)
+                }
+              })
+            })
+
+            db.collection('users').doc(user.uid).update({notes, trash})
+              .then(()=>{
+                commit('setNotes', notes)
+                commit('setTrash', trash)
+                resolve()
+              }).catch(err=>reject(err))
+          }).catch(err=>reject(err))
       })
     },
     setSearch({commit}, searchItem) {
