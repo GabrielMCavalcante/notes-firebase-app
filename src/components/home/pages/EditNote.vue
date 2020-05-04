@@ -39,7 +39,7 @@
                         color="grey lighten-2"
                     >Save and exit</v-btn>
                     <v-btn 
-                        @click="exit" 
+                        @click="exit(1)" 
                         large 
                         color="grey lighten-2"
                     >Exit without saving</v-btn>
@@ -101,7 +101,7 @@ export default {
         ...mapGetters(['currentNote'])
     },
     methods: {
-        ...mapActions(['setView', 'updateNote']),
+        ...mapActions(['setView', 'updateNote', 'sendToTrash']),
         save() {
             const newNote = {
                 title: this.title, 
@@ -109,20 +109,29 @@ export default {
                 color: this.options[1].first,
                 id: this.currentId,
                 userId: firebase.auth().currentUser.uid,
-                modification: Date.now()
+                modification: Date.now(),
+                creation: this.currentNote.creation
             }
             return this.updateNote(newNote)
         },
         saveAndExit() {
             this.save()
-                .then(()=>this.exit())
+                .then(()=>this.exit(0))
                 .catch(err=>alert('Error while saving note:', err.message))
         },
-        exit() {
-            this.$emit('changeView', 'Overview')
+        exit(type) {
+            if(type === 1) {
+                const response = confirm('The note has not been saved. Exit anyway?')
+                if(response) this.$emit('changeView', 'Overview')
+            } else this.$emit('changeView', 'Overview')
         },
         deleteNote() {
-            console.log('deleteNote')
+            const response = confirm('This note will be sent to the trash.')
+            if(response) {
+                this.sendToTrash([this.currentNote])
+                    .then(()=>this.exit())
+                    .catch(err=>alert(`Error while deleting note: ${err.message}`))
+            }
         }
     },
     created() {
