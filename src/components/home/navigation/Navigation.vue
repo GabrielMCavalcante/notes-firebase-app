@@ -76,7 +76,7 @@ export default {
       }
   },
   props: ["navOptions"],
-  created() {
+  mounted() {
     this.setOrder('title')
     this.setFilter('All')
     for(const option of this.navOptions) {
