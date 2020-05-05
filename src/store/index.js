@@ -72,15 +72,14 @@ export default new Vuex.Store({
   },
   actions: {
     setNotes({commit}) {
-      /*
-        check if last order and filter choosen stay the same after editting note
-      */
       this.state.loaded = false
-      const user = firebase.auth().currentUser
-      db.collection('users').doc(user.uid).get()
-        .then(doc=>{ 
-          commit('setNotes', doc.data().notes)
-        })
+      firebase.auth().onAuthStateChanged(()=>{
+        const user = firebase.auth().currentUser
+        db.collection('users').doc(user.uid).get()
+          .then(doc=>{ 
+            commit('setNotes', doc.data().notes)
+          })
+      })
     },
     addNote({commit}, newNote) {
       return new Promise((resolve, reject)=>{
