@@ -74,12 +74,14 @@ export default new Vuex.Store({
   actions: {
     setNotes({commit}) {
       this.state.loaded = false
-      firebase.auth().onAuthStateChanged(()=>{
-        const user = firebase.auth().currentUser
-        db.collection('users').doc(user.uid).get()
-          .then(doc=>{ 
-            commit('setNotes', doc.data().notes)
-          })
+      firebase.auth().onAuthStateChanged(authState=>{
+        if(authState) {
+          const user = firebase.auth().currentUser
+          db.collection('users').doc(user.uid).get()
+            .then(doc=>{ 
+              commit('setNotes', doc.data().notes)
+            })
+        }
       })
     },
     setTrash({commit}) {
