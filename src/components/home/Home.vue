@@ -13,12 +13,14 @@
 import Navigation from './navigation/Navigation.vue'
 import Overview from './pages/Overview.vue'
 import EditNote from './pages/EditNote.vue'
+import DeletedNotes from './pages/DeletedNotes.vue'
 export default {
     name: 'Home',
     components: {
         Navigation,
         'Overview': Overview,
-        'EditNote': EditNote
+        'EditNote': EditNote,
+        'DeletedNotes': DeletedNotes
     },
     data() {
         return {
