@@ -15,9 +15,13 @@
             <v-icon left>mdi-select-inverse</v-icon>
             Invert selection
           </v-btn>
-          <v-btn @click="deleteSelected" class="red lighten-1 white--text">
+          <v-btn @click="deleteSelected" class="red lighten-1 white--text multiselection-option">
             <v-icon left>mdi-delete-circle-outline</v-icon>
             Delete
+          </v-btn>
+          <v-btn @click="restoreSelected" class="green lighten-1 white--text multiselection-option">
+            <v-icon left>mdi-file-restore-outline</v-icon>
+            Restore
           </v-btn>
         </div>
       </div>
@@ -153,11 +157,19 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["setTrash", "setView", "setCurrentNote", "setOrder", "setFilter"]),
+    ...mapActions([
+      "setTrash", 
+      "setView", 
+      "setCurrentNote", 
+      "setOrder", 
+      "setFilter",
+      "deletePermanently",
+      "restoreNotes"
+    ]),
     clickHandler(note) {
       if(!this.multiselect) {
-        // this.setCurrentNote(note)
-        // this.$emit('changeView', 'ViewDeletedNote')
+        this.setCurrentNote(note)
+        this.$emit('changeView', 'ViewDeletedNote')
       }
       else {
         note.selected = !note.selected
@@ -197,10 +209,25 @@ export default {
       })
     },
     deleteSelected() {
-      const response = confirm('All notes selected will be sent to the trash. Continue?')
+      const response = confirm('All notes selected will be deleted PERMANENTLY.')
       if(response) {
-        this.sendToTrash(this.trashSelected)
-          .catch(err=>alert(`Error while deleting note: ${err.message}`))
+        this.deletePermanently(this.trashSelected)
+          .then(()=>{
+            this.multiselect = false
+            this.trashSelected = new Array()
+          })
+          .catch(err=>alert(`Error while deleting notes: ${err.message}`))
+      }
+    },
+    restoreSelected() {
+      const response = confirm('All notes selected will be restored.')
+      if(response) {
+        this.restoreNotes(this.trashSelected)
+          .then(()=>{
+            this.multiselect = false
+            this.trashSelected = new Array()
+          })
+          .catch(err=>alert(`Error while restoring notes: ${err.message}`))
       }
     },
     capitalize(string) {
