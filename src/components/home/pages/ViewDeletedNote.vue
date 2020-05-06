@@ -2,6 +2,13 @@
   <div class="view-deleted-note">
       <v-card>
           <v-card-text>
+              <div class="time">
+                  <v-card flat>
+                      <v-card-text>
+                          Last deleted: {{deleted}}
+                      </v-card-text>
+                  </v-card>
+              </div>
               <v-form @submit.prevent>
                 <v-text-field
                     v-model="title"
@@ -51,6 +58,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import {mapActions, mapGetters} from 'vuex'
 export default {
     name: 'ViewDeletedNote',
@@ -58,6 +66,7 @@ export default {
         return {
             title: null,
             body: null,
+            deleted: null,
             options: [
                 { 
                     text: "Return", 
@@ -105,6 +114,7 @@ export default {
     created() {
         this.title = this.currentNote.title
         this.body = this.currentNote.body
+        this.deleted = moment(this.currentNote.deletion).format('lll')
         this.$emit('changeOptions', this.options)
         this.setView('ViewDeletedNote')
     }
@@ -112,6 +122,9 @@ export default {
 </script>
 
 <style>
+    .view-deleted-note .time {
+        text-align: right;
+    }
     .view-deleted-note .note-title {
         font-size: 25px;
     }

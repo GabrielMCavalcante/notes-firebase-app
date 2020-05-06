@@ -2,6 +2,13 @@
   <div class="edit-note">
       <v-card>
           <v-card-text>
+              <div class="time">
+                  <v-card flat>
+                      <v-card-text>
+                          Last modified: {{modified}}
+                      </v-card-text>
+                  </v-card>
+              </div>
               <v-form @submit.prevent>
                 <v-text-field
                     v-model="title"
@@ -53,6 +60,7 @@
 
 <script>
 import firebase from 'firebase'
+import moment from 'moment'
 import {mapActions, mapGetters} from 'vuex'
 export default {
     name: 'EditNote',
@@ -61,6 +69,7 @@ export default {
             title: null,
             body: null,
             color: null,
+            modified: null,
             currentId: null,
             titleRules: [v=>v.length <= 30 || 'Max length exceeded'],
             options: [
@@ -138,6 +147,7 @@ export default {
         this.title = this.currentNote.title
         this.body = this.currentNote.body
         this.currentId = this.currentNote.id
+        this.modified = moment(this.currentNote.modification).format('lll')
         this.options[1].first = this.currentNote.color
         this.$emit('changeOptions', this.options)
         this.setView('EditNote')
@@ -146,6 +156,9 @@ export default {
 </script>
 
 <style>
+    .edit-note .time {
+        text-align: right;
+    }
     .edit-note .note-title {
         font-size: 25px;
     }
