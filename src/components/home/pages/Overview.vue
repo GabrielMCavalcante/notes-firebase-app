@@ -139,7 +139,7 @@ export default {
           text: "Deleted notes", 
           icon: "mdi-trash-can-outline", 
           type: "normal",
-          click: function(){console.log('deleted notes')} 
+          click: ()=>{this.gotoDeleted()} 
         }
       ]
     };
@@ -148,7 +148,7 @@ export default {
     ...mapGetters(["loaded", "notes", "search", "order", "filter", "currentNote", "trash"]),
     filteredNotes() {
       return this.notes.filter(note => {
-        if (note.title.match(this.search)) {
+        if (note.title.toLowerCase().match(this.search.toLowerCase())) {
           if (this.filter === "All") return note;
           else if (note.color === this.filter) return note;
         }
@@ -160,7 +160,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["setNotes", "setView", "setCurrentNote", "addNote", "sendToTrash"]),
+    ...mapActions([
+      "setNotes", 
+      "setView", 
+      "setCurrentNote", 
+      "addNote", 
+      "sendToTrash",
+      "setOrder",
+      "setFilter"
+      ]),
     clickHandler(note) {
       if(!this.multiselect) {
         this.setCurrentNote(note)
@@ -220,6 +228,10 @@ export default {
       const response = confirm('All notes selected will be sent to the trash. Continue?')
       if(response) {
         this.sendToTrash(this.notesSelected)
+          .then(()=>{
+            this.multiselect = false
+            this.notesSelected = new Array()
+          })
           .catch(err=>alert(`Error while deleting note: ${err.message}`))
       }
     },
@@ -227,6 +239,11 @@ export default {
       let result = string.split('')
       result[0] = result[0].toLocaleUpperCase()
       return result.join('')
+    },
+    gotoDeleted() {
+      this.setOrder('title')
+      this.setFilter('All')
+      this.$emit('changeView', 'DeletedNotes')
     }
   },
   created() {
