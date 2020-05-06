@@ -30,14 +30,16 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next)=>{
-  if(to.matched.some(rec=>rec.meta.requiresAuth)) {
-      const user = firebase.auth().currentUser;
-      if(user) next()
-      else {
-        alert('You must be logged in')
-        next({name: 'Register'})
-      }
-  } else next()
+  firebase.auth().onAuthStateChanged(()=>{
+      if(to.matched.some(rec=>rec.meta.requiresAuth)) {
+        const user = firebase.auth().currentUser;
+        if(user) next()
+        else {
+          alert('You must be logged in')
+          next({name: 'Register'})
+        }
+    } else next()
+  })
 })
 
 export default router
