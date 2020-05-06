@@ -68,8 +68,8 @@ export default {
         this.setSearch(e.target.value)
       },
       updateOrderFilter(option) {
-        if(this.view === 'Overview') {
-          if(['Title', 'Creation', 'Modification'].includes(option)) 
+        if(this.view === 'Overview' || this.view === 'DeletedNotes') {
+          if(['Title', 'Creation', 'Modification', 'Deletion'].includes(option)) 
             this.setOrder(option.toLowerCase())
           else this.setFilter(option)
         }
