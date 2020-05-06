@@ -23,6 +23,7 @@ export default new Vuex.Store({
       state.notes = data
     },
     setTrash(state, data) {
+      state.loaded = true
       state.trash = data
     },
     addNote(state, newNote) {
@@ -81,6 +82,16 @@ export default new Vuex.Store({
           })
       })
     },
+    setTrash({commit}) {
+      this.state.loaded = false
+      firebase.auth().onAuthStateChanged(()=>{
+        const user = firebase.auth().currentUser
+        db.collection('users').doc(user.uid).get()
+          .then(doc=>{ 
+            commit('setTrash', doc.data().trash)
+          })
+      })
+    },
     addNote({commit}, newNote) {
       return new Promise((resolve, reject)=>{
         const user = firebase.auth().currentUser
@@ -132,6 +143,8 @@ export default new Vuex.Store({
               notes.forEach((note, index)=>{
                 if(noteToTrash.id === note.id) {
                   notes.splice(index, 1)
+                  Object.assign(noteToTrash, {deletion: Date.now()})
+                  noteToTrash.selected = false
                   trash.push(noteToTrash)
                 }
               })
