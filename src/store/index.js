@@ -15,7 +15,8 @@ export default new Vuex.Store({
     order: 'Title',
     filter: 'All',
     view: 'Overview',
-    currentNote: null
+    currentNote: null,
+    logout: false
   },
   mutations: {
     setNotes(state, data) {
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     },
     setCurrentNote(state, newCurrentNote) {
       state.currentNote = newCurrentNote
+    },
+    setLogout(state, status) {
+      state.logout = status
     }
   },
   getters: {
@@ -69,6 +73,9 @@ export default new Vuex.Store({
     },
     currentNote(state) {
       return state.currentNote
+    },
+    logout(state) {
+      return state.logout
     }
   },
   actions: {
@@ -232,6 +239,9 @@ export default new Vuex.Store({
     },
     setCurrentNote({commit}, newCurrentNote) {
       commit('setCurrentNote', newCurrentNote)
+    },
+    setLogout({commit}, status) {
+      commit('setLogout', status)
     }
   }
 })

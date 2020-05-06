@@ -25,7 +25,7 @@
 <script>
   import Login from "./Login.vue"
   import Signup from "./Signup.vue"
-
+  import {mapActions} from 'vuex'
   export default {
     name: "Register",
     data() {
@@ -36,6 +36,12 @@
     components: {
       Login: Login,
       Signup: Signup
+    },
+    methods: {
+      ...mapActions(['setLogout'])
+    },
+    created() {
+      this.setLogout(false)
     }
   }
 </script>

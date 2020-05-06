@@ -83,7 +83,7 @@ export default {
     ...mapGetters(['search', 'order', 'filter', 'view', 'user'])
   },
   methods: {
-      ...mapActions(['setSearch', 'setOrder', 'setFilter']),
+      ...mapActions(['setSearch', 'setOrder', 'setFilter', 'setLogout']),
       updateSearch(e) {
         this.setSearch(e.target.value)
       },
@@ -95,6 +95,7 @@ export default {
         }
       },
       logout() {
+        this.setLogout(true)
         firebase.auth().signOut()
           .then(()=>this.$router.push('/'))
           .catch(err=>{if(err) alert(`Error while logging out: ${err.message}`)})

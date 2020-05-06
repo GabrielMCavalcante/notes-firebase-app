@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Register from '@/components/userRegister/Register.vue'
 import Home from '@/components/home/Home.vue'
 import firebase from 'firebase'
+import store from  '@/store/index.js'
 
 Vue.use(VueRouter)
 
@@ -35,8 +36,10 @@ router.beforeEach((to, from, next)=>{
         const user = firebase.auth().currentUser;
         if(user) next()
         else {
-          alert('You must be logged in')
-          next({name: 'Register'})
+          if(!store.getters.logout) {
+            alert('You must be logged in')
+            next({name: 'Register'})
+          }
         }
     } else next()
   })
