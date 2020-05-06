@@ -97,7 +97,7 @@ export default {
       logout() {
         firebase.auth().signOut()
           .then(()=>this.$router.push('/'))
-          .catch(err=>alert(`Error while logging out: ${err.message}`))
+          .catch(err=>{if(err) alert(`Error while logging out: ${err.message}`)})
       }
   },
   props: ["navOptions"],
