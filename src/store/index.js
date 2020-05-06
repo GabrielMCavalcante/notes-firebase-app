@@ -159,6 +159,53 @@ export default new Vuex.Store({
           }).catch(err=>reject(err))
       })
     },
+    deletePermanently({commit}, notesToDelete) {
+      return new Promise((resolve, reject)=>{
+        const user = firebase.auth().currentUser
+        
+        let trash
+
+        notesToDelete.forEach(note=>{
+          trash = this.state.trash.filter(t=>t.id!==note.id)
+          commit('setTrash', trash)
+        })
+
+        db.collection('users').doc(user.uid).update({trash})
+          .then(()=>resolve())
+          .catch(err=>reject(err))
+      })
+    },
+    restoreNotes({commit}, notesToRestore) {
+      return new Promise((resolve, reject)=>{
+        const user = firebase.auth().currentUser
+
+        const notes = this.state.notes
+        let trash
+        
+        notesToRestore.forEach(note=>{
+            const restoredNote = {
+                title: note.title,
+                body: note.body,
+                creation: Date.now(),
+                modification: Date.now(),
+                id: note.id,
+                userId: user.uid,
+                color: note.color
+            }
+            
+            notes.push(restoredNote)
+
+            trash = this.state.trash.filter(t=>t.id!==restoredNote.id)
+            commit('setTrash', trash)
+        })
+
+        db.collection('users').doc(user.uid).set({notes, trash})
+            .then(()=>{
+              commit('setNotes', notes)
+              resolve()
+            }).catch(err=>reject(err))
+      })
+    },
     setSearch({commit}, searchItem) {
       commit('setSearch', searchItem)
     },
