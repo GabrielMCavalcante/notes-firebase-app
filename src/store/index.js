@@ -97,6 +97,7 @@ export default new Vuex.Store({
     addNote({commit}, newNote) {
       return new Promise((resolve, reject)=>{
         const user = firebase.auth().currentUser
+        this.state.loaded = false
         db.collection('users').doc(user.uid).get()
           .then(doc=>{
             const userNotes = doc.data().notes
@@ -107,6 +108,7 @@ export default new Vuex.Store({
             }).then(()=>{
               commit('setCurrentNote', newNote)
               commit('addNote', newNote)
+              this.state.loaded = true
               resolve()
             }).catch(err=>{reject(err)})
           })
@@ -114,6 +116,7 @@ export default new Vuex.Store({
     },
     updateNote({commit}, newData) {
       return new Promise((resolve, reject)=>{
+        this.state.loaded = false
         db.collection('users').doc(newData.userId).get()
         .then(doc=>{
           const userNotes = doc.data().notes
@@ -127,6 +130,7 @@ export default new Vuex.Store({
             notes: userNotes
           }).then(()=>{
             commit('setNotes', userNotes)
+            this.state.loaded = true
             resolve()
           }).catch(err=>reject(err))
         }).catch(err=>reject(err))
@@ -135,7 +139,7 @@ export default new Vuex.Store({
     sendToTrash({commit}, notesToTrash) {
       return new Promise((resolve, reject)=>{
         const user = firebase.auth().currentUser
-        
+        this.state.loaded = false
         db.collection('users').doc(user.uid).get()
           .then(snapshot=>{
             const notes = snapshot.data().notes
@@ -156,6 +160,7 @@ export default new Vuex.Store({
               .then(()=>{
                 commit('setNotes', notes)
                 commit('setTrash', trash)
+                this.state.loaded = true
                 resolve()
               }).catch(err=>reject(err))
           }).catch(err=>reject(err))
@@ -164,6 +169,7 @@ export default new Vuex.Store({
     deletePermanently({commit}, notesToDelete) {
       return new Promise((resolve, reject)=>{
         const user = firebase.auth().currentUser
+        this.state.loaded = false
         
         let trash
 
@@ -173,14 +179,17 @@ export default new Vuex.Store({
         })
 
         db.collection('users').doc(user.uid).update({trash})
-          .then(()=>resolve())
+          .then(()=>{
+            this.state.loaded = true
+            resolve()
+          })
           .catch(err=>reject(err))
       })
     },
     restoreNotes({commit}, notesToRestore) {
       return new Promise((resolve, reject)=>{
         const user = firebase.auth().currentUser
-
+        this.state.loaded = false
         const notes = this.state.notes
         let trash
         
@@ -204,6 +213,7 @@ export default new Vuex.Store({
         db.collection('users').doc(user.uid).set({notes, trash})
             .then(()=>{
               commit('setNotes', notes)
+              this.state.loaded = true
               resolve()
             }).catch(err=>reject(err))
       })
