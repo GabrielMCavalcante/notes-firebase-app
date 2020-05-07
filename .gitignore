@@ -115,3 +115,6 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+# Images folder for README file
+images/
