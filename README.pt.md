@@ -6,6 +6,10 @@
 
 ![home](src/.github/home.png)
 
+Leia este documento em sua língua de preferência: 
+- [English](README.md) 
+- [Português](README.pt.md)
+
 O Notes é um aplicativo da web que imita um gerenciador de anotações pessoais, permitindo ao usuário criar, editar e excluir notas.
 Todas as notas são salvas em uma instância do Firebase Firestore e cada usuário deve ser autenticado para usar este aplicativo. Os usuários podem
 criar uma conta ou se autenticar se já possuírem uma conta no aplicativo web.
