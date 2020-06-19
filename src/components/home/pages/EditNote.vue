@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import moment from 'moment'
 import {mapActions, mapGetters} from 'vuex'
 export default {

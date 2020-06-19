@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Register from '@/components/userRegister/Register.vue'
 import Home from '@/components/home/Home.vue'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import store from  '@/store/index.js'
 
 Vue.use(VueRouter)

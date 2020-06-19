@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '@/firebase/init.js'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import {v4 as uuidv4} from 'uuid'
 
 Vue.use(Vuex)

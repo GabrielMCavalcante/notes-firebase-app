@@ -44,7 +44,7 @@
 
 <script>
 import db from '@/firebase/init.js'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 export default {
     name: 'Signup',
     data() {
