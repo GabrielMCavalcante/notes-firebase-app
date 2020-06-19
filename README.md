@@ -2,7 +2,7 @@
 
 > A web application for creating, editting and deleting personal notes.
 
-![home](images/home.png)
+![home](src/.github/home.png)
 
 ## Technologies
 
@@ -47,23 +47,23 @@ Then, follow the steps below:</p>
   <p>All users must register before using Notes. To do so, just enter with your account email and password on the login screen.
   If you don´t have one, click on the 'I don´t have an account' link and signup.</p>
   
-  ![signup](images/signup.png)
+  ![signup](src/.github/signup.png)
   
   <hr>
   
 2. Homepage
   <p>After registered, the user will be redirected to the homepage. Here, the user can do most of the functionalities of the app, such     as creating a new note by clicking on the giant 'Add note' card button or by selecting this option on the sidebar menu on the left, as   well as edit an already created note by simply clicking in it.</p>
   
-  ![notes-saved](images/notes-saved.png "Notes created by the user")
+  ![notes-saved](src/.github/notes-saved.png "Notes created by the user")
   
-  ![creating-note](images/creating-note.png "Editting note")
+  ![creating-note](src/.github/creating-note.png "Editting note")
   
   <hr>
   
 3. Notes deleted
   <p>When a user deletes a note, it goes to the trash. There, the user can restore notes deleted or remove them permanently. There is     also the possibility to read deleted notes, but not to edit them (must restore them first).</p>
   
-  ![view-deleted](images/view-deleted.png)
+  ![view-deleted](src/.github/view-deleted.png)
   
   <hr>
   
@@ -72,15 +72,15 @@ Then, follow the steps below:</p>
   
   - Order by
     > <p>Order all notes by title, date of creation or modification</p>
-    ![order-by](images/order-by.png)
+    ![order-by](src/.github/order-by.png)
   
   - Filter
     > <p>Filter notes by their color, which can be changed in edit screen</p>
-    ![filter](images/filter.png)
+    ![filter](src/.github/filter.png)
   
   - Multiselection
     > <p>Multiselection enables the user to select multiple notes at once and delete them in just one click</p>
-    ![multiselection](images/multiselection.png)
+    ![multiselection](src/.github/multiselection.png)
   
 [Back to top](#notes) <br>
 [Back to index](#index)
