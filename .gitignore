@@ -116,8 +116,8 @@ dist
 *.sln
 *.sw?
 
-.firebase
-.firebaserc
-firebase.json
-firestore.rules
-firestore.indexes.json
+/.firebase
+/.firebaserc
+/firebase.json
+/firestore.rules
+/firestore.indexes.json
