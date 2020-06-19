@@ -6,6 +6,10 @@
 
 ![home](src/.github/home.png)
 
+Read this document in your language: 
+- [English](README.md) 
+- [Português](README.pt.md)
+
 Notes is a web app which imitates a personal annotation manager, giving the user the ability to create, edit and delete notes.
 Every note is saved on a firebase firestore instance, and each user must be authenticated to use this application. Users can signup
 if they do not have an account yet, or login if they do so.
