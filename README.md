@@ -1,6 +1,4 @@
-<p align="center"><img src="src/.github/app-logo.png" width=250 height=150 alt="App Logo"/></p>
-
-# Notes
+# <img src="src/.github/app-logo.png" width=30 height=30 alt="App Logo"/> Notes
 
 > A web application for creating, editting and deleting personal notes.
 
