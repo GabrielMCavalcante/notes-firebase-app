@@ -125,7 +125,7 @@ SOFTWARE.
 
 - Github - [GabrielMCavalcante](https://github.com/GabrielMCavalcante)
 
-- LinkedIn - [Gabriel Cavalcante](https://www.linkedin.com/in/gabriel-cavalcante-4182061a2)
+- LinkedIn - [Gabriel Cavalcante](https://linkedin.com/in/gabrielmcavalcante)
 
 [Voltar ao topo](#notes) <br>
 [Voltar ao sumário](#sumario)
