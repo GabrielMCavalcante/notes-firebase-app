@@ -12,26 +12,23 @@ import './styles.css'
 
 function Register() {
 
-    const [registerMethod, setRegisterMethod] = useState('login')
+    const [method, setMethod] = useState<"Login" | "Signup">("Login")
 
     function toggleMethod() {
-        setRegisterMethod(registerMethod === 'login' ? 'signup' : 'login')
+        const newMethod = method === 'Login' ? 'Signup' : 'Login'
+        setMethod(newMethod)
     }
 
     return (
         <div className="Register">
             <div className="Content">
                 <img src={logo} alt="Logo" />
-                {
-                    registerMethod === 'login'
-                    ? <Login />
-                    : <Signup />
-                }
+                {method === 'Login' ? <Login /> : <Signup />}
                 <p className="MethodToggler" onClick={toggleMethod}>
                     {
-                        registerMethod === 'login'
-                        ? 'I don´t have an account'
-                        : 'I have an account'
+                        method === 'Login'
+                            ? 'I don´t have an account'
+                            : 'I have an account'
                     }
                 </p>
             </div>
