@@ -1,6 +1,6 @@
 .Register {
     width: 90%;
-    height: 400px;
+    height: fit-content;
     background: var(--primary-theme);
     position: absolute;
     left: 50%;
@@ -12,7 +12,7 @@
 
 .Register .Content {
     width: 90%;
-    height: 400px;
+    height: fit-content;
     margin: 0 auto;
     position: relative;
 }
@@ -23,10 +23,10 @@
 }
 
 .Register .Content .MethodToggler {
-    color: grey !important;
+    color: grey;
     cursor: pointer;
     text-align: center;
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
