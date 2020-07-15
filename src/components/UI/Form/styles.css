@@ -1,0 +1,168 @@
+.Form {
+    background: var(--primary-theme);
+    width: 92%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    margin: 0 auto;
+    margin-top: -20px;
+}
+
+.Form label {
+    font-size: 1.25rem;
+    margin-top: 8px;
+}
+
+.Form ::placeholder {
+    color: #bbb;
+}
+
+.Form .InputArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Form .InputArea svg {
+    font-size: 1.8rem;
+    margin-right: 8px;
+    color: var(--primary-theme-darker);
+}
+
+.Form input,
+.Form textarea {
+    margin: 8px auto;
+    outline: none;
+    border-radius: 8px;
+    border: none;
+    background: #ddd;
+    font-size: 1rem;
+    padding: 8px;
+    width: 100%;
+}
+
+.Form input:focus,
+.Form textarea:focus {
+    border: 2px solid var(--primary-theme-darker);
+}
+
+.Form input {
+    height: 35px;
+}
+
+.Form textarea {
+    height: 100px;
+    resize: none;
+}
+
+.Form .Invalid {
+    border: 2px solid crimson;
+}
+
+.Form p {
+    color: crimson;
+}
+
+.Form button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    text-decoration: none;
+    text-align: center;
+    background: white;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.Form .SpinnerResizer {
+    width: 20px;
+    height: 20px;
+    filter: brightness(1.5);
+}
+
+.Form button:hover {
+    filter: brightness(90%);
+}
+
+.Form button:disabled {
+    cursor: not-allowed;
+    filter: brightness(80%);
+}
+
+@media screen and (min-width: 700px) {
+    .Form button {
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .Form label {
+        font-size: 1.7rem;
+    }
+
+    .Form input, .Form textarea {
+        font-size: 1.6rem;
+        height: 55px;
+    }
+    
+    .Form textarea {
+        height: 200px;
+    }
+    
+    .Form p {
+        font-size: 1.3rem;
+    }
+
+    .Form button {
+        font-size: 1.3rem;
+        height: 50px;
+    }
+
+    .Form .SpinnerResizer {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media screen and (min-width: 3000px) {
+    .Form {
+        padding: 32px;
+        border-radius: 40px;
+    }
+    .Form label {
+        font-size: 5.5rem;
+    }
+    .Form label:not(:first-child) {
+        margin-top: 60px;
+    }
+    .Form input, .Form textarea {
+        font-size: 5.6rem;
+        height: 120px;
+        border-radius: 30px;
+    }
+    .Form textarea {
+        height: 550px;
+    }
+    .Form button {
+        font-size: 4.3rem;
+        height: 95px;
+        margin-top: 30px;
+        border-radius: 30px;
+    }
+    .Form p {
+        font-size: 3.5rem;
+    }
+    .Form .SpinnerResizer {
+        width: 50px;
+        height: 50px;
+    }
+}
