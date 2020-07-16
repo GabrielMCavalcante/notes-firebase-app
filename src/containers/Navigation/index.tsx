@@ -25,7 +25,7 @@ function Navigation() {
     return (
         <div className="Navigation">
             <NavigationHeader onToggle={toggleSideMenu}/>
-            <SideMenu classes={sideMenuClasses}/>
+            <SideMenu classes={sideMenuClasses} onToggle={toggleSideMenu}/>
             <Backdrop show={showSideMenu} clicked={toggleSideMenu}/>
         </div>
     )
