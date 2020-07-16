@@ -11,4 +11,5 @@ body {
 :root {
   --primary-theme: #eee;
   --primary-theme-darker: rgba(0, 0, 0, 0.54);
+  --primary-theme-dark: rgb(77, 76, 76);
 }
