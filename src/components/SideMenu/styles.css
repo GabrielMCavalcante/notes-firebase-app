@@ -1,0 +1,90 @@
+.SideMenu {
+    width: 250px;
+    height: 100vh;
+    background: var(--primary-theme);
+    position: absolute;
+    top: 0;
+    z-index: 101;
+}
+
+.SideMenu svg {
+    color: var(--primary-theme-darker);
+}
+
+.SideMenu .Logo {
+    width: 100%;
+    height: 100px;
+    background: url('../../assets/logo.png') center center no-repeat;
+    background-size: cover;
+    margin-top: 20px;
+}
+
+.SideMenu .CloseIcon {
+    position: absolute;
+    font-size: 1.5rem;
+    left: 2%;
+    top: 1%;
+    cursor: pointer;
+}
+
+.SideMenu .CurrentUser .User {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 16px;
+}
+
+.SideMenu .CurrentUser .User svg {
+    font-size: 1.5rem;
+}
+
+.SideMenu .CurrentUser .User span {
+    font-weight: bold;
+    color: var(--primary-theme-dark);
+}
+
+.SideMenu .CurrentUser p {
+    font-weight: bold;
+    color: #f4f4f4;
+    margin-left: 20px;
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: fit-content;
+    background: var(--primary-theme-darker);
+    transition: background-color 300ms ease;
+}
+
+.SideMenu .CurrentUser p:hover {
+    background: var(--primary-theme-dark);
+}
+
+.SideMenu.Closed {
+    transform: translateX(-100%);
+}
+
+.SideMenu.Open {
+    animation: openSideMenu 300ms ease forwards;
+}
+
+.SideMenu.Close {
+    animation: closeSideMenu 300ms ease forwards;
+}
+
+@keyframes openSideMenu {
+    from {
+        transform: translate(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes closeSideMenu {
+    from {
+        transform: translate(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
