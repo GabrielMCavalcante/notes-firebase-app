@@ -4,6 +4,9 @@
     align-items: center;
     background: var(--primary-theme);
     padding: 0px 8px;
+    position: fixed;
+    top: 0;
+    z-index: 99;
 }
 
 .NavigationHeader svg {
