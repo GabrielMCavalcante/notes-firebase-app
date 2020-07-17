@@ -1,0 +1,32 @@
+.Overview {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Overview .MultiselectionOptions {
+    display: none;
+}
+
+.Overview .MultiselectionOptions.Show {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.Overview .MultiselectionOptions .Button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Overview .MultiselectionOptions .Button svg {
+    font-size: 1.5rem;
+    margin-right: 8px;
+}
+
+.Overview .MultiselectionOptions .Button span {
+    font-weight: bold;
+}
