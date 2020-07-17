@@ -28,6 +28,8 @@
     margin-left: 0 !important;
     list-style: none !important;
     padding: 12px 0;
+    max-height: 153px;
+    overflow: auto;
 }
 
 .Dropdown ul li {
@@ -43,11 +45,36 @@
     background: #ccc;
 }
 
-.Dropdown.Open ul, .Dropdown.Open ul li {
-    display: block;
+.Dropdown.Open ul {
+    animation: openDropdown 300ms ease-in-out forwards;
 }
 
-.Dropdown.Close ul,  
-.Dropdown.Close ul li {
-    display: none;
+.Dropdown.Close ul {
+    animation: closeDropdown 300ms ease-in-out forwards;
+}
+
+@keyframes openDropdown {
+    from {
+        height: 0;
+        opacity: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    to {
+        height: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes closeDropdown {
+    from {
+        height: 100%;
+        opacity: 1
+    }
+    to {
+        height: 0;
+        opacity: 0;
+        padding: 0;
+        overflow: hidden;
+    }
 }
