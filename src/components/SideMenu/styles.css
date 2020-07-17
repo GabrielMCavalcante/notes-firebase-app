@@ -3,7 +3,7 @@
     height: 100%;
     overflow: auto;
     background: var(--primary-theme);
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 101;
 }
