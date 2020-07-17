@@ -1,0 +1,27 @@
+.Button {
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    color: var(--primary-theme-dark);
+    background: var(--primary-theme);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: filter 300ms ease;
+}
+
+.Button:hover {
+    filter: brightness(90%);
+}
+
+.Button.Danger {
+    background: #EF5350;
+    color: #f4f4f4;
+}
+
+.Button.Success {
+    background: rgb(3, 241, 110);
+    color: #f4f4f4;
+}
