@@ -1,4 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
+// React redux connection
+import { connect } from 'react-redux' 
+
+// Redux actions
+import navActions from 'store/actions/navigation'
 
 // Components
 import Button from 'components/UI/Button'
@@ -10,60 +16,118 @@ import selectOffIcon from '@iconify/icons-mdi/select-off'
 import selectInverseIcon from '@iconify/icons-mdi/select-inverse'
 import deleteCircleOutlineIcon from '@iconify/icons-mdi/delete-circle-outline'
 import plusIcon from '@iconify/icons-mdi/plus'
+import plus from '@iconify/icons-mdi/plus'
+import vector_arrange_above from '@iconify/icons-mdi/vector-arrange-above'
+import trash_can_outline from '@iconify/icons-mdi/trash-can-outline'
 
 // CSS styles
 import './styles.css'
 
-const dummyNotesFromRedux = [
-    { title: 'First Note', content: 'I am the first dummy note created for testing purposes', color: 'red', selected: false },
-    { title: 'Second Note', content: 'I am the second dummy note created for testing purposes', color: 'blue', selected: false },
-    { title: 'Third Note', content: 'I am the third dummy note created for testing purposes', color: 'green', selected: false },
-    { title: 'Fourth Note', content: 'I am the fourth dummy note created for testing purposes', color: 'yellow', selected: false },
-    { title: 'Fifth Note', content: 'I am the fifth dummy note created for testing purposes', color: 'purple', selected: false },
-]
+interface Note {
+    title: string,
+    content: string,
+    creation: number,
+    modification: number,
+    selected: boolean,
+    color: string
+}
 
-function Overview() {
+interface Props {
+    notes: Note[],
+    multiselection: boolean,
+    [key: string]: any
+}
 
-    const [multiselection,] = useState(false) // Settar este estado 
-    // no redux!!
-    const [notes, setNotes] = useState(dummyNotesFromRedux)
+function Overview(props: Props) {
+
+    const [filteredNotes, setFilteredNotes] = useState(props.notes)
+
+    const navOptions = [
+        {
+            text: "Add note",
+            icon: <Icon icon={plus} />,
+            type: "normal",
+            click: () => console.log('add note')
+        },
+        {
+            text: "Order By",
+            first: 'Title',
+            type: "dropdown",
+            items: ["Title", "Creation", "Modification"],
+            click: () => console.log('order by')
+        },
+        {
+            text: "Filter",
+            first: 'All',
+            type: "dropdown",
+            items: [
+                "All",
+                "Orange",
+                "Green",
+                "Purple",
+                "Grey",
+                "Red",
+                "Yellow",
+                "Blue",
+                "Black",
+                "White"
+            ],
+            click: () => console.log('filter by')
+        },
+        {
+            text: "Multiselection",
+            icon: <Icon icon={vector_arrange_above} />,
+            type: "normal",
+            click: props.toggleMultiselection
+        },
+        {
+            text: "Deleted notes",
+            icon: <Icon icon={trash_can_outline} />,
+            type: "normal",
+            click: () => console.log('deleted notes')
+        }
+    ]
+
+    useEffect(() => {
+        props.setOptions(navOptions)
+    }, []) // eslint-disable-line
 
     function onNoteCardClick(noteIndex: number) {
-        if (multiselection) {
-            const newNotes = notes.map((note, i) => {
+        if (props.multiselection) {
+            const newNotes = filteredNotes.map((note, i) => {
                 if (i !== noteIndex) return note
                 else return { ...note, selected: !note.selected }
             })
-            setNotes(newNotes)
+            setFilteredNotes(newNotes)
         } else console.log('card click')
     }
 
     function selectAll() {
-        const newNotes = notes.map(note => ({ ...note, selected: true }))
-        setNotes(newNotes)
+        const newNotes = filteredNotes.map(note => ({ ...note, selected: true }))
+        setFilteredNotes(newNotes)
     }
 
     function unselectAll() {
-        const newNotes = notes.map(note => ({ ...note, selected: false }))
-        setNotes(newNotes)
+        const newNotes = filteredNotes.map(note => ({ ...note, selected: false }))
+        setFilteredNotes(newNotes)
     }
 
     function invertSelection() {
-        const newNotes = notes.map(note => {
+        const newNotes = filteredNotes.map(note => {
             if (note.selected) return { ...note, selected: false }
             else return { ...note, selected: true }
         })
-        setNotes(newNotes)
+        setFilteredNotes(newNotes)
     }
 
     function deleteSelected() {
-        const filteredNotes = notes.filter(note => !note.selected)
-        setNotes(filteredNotes)
+        const fltdNotes = filteredNotes.filter(note => !note.selected)
+        setFilteredNotes(fltdNotes)
     }
 
     return (
         <div className="Overview">
-            <div className={["MultiselectionOptions", multiselection && "Show"].join(' ')}>
+            <div className={["MultiselectionOptions", props.multiselection ? "Show" : ""].join(' ')}>
                 <Button onclick={selectAll}>
                     <Icon icon={selectAllIcon} />
                     <span>Select All</span>
@@ -84,11 +148,11 @@ function Overview() {
 
             <div className="NotesOverview">
                 {/*render dynamically created cards from server*/}
-                {notes.map((note, i) => (
+                {filteredNotes.map((note, i) => (
                     <div key={i} className="NoteCard" onClick={() => onNoteCardClick(i)}>
                         <div className="NoteCardSelector" style={{ backgroundColor: note.color }}>
                             {
-                                multiselection && 
+                                props.multiselection && 
                                     <input 
                                         type="checkbox" 
                                         readOnly 
@@ -100,9 +164,9 @@ function Overview() {
                             <span>{note.title}</span>
                             <p>
                                 {
-                                    note.content.length <= 100
+                                    note.content.length <= 80
                                     ? note.content
-                                    : note.content.substring(0, 99).concat('...')
+                                    : note.content.substring(0, 79).concat('...')
                                 }
                             </p>
                         </div>
@@ -117,4 +181,18 @@ function Overview() {
     )
 }
 
-export default Overview
+function mapStateToProps(state: any) {
+    return {
+        notes: state.overview.notes,
+        multiselection: state.navigation.multiselection
+    }
+}
+
+function mapDispatchToProps(dispatch: any) {
+    return {
+        setOptions(options: any) { dispatch(navActions.setOptions(options)) },
+        toggleMultiselection() { dispatch(navActions.toggleMultiselection()) }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Overview)
