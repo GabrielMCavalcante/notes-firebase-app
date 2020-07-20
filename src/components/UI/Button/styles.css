@@ -9,11 +9,11 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: filter 300ms ease;
+    transition: all 300ms ease;
 }
 
 .Button:hover {
-    filter: brightness(90%);
+    background: #ddd;
 }
 
 .Button.Danger {
@@ -21,7 +21,15 @@
     color: #f4f4f4;
 }
 
+.Button.Danger:hover {
+    background: #d64441;
+}
+
 .Button.Success {
-    background: rgb(3, 241, 110);
+    background: rgb(3, 202, 93);
     color: #f4f4f4;
+}
+
+.Button.Success:hover {
+    background: rgb(3, 161, 74);
 }
