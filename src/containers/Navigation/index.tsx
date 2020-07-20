@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 // Components
 import NavigationHeader from 'components/NavigationHeader'
 import SideMenu from 'components/SideMenu'
-import Backdrop from 'components/UI/Backdrop' 
 
 function Navigation() {
 
@@ -25,8 +24,11 @@ function Navigation() {
     return (
         <div className="Navigation">
             <NavigationHeader onToggle={toggleSideMenu}/>
-            <SideMenu classes={sideMenuClasses} onToggle={toggleSideMenu}/>
-            <Backdrop show={showSideMenu} clicked={toggleSideMenu}/>
+            <SideMenu 
+                classes={sideMenuClasses} 
+                onToggle={toggleSideMenu} 
+                backdropClick={toggleSideMenu}
+            />
         </div>
     )
 }
