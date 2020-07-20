@@ -34,14 +34,16 @@
 
 .Overview .NotesOverview {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     margin-top: 16px;
+    gap: 8px;
 }
 
 .Overview .NotesOverview .NoteCard, 
 .Overview .NotesOverview .AddNoteCard {
-    width: 250px;
-    height: 250px;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
     background: var(--primary-theme);
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
     margin-bottom: 10px;
@@ -50,8 +52,7 @@
     transition: box-shadow 300ms ease;
 }
 
-.Overview .NotesOverview .NoteCard:hover, 
-.Overview .NotesOverview .AddNoteCard:hover {
+.Overview .NotesOverview .NoteCard:hover {
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -60,16 +61,21 @@
     justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+}
+
+.Overview .NotesOverview .AddNoteCard:hover {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6);
 }
 
 .Overview .NotesOverview .AddNoteCard span {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: var(--primary-theme-dark);
     font-weight: bold;
 }
 
 .Overview .NotesOverview .AddNoteCard svg {
-    font-size: 5.5rem;
+    font-size: 4.5rem;
     color: var(--primary-theme-dark);
 }
 
@@ -85,9 +91,9 @@
 
 .Overview .NotesOverview .NoteCard .NoteCardSelector input[type="checkbox"] {
     position: relative;
-    right: -88%;
-    width: 20px;
-    height: 20px;
+    right: -83%;
+    width: 15px;
+    height: 15px;
 }
 
 .Overview .NotesOverview .NoteCard .NoteCardContent {
@@ -102,11 +108,12 @@
     width: 100%;
     text-align: center;
     font-weight: bold;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: var(--primary-theme-dark);
 }
 
 .Overview .NotesOverview .NoteCard .NoteCardContent p {
     width: 100%;
     color: var(--primary-theme-dark);
+    font-size: 0.8rem;
 }
