@@ -76,6 +76,13 @@
     justify-content: space-between;
     align-items: center;
     height: 39px;
+    transition: background-color 300ms ease;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.SideMenu .Options .NormalOption:hover {
+    background: #ddd;
 }
 
 .SideMenu .Options .NormalOption svg {
