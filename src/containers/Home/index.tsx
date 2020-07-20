@@ -6,15 +6,22 @@ import Navigation from 'containers/Navigation'
 
 // Containers
 import Overview from 'containers/Overview'
+import EditNote from 'containers/EditNote'
+
+// CSS styles
+import './styles.css'
 
 function Home() {
     return (
         <div className="Home">
             <Navigation />
-            <Switch>
-                <Route exact path="/home/overview" component={Overview}/>
-                <Redirect to="/home/overview" />
-            </Switch>
+            <div>
+                <Switch>
+                    <Route exact path="/home/overview" component={Overview} />
+                    <Route exact path="/home/edit-note" component={EditNote} />
+                    <Redirect to="/home/overview" />
+                </Switch>
+            </div>
         </div>
     )
 }
