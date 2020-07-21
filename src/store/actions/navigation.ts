@@ -10,7 +10,8 @@ import { Note, Option } from 'interfaces'
 const actions = {
     setOptions: (options: Option[]) => ({type: navTypes.SET_OPTIONS, options}),
     toggleMultiselection: () => ({ type: navTypes.TOGGLE_MULTISELECTION }),
-    setCurrentNote: (currentNote: Note) => ({ type: navTypes.SET_CURRENT_NOTE, currentNote})
+    setCurrentNote: (currentNote: Note) => ({ type: navTypes.SET_CURRENT_NOTE, currentNote}),
+    setCurrentUser: (currentUser: any) => ({ type: navTypes.SET_CURRENT_USER, currentUser})
 }
 
 export default {
@@ -27,6 +28,11 @@ export default {
     setCurrentNote(currentNote: Note) {
         return function(dispatch: Dispatch) {
             dispatch(actions.setCurrentNote(currentNote))
+        }
+    },
+    setCurrentUser(currentUser: any) {
+        return function(dispatch: Dispatch) {
+            dispatch(actions.setCurrentUser(currentUser))
         }
     }
 }
