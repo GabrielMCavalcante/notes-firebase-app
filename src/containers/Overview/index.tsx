@@ -84,7 +84,7 @@ function Overview(props: Props) {
             text: "Deleted notes",
             icon: <Icon icon={trash_can_outline} />,
             type: "normal",
-            click: () => console.log('deleted notes')
+            click: () => props.history.push("/home/deleted-notes")
         }
     ]
 
