@@ -5,3 +5,9 @@
 .Login h2 {
     text-align: center;
 }
+
+.Login .Feedback {
+    width: 100%;
+    text-align: center;
+    color: crimson;
+}
