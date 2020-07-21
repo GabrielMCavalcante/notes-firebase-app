@@ -144,12 +144,11 @@ function DeletedNotes(props: Props) {
                 </Button>
                 <Button btnType="Success" onclick={restoreSelected}>
                     <Icon icon={fileRestoreOutlineIcon} />
-                    <span>Delete Selected</span>
+                    <span>Restore Selected</span>
                 </Button>
             </div>
 
             <div className="NotesOverview">
-                {/*render dynamically created cards from server*/}
                 {filteredTrash.map((note, i) => (
                     <div key={i} className="NoteCard" onClick={() => onNoteCardClick(i)}>
                         <div className="NoteCardSelector" style={{ backgroundColor: note.color }}>
