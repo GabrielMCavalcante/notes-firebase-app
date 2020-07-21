@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
+
+// Firebase
+import {auth} from 'firebase/init'  
 
 // Components
 import Form from 'components/UI/Form'
@@ -36,13 +40,27 @@ const fields = [{
     icon: <Icon icon={lock} />
 }]
 
-function Login() {
+function Login(props: any) {
 
     const [loading, setLoading] = useState(false)
+    const [feedback, setFeedback] = useState('')
 
     function onLogin(fieldsValues: { [key: string]: string }) {
         setLoading(true)
-        console.log(fieldsValues)
+        setFeedback('')
+        const userData = {
+            email: fieldsValues.email,
+            password: fieldsValues.password
+        }
+        auth.signInWithEmailAndPassword(userData.email, userData.password)
+            .then(() => {
+                setLoading(false)
+                props.history.push('/home/overview')
+            })
+            .catch(() => {
+                setLoading(false)
+                setFeedback('Your email or password is incorrect, please try again.')
+            })
     }
 
     return (
@@ -55,8 +73,9 @@ function Login() {
                 loading={loading}
                 resetForm
             />
+            <p className="Feedback">{feedback}</p>
         </div>
     )
 }
 
-export default Login
+export default withRouter(Login)
