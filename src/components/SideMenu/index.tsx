@@ -63,7 +63,7 @@ function SideMenu(props: any) {
     return (
         <>
             <div className={classes.join(' ')}>
-                <div onClick={props.onToggle}><Icon className="CloseIcon" icon={close} /></div>
+                <div onClick={props.onClose}><Icon className="CloseIcon" icon={close} /></div>
                 <div className="Logo"></div>
                 <div className="CurrentUser">
                     <div className="User">
