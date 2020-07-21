@@ -18,14 +18,17 @@ import deleteEmptyIcon from '@iconify/icons-mdi/delete-empty'
 // CSS styles
 import './styles.css'
 
+// Interfaces
+import { Option } from 'interfaces'
+
 function EditNote(props: any) {
 
-    const [title, setTitle] = useState("note title")
-    const [content, setContent] = useState("note content")
+    const [title, setTitle] = useState(props.currentNote?.title)
+    const [content, setContent] = useState(props.currentNote?.content)
     const [titleClasses, setTitleClasses] = useState('')
     const [contentClasses, setContentClasses] = useState('')
 
-    const navOptions = [
+    const navOptions: Option[] = [
         {
             text: "Save note",
             icon: <Icon icon={contentSaveIcon} />,
@@ -46,8 +49,7 @@ function EditNote(props: any) {
                 "Blue",
                 "Black",
                 "White"
-            ],
-            click: () => console.log('color')
+            ]
         },
         {
             text: "Delete note",
@@ -59,6 +61,7 @@ function EditNote(props: any) {
 
     useEffect(() => {
         props.setOptions(navOptions)
+        if(!props.currentNote) props.history.push('/home/overview')
     }, []) // eslint-disable-line
 
     function titleChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
@@ -107,13 +110,13 @@ function EditNote(props: any) {
 
 function mapStateToProps(state: any) {
     return {
-
+        currentNote: state.navigation.currentNote
     }
 }
 
 function mapDispatchToProps(dispatch: any) {
     return {
-        setOptions(options: any) { dispatch(navActions.setOptions(options)) }
+        setOptions(options: Option[]) { dispatch(navActions.setOptions(options)) }
     }
 }
 
