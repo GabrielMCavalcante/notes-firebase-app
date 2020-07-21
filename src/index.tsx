@@ -20,6 +20,7 @@ import thunk from 'redux-thunk'
 // Store reducers
 import overviewReducer from 'store/reducers/overview'
 import navigationReducer from 'store/reducers/navigation'
+import DeletedNotesReducer from 'store/reducers/deletedNotes'
 
 // Redux Devtools
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -27,7 +28,8 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 // Combining reducers into one
 const rootReducer = combineReducers({
     overview: overviewReducer,
-    navigation: navigationReducer
+    navigation: navigationReducer,
+    deletedNotes: DeletedNotesReducer
 })
 
 const store = createStore(rootReducer, composeWithDevTools(
