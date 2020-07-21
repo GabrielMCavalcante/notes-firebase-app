@@ -68,7 +68,7 @@ function SideMenu(props: any) {
                 <div className="CurrentUser">
                     <div className="User">
                         <Icon icon={user} />
-                        <span>gabriel__xx@hotmail.com</span>
+                        <span>{props.currentUser?.email}</span>
                     </div>
                     <p onClick={onLogout}>Logout</p>
                 </div>
@@ -76,13 +76,14 @@ function SideMenu(props: any) {
                     <ul>{optionsEl}</ul>
                 </div>
             </div>
-            <Backdrop show={classes.includes('Open')} clicked={props.backdropClick}/>
+            <Backdrop show={classes.includes('Open')} clicked={props.backdropClick} />
         </>
     )
 }
 
 function mapStateToProps(state: any) {
     return {
+        currentUser: state.navigation.currentUser,
         options: state.navigation.options
     }
 }
