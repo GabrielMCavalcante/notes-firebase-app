@@ -5,29 +5,24 @@ import NavigationHeader from 'components/NavigationHeader'
 import SideMenu from 'components/SideMenu'
 
 function Navigation() {
-
-    const [showSideMenu, setShowSideMenu] = useState(false)
     const [sideMenuClasses, setSideMenuClasses] = 
         useState<[string, string]>(["SideMenu", "Closed"])
 
-    function toggleSideMenu() {
-        setShowSideMenu(!showSideMenu)
+    function openSideMenu() {
+        setSideMenuClasses(["SideMenu", "Open"])
     }
 
-    useEffect(() => {
-        if(showSideMenu) 
-            setSideMenuClasses(["SideMenu", "Open"])
-        else if(sideMenuClasses.includes("Open")) 
-            setSideMenuClasses(["SideMenu", "Close"])
-    }, [showSideMenu]) // eslint-disable-line
+    function closeSideMenu() {
+        setSideMenuClasses(["SideMenu", "Close"])
+    }
 
     return (
         <div className="Navigation">
-            <NavigationHeader onToggle={toggleSideMenu}/>
+            <NavigationHeader onOpen={openSideMenu}/>
             <SideMenu 
                 classes={sideMenuClasses} 
-                onToggle={toggleSideMenu} 
-                backdropClick={toggleSideMenu}
+                onClose={closeSideMenu} 
+                backdropClick={closeSideMenu}
             />
         </div>
     )
