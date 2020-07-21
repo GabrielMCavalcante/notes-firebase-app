@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react'
 
+// Firebase
+import { database, auth } from 'firebase/init'
+
+// Note id
+import { v4 as uuidv4 } from 'uuid' 
+
 // React redux connection
-import { connect } from 'react-redux' 
+import { connect } from 'react-redux'
 
 // Redux actions
+import overviewActions from 'store/actions/overview'
 import navActions from 'store/actions/navigation'
+import deletedNotesActions from 'store/actions/deletedNotes'
 
 // Components
 import Button from 'components/UI/Button'
@@ -23,14 +31,8 @@ import trash_can_outline from '@iconify/icons-mdi/trash-can-outline'
 // CSS styles
 import './styles.css'
 
-interface Note {
-    title: string,
-    content: string,
-    creation: number,
-    modification: number,
-    selected: boolean,
-    color: string
-}
+// Interfaces
+import { Note, Option } from 'interfaces'
 
 interface Props {
     notes: Note[],
@@ -40,21 +42,45 @@ interface Props {
 
 function Overview(props: Props) {
 
-    const [filteredNotes, setFilteredNotes] = useState(props.notes)
+    const [filteredNotes, setFilteredNotes] = useState<Note[]>([])
 
-    const navOptions = [
+    function addNote() {
+        const user = auth.currentUser?.uid
+        database.collection('users').doc(user).get()
+            .then(doc => {
+                const userNotes = doc.data()!.notes
+                const userNote = {
+                    id: uuidv4(),
+                    userId: user,
+                    title: 'untitled',
+                    content: '',
+                    color: 'grey',
+                    selected: false,
+                    creation: Date.now(),
+                    modification: Date.now()
+                }
+                userNotes.push(userNote)
+                database.collection('users').doc(user).update({
+                    notes: userNotes
+                }).then(() => {
+                    props.setCurrentNote(userNote)
+                    props.history.push('/home/edit-note')
+                })
+            })
+    }
+
+    const navOptions: Option[] = [
         {
             text: "Add note",
             icon: <Icon icon={plus} />,
             type: "normal",
-            click: () => console.log('add note')
+            click: addNote
         },
         {
             text: "Order By",
             first: 'Title',
             type: "dropdown",
-            items: ["Title", "Creation", "Modification"],
-            click: () => console.log('order by')
+            items: ["Title", "Creation", "Modification"]
         },
         {
             text: "Filter",
@@ -71,8 +97,7 @@ function Overview(props: Props) {
                 "Blue",
                 "Black",
                 "White"
-            ],
-            click: () => console.log('filter by')
+            ]
         },
         {
             text: "Multiselection",
@@ -89,8 +114,21 @@ function Overview(props: Props) {
     ]
 
     useEffect(() => {
+        auth.onAuthStateChanged(authState => {
+            if (authState) {
+                const user = auth.currentUser?.uid
+                database.collection('users').doc(user).get()
+                    .then(doc => {
+                        props.setNotes(doc.data()!.notes)
+                    })
+            }
+        })
         props.setOptions(navOptions)
     }, []) // eslint-disable-line
+
+    useEffect(() => {
+        setFilteredNotes(props.notes)
+    }, [props.notes])
 
     function onNoteCardClick(noteIndex: number) {
         if (props.multiselection) {
@@ -99,7 +137,10 @@ function Overview(props: Props) {
                 else return { ...note, selected: !note.selected }
             })
             setFilteredNotes(newNotes)
-        } else console.log('card click')
+        } else {
+            props.editNote(filteredNotes[noteIndex])
+            props.history.push('/home/edit-note')
+        }
     }
 
     function selectAll() {
@@ -121,7 +162,40 @@ function Overview(props: Props) {
     }
 
     function deleteSelected() {
+        const delNotes = filteredNotes.filter(note => note.selected)
         const fltdNotes = filteredNotes.filter(note => !note.selected)
+
+        const user = auth.currentUser?.uid
+        database.collection('users').doc(user).get()
+            .then(snapshot => {
+                const notes: Note[] = snapshot.data()!.notes
+                const trash: Note[] = snapshot!.data()!.trash
+
+                delNotes.forEach(delNote => {
+                    notes.forEach((note, index) => {
+                        if (delNote.id === note.id) {
+                            notes.splice(index, 1)
+                            Object.assign(delNote, { deleted: Date.now(), selected: false })
+                            trash.push(delNote)
+                        }
+                    })
+                })
+
+                database.collection('users').doc(user).update({ notes, trash })
+                    .then(() => {
+                        props.setNotes(notes)
+                        props.sendToTrash(trash)
+                    })
+            })
+
+        delNotes.forEach(note => {
+            note.deleted = Date.now()
+            note.selected = false
+        })
+
+        props.sendToTrash(delNotes)
+        props.toggleMultiselection()
+
         setFilteredNotes(fltdNotes)
     }
 
@@ -147,32 +221,31 @@ function Overview(props: Props) {
             </div>
 
             <div className="NotesOverview">
-                {/*render dynamically created cards from server*/}
                 {filteredNotes.map((note, i) => (
                     <div key={i} className="NoteCard" onClick={() => onNoteCardClick(i)}>
                         <div className="NoteCardSelector" style={{ backgroundColor: note.color }}>
                             {
-                                props.multiselection && 
-                                    <input 
-                                        type="checkbox" 
-                                        readOnly 
-                                        checked={note.selected} 
-                                    />
+                                props.multiselection &&
+                                <input
+                                    type="checkbox"
+                                    readOnly
+                                    checked={note.selected}
+                                />
                             }
                         </div>
                         <div className="NoteCardContent">
                             <span>{note.title}</span>
                             <p>
                                 {
-                                    note.content.length <= 80
-                                    ? note.content
-                                    : note.content.substring(0, 79).concat('...')
+                                    note.content && (note.content.length <= 80
+                                        ? note.content
+                                        : note.content.substring(0, 79).concat('...'))
                                 }
                             </p>
                         </div>
                     </div>
                 ))}
-                <div className="AddNoteCard">
+                <div className="AddNoteCard" onClick={addNote}>
                     <span>Add Note</span>
                     <Icon icon={plusIcon} />
                 </div>
@@ -184,14 +257,19 @@ function Overview(props: Props) {
 function mapStateToProps(state: any) {
     return {
         notes: state.overview.notes,
-        multiselection: state.navigation.multiselection
+        multiselection: state.navigation.multiselection,
+        currentUser: state.navigation.currentUser
     }
 }
 
 function mapDispatchToProps(dispatch: any) {
     return {
         setOptions(options: any) { dispatch(navActions.setOptions(options)) },
-        toggleMultiselection() { dispatch(navActions.toggleMultiselection()) }
+        toggleMultiselection() { dispatch(navActions.toggleMultiselection()) },
+        sendToTrash(trash: any) { dispatch(deletedNotesActions.setTrash(trash)) },
+        editNote(note: Note) { dispatch(navActions.setCurrentNote(note)) },
+        setNotes(notes: Note[]) { dispatch(overviewActions.setNotes(notes)) },
+        setCurrentNote(note: Note) { dispatch(navActions.setCurrentNote(note))}
     }
 }
 
