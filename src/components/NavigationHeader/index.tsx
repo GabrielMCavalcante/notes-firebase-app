@@ -11,7 +11,7 @@ import logo from 'assets/logo.png'
 // CSS styles
 import './styles.css'
 
-function NavigationHeader(props: { onToggle: () => void }) { 
+function NavigationHeader(props: { onOpen: () => void }) { 
 
     function filterNotes(event: React.ChangeEvent<HTMLInputElement>) {
         console.log(event.target.value)
@@ -20,7 +20,7 @@ function NavigationHeader(props: { onToggle: () => void }) {
 
     return (
         <nav className="NavigationHeader">
-            <div onClick={props.onToggle}>
+            <div onClick={props.onOpen}>
                 <Icon className="MenuToggler" icon={menu} />
             </div>
             <img src={logo} alt="Logo"/>
