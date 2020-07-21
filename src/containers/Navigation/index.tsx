@@ -1,10 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
+// React Redux connection
+import { connect } from 'react-redux'
+
+// Firebase
+import {auth} from 'firebase/init' 
 
 // Components
 import NavigationHeader from 'components/NavigationHeader'
 import SideMenu from 'components/SideMenu'
 
-function Navigation() {
+// Store actions
+import navActions from 'store/actions/navigation'
+
+function Navigation(props: any) {
     const [sideMenuClasses, setSideMenuClasses] = 
         useState<[string, string]>(["SideMenu", "Closed"])
 
@@ -15,6 +24,13 @@ function Navigation() {
     function closeSideMenu() {
         setSideMenuClasses(["SideMenu", "Close"])
     }
+
+    useEffect(() => {
+        auth.onAuthStateChanged(authentication => {
+            if(authentication) props.setCurrentUser(auth.currentUser)
+        })
+        if(auth.currentUser) props.setCurrentUser(auth.currentUser)
+    }, []) // eslint-disable-line
 
     return (
         <div className="Navigation">
@@ -28,4 +44,10 @@ function Navigation() {
     )
 }
 
-export default Navigation
+function mapDispatchToProps(dispatch: any) { 
+    return {
+        setCurrentUser(currentUser: string) { dispatch(navActions.setCurrentUser(currentUser)) }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Navigation)
