@@ -1,8 +1,9 @@
-import firebase from 'firebase/app'
+import firebase from'firebase/app'
 import 'firebase/firestore'
+import 'firebase/auth'
 
 // Your web app's Firebase configuration
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyBTvczkPKF5Ftp23C9sDKYrLx7U3KMlWcY",
     authDomain: "notes-5cf6a.firebaseapp.com",
     databaseURL: "https://notes-5cf6a.firebaseio.com",
@@ -13,4 +14,6 @@ var firebaseConfig = {
 }
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig)
-export default firebaseApp.firestore()
+const database = firebaseApp.firestore()
+const auth = firebase.auth(firebaseApp)
+export {database, auth}
