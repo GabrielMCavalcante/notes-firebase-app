@@ -5,3 +5,9 @@
 .Signup h2 {
     text-align: center;
 }
+
+.Signup .Feedback {
+    width: 100%;
+    text-align: center;
+    color: crimson;
+}
