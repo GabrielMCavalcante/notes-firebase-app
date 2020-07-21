@@ -5,7 +5,9 @@ export interface Note {
     modification: number,
     selected: boolean,
     color: string,
-    deleted?: number
+    deleted?: number,
+    id: string,
+    userId: string
 }
 
 export interface Option {
