@@ -1,5 +1,8 @@
-import React from 'react'
-import { Switch, Route, Redirect } from 'react-router'
+import React, { useEffect } from 'react'
+import { Switch, Route, Redirect, withRouter } from 'react-router'
+
+// Firebase
+import { auth } from 'firebase/init'
 
 // Components
 import Navigation from 'containers/Navigation'
@@ -12,7 +15,14 @@ import DeletedNotes from 'containers/DeletedNotes'
 // CSS styles
 import './styles.css'
 
-function Home() {
+function Home(props: any) {
+    
+    useEffect(() => {
+        auth.onAuthStateChanged(authentication => {
+            if(!authentication) props.history.push('/')
+        })
+    }, []) // eslint-disable-line
+
     return (
         <div className="Home">
             <Navigation />
@@ -28,4 +38,4 @@ function Home() {
     )
 }
 
-export default Home
+export default withRouter(Home)
