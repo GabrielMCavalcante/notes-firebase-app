@@ -7,14 +7,16 @@ export interface Note {
     color: string,
     deleted?: number,
     id: string,
-    userId: string
+    userId: string,
+    [key: string]: any
 }
 
 export interface Option {
-    text: string;
-    first?: string;
-    type: string;
-    items?: string[];
-    click?: () => void;
-    icon?: JSX.Element;
+    text: string,
+    first?: string,
+    type: string,
+    items?: string[],
+    click?: () => void,
+    onOptionSelect?: (option: string) => void,
+    icon?: JSX.Element
 }
