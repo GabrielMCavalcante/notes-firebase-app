@@ -8,9 +8,9 @@ import { Dispatch } from 'redux'
 import { Note } from 'interfaces'
 
 const actions = {
-    setTrash: (trash: Note) => ({ type: deletedNotesTypes.SET_TRASH, trash })
+    setTrash: (trash: Note[]) => ({ type: deletedNotesTypes.SET_TRASH, trash })
 }
 
 export default {
-    setTrash: (trash: Note) => (dispatch: Dispatch) => dispatch(actions.setTrash(trash))
+    setTrash: (trash: Note[]) => (dispatch: Dispatch) => dispatch(actions.setTrash(trash))
 }
