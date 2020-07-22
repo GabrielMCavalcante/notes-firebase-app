@@ -11,7 +11,8 @@ const actions = {
     setOptions: (options: Option[]) => ({type: navTypes.SET_OPTIONS, options}),
     toggleMultiselection: () => ({ type: navTypes.TOGGLE_MULTISELECTION }),
     setCurrentNote: (currentNote: Note) => ({ type: navTypes.SET_CURRENT_NOTE, currentNote}),
-    setCurrentUser: (currentUser: any) => ({ type: navTypes.SET_CURRENT_USER, currentUser})
+    setCurrentUser: (currentUser: any) => ({ type: navTypes.SET_CURRENT_USER, currentUser}),
+    setSearch: (search: string) => ({ type: navTypes.SET_SEARCH , search})
 }
 
 export default {
@@ -33,6 +34,11 @@ export default {
     setCurrentUser(currentUser: any) {
         return function(dispatch: Dispatch) {
             dispatch(actions.setCurrentUser(currentUser))
+        }
+    },
+    setSearch(search: string) {
+        return function(dispatch: Dispatch) {
+            dispatch(actions.setSearch(search))
         }
     }
 }
