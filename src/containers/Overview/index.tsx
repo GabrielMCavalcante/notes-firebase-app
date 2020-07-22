@@ -16,6 +16,7 @@ import deletedNotesActions from 'store/actions/deletedNotes'
 
 // Components
 import Button from 'components/UI/Button'
+import Spinner from 'components/UI/Spinner'
 
 // Icons
 import { Icon } from '@iconify/react'
@@ -45,17 +46,23 @@ function Overview(props: Props) {
     const [filteredNotes, setFilteredNotes] = useState<Note[]>([])
     const [filter, setFilter] = useState('all')
     const [order, setOrder] = useState('title')
+    const [loading, setLoading] = useState(true)
+
+    function sortFunction(a: any, b: any) {
+        const elA = typeof a[order] === 'string' ? a[order].toLowerCase() : a[order]
+        const elB = typeof b[order] === 'string' ? b[order].toLowerCase() : b[order]
+        if (elA > elB) return 1
+        else if (elA < elB) return -1
+        else return 0
+    }
 
     // Order by
     useEffect(() => {
-        setFilteredNotes(filteredNotes.sort((a, b) => {
-            const elA = typeof (a[order]) === 'string' ? a[order].toLowerCase() : a[order]
-            const elB = typeof (b[order]) === 'string' ? b[order].toLowerCase() : b[order]
-            if (elA > elB) return 1
-            else if (elA < elB) return -1
-            else return 0
-        }))
-    }, [order, filteredNotes])
+        if (filteredNotes.length > 0) {
+            const newFilteredNotes = filteredNotes.sort(sortFunction)
+            setFilteredNotes([...newFilteredNotes])
+        }
+    }, [order, filteredNotes.length]) // eslint-disable-line
 
     // Filter by color
     useEffect(() => {
@@ -111,7 +118,10 @@ function Overview(props: Props) {
             first: 'Title',
             type: "dropdown",
             items: ["Title", "Creation", "Modification"],
-            onOptionSelect: (order: string) => setOrder(order.toLowerCase())
+            onOptionSelect: (ord: string) => {
+                const parsedOrder = ord.toLowerCase()
+                setOrder(parsedOrder)
+            }
         },
         {
             text: "Filter",
@@ -152,6 +162,7 @@ function Overview(props: Props) {
                 database.collection('users').doc(user).get()
                     .then(doc => {
                         props.setNotes(doc.data()!.notes)
+                        setLoading(false)
                     })
             }
         })
@@ -160,18 +171,18 @@ function Overview(props: Props) {
 
     useEffect(() => {
         setAllNotes(props.notes)
-        setFilteredNotes(props.notes)
-    }, [props.notes])
+        setFilteredNotes([...props.notes.sort(sortFunction)])
+    }, [props.notes]) // eslint-disable-line
 
-    function onNoteCardClick(noteIndex: number) {
+    function onNoteCardClick(noteId: string) {
         if (props.multiselection) {
-            const newNotes = filteredNotes.map((note, i) => {
-                if (i !== noteIndex) return note
+            const newNotes = filteredNotes.map(note => {
+                if (note.id !== noteId) return note
                 else return { ...note, selected: !note.selected }
             })
             setFilteredNotes(newNotes)
         } else {
-            props.editNote(filteredNotes[noteIndex])
+            props.editNote(filteredNotes.filter(note => note.id === noteId)[0])
             props.history.push('/home/edit-note')
         }
     }
@@ -234,55 +245,63 @@ function Overview(props: Props) {
 
     return (
         <div className="Overview">
-            <div className={["MultiselectionOptions", props.multiselection ? "Show" : ""].join(' ')}>
-                <Button onclick={selectAll}>
-                    <Icon icon={selectAllIcon} />
-                    <span>Select All</span>
-                </Button>
-                <Button onclick={unselectAll}>
-                    <Icon icon={selectOffIcon} />
-                    <span>Unselect All</span>
-                </Button>
-                <Button onclick={invertSelection}>
-                    <Icon icon={selectInverseIcon} />
-                    <span>Invert Selection</span>
-                </Button>
-                <Button btnType="Danger" onclick={deleteSelected}>
-                    <Icon icon={deleteCircleOutlineIcon} />
-                    <span>Delete Selected</span>
-                </Button>
-            </div>
+            {
+                loading
+                ? <div className="SpinnerResizer"><Spinner /></div>
+                : (
+                    <>
+                        <div className={["MultiselectionOptions", props.multiselection ? "Show" : ""].join(' ')}>
+                            <Button onclick={selectAll}>
+                                <Icon icon={selectAllIcon} />
+                                <span>Select All</span>
+                            </Button>
+                            <Button onclick={unselectAll}>
+                                <Icon icon={selectOffIcon} />
+                                <span>Unselect All</span>
+                            </Button>
+                            <Button onclick={invertSelection}>
+                                <Icon icon={selectInverseIcon} />
+                                <span>Invert Selection</span>
+                            </Button>
+                            <Button btnType="Danger" onclick={deleteSelected}>
+                                <Icon icon={deleteCircleOutlineIcon} />
+                                <span>Delete Selected</span>
+                            </Button>
+                        </div>
 
-            <div className="NotesOverview">
-                {filteredNotes.map((note, i) => (
-                    <div key={i} className="NoteCard" onClick={() => onNoteCardClick(i)}>
-                        <div className="NoteCardSelector" style={{ backgroundColor: note.color }}>
-                            {
-                                props.multiselection &&
-                                <input
-                                    type="checkbox"
-                                    readOnly
-                                    checked={note.selected}
-                                />
-                            }
+                        <div className="NotesOverview">
+                            {filteredNotes.map(note => (
+                                <div key={note.id} className="NoteCard" onClick={() => onNoteCardClick(note.id)}>
+                                    <div className="NoteCardSelector" style={{ backgroundColor: note.color }}>
+                                        {
+                                            props.multiselection &&
+                                            <input
+                                                type="checkbox"
+                                                readOnly
+                                                checked={note.selected}
+                                            />
+                                        }
+                                    </div>
+                                    <div className="NoteCardContent">
+                                        <span>{note.title}</span>
+                                        <p>
+                                            {
+                                                note.content && (note.content.length <= 40
+                                                    ? note.content
+                                                    : note.content.substring(0, 39).concat('...'))
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                            <div className="AddNoteCard" onClick={addNote}>
+                                <span>Add Note</span>
+                                <Icon icon={plusIcon} />
+                            </div>
                         </div>
-                        <div className="NoteCardContent">
-                            <span>{note.title}</span>
-                            <p>
-                                {
-                                    note.content && (note.content.length <= 80
-                                        ? note.content
-                                        : note.content.substring(0, 79).concat('...'))
-                                }
-                            </p>
-                        </div>
-                    </div>
-                ))}
-                <div className="AddNoteCard" onClick={addNote}>
-                    <span>Add Note</span>
-                    <Icon icon={plusIcon} />
-                </div>
-            </div>
+                    </>
+                )
+            }
         </div>
     )
 }
