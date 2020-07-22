@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
+// Firebase
+import { auth } from 'firebase/init'
+
 // React redux connection
 import { connect } from 'react-redux'
 
@@ -15,21 +18,15 @@ import Backdrop from 'components/UI/Backdrop'
 // CSS styles
 import './styles.css'
 
-interface Option {
-    text: string,
-    icon: JSX.Element,
-    type: "normal" | "dropdown",
-    click: () => void,
-    first?: string,
-    items?: string[]
-}
+// Interfaces
+import { Option } from 'interfaces'
 
 function SideMenu(props: any) {
 
     const [classes, setClasses] = useState(props.classes)
 
     function onLogout() {
-        console.log('logout')
+        auth.signOut().then(() => props.history.push('/'))
     }
 
     useEffect(() => {
@@ -37,8 +34,10 @@ function SideMenu(props: any) {
     }, [props.classes])
 
     function optionSelected(option: Option) {
-        option.click()
-        setClasses(["SideMenu", "Close"])
+        if (option.click) {
+            option.click()
+            setClasses(["SideMenu", "Close"])
+        }
     }
 
     const optionsEl = props.options.map((option: Option, i: number) => {
@@ -54,7 +53,7 @@ function SideMenu(props: any) {
             return (
                 <li key={i} className="DropdownOption">
                     {option.text}
-                    <Dropdown selected={option.first!} items={option.items!} />
+                    <Dropdown onOptionSelect={option.onOptionSelect!} selected={option.first!} items={option.items!} />
                 </li>
             )
         }
