@@ -7,7 +7,13 @@ import caretDown from '@iconify/icons-mdi/caret-down'
 // CSS styles
 import './styles.css'
 
-function Dropdown(props: { selected: string, items: string[] }) {
+interface Props { 
+    selected: string, 
+    items: string[],
+    onOptionSelect: (opt: string) => void 
+}
+
+function Dropdown(props: Props) {
 
     const [classes, setClasses] = useState(["Dropdown", "Close"])
     const [selected, setSelected] = useState(props.selected)
@@ -34,9 +40,8 @@ function Dropdown(props: { selected: string, items: string[] }) {
     }
 
     useEffect(() => {
-        console.log(selected)
-        // Fazer filtragem de notas aqui!
-    }, [selected])
+        props.onOptionSelect(selected)
+    }, [selected]) //eslint-disable-line
 
     return (
         <div className={classes.join(' ')}>
