@@ -17,7 +17,7 @@
 }
 
 .Button.Danger {
-    background: #EF5350;
+    background: var(--primary-theme-red);
     color: #f4f4f4;
 }
 
