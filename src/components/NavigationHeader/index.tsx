@@ -1,5 +1,11 @@
 import React from 'react'
 
+// React redux connection
+import { connect } from 'react-redux'
+
+// Store actions
+import navActions from 'store/actions/navigation'
+
 // Icons
 import { Icon } from '@iconify/react'
 import menu from '@iconify/icons-mdi/menu'
@@ -11,11 +17,9 @@ import logo from 'assets/logo.png'
 // CSS styles
 import './styles.css'
 
-function NavigationHeader(props: { onOpen: () => void }) { 
-
+function NavigationHeader(props: any) { 
     function filterNotes(event: React.ChangeEvent<HTMLInputElement>) {
-        console.log(event.target.value)
-        // Filtrar notas pelo nome aqui!
+        props.setSearch(event.target.value)
     }
 
     return (
@@ -32,4 +36,10 @@ function NavigationHeader(props: { onOpen: () => void }) {
     )
 }
 
-export default NavigationHeader 
+function mapDispatchToProps(dispatch: any) {
+    return {
+        setSearch(search: string) { dispatch(navActions.setSearch(search))}
+    }
+}
+
+export default connect(null, mapDispatchToProps)(NavigationHeader)
