@@ -16,7 +16,7 @@ export interface Option {
     first?: string,
     type: string,
     items?: string[],
-    click?: () => void,
+    click?: (...params: any[]) => void,
     onOptionSelect?: (option: string) => void,
     icon?: JSX.Element
 }
