@@ -75,8 +75,8 @@ function EditNote(props: any) {
     return (
         <div className="EditNote">
             <div className="NoteDates">
-                <p>Created on {moment(Date.now()).format('lll')}</p>
-                <p>Last modified: {moment(Date.now()).format('lll')}</p>
+                <p>Created on {moment(props.currentNote?.creation).format('lll')}</p>
+                <p>Last modified: {moment(props.currentNote?.modification).format('lll')}</p>
             </div>
             <form onSubmit={e => e.preventDefault()}>
                 <fieldset className={titleClasses}>
