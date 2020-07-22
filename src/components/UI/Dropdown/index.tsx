@@ -46,7 +46,7 @@ function Dropdown(props: Props) {
     return (
         <div className={classes.join(' ')}>
             <div onClick={toggleDropdown} className="DropdownSelector">
-                <span>{selected}</span>
+                <span>{String(selected)}</span>
                 <Icon icon={caretDown} />
             </div>
             <ul>{
