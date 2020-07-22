@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { database, auth } from 'firebase/init'
 
 // Note id
-import { v4 as uuidv4 } from 'uuid' 
+import { v4 as uuidv4 } from 'uuid'
 
 // React redux connection
 import { connect } from 'react-redux'
@@ -41,8 +41,38 @@ interface Props {
 }
 
 function Overview(props: Props) {
-
+    const [allNotes, setAllNotes] = useState<Note[]>([])
     const [filteredNotes, setFilteredNotes] = useState<Note[]>([])
+    const [filter, setFilter] = useState('all')
+    const [order, setOrder] = useState('title')
+
+    // Order by
+    useEffect(() => {
+        setFilteredNotes(filteredNotes.sort((a, b) => {
+            const elA = typeof (a[order]) === 'string' ? a[order].toLowerCase() : a[order]
+            const elB = typeof (b[order]) === 'string' ? b[order].toLowerCase() : b[order]
+            if (elA > elB) return 1
+            else if (elA < elB) return -1
+            else return 0
+        }))
+    }, [order, filteredNotes])
+
+    // Filter by color
+    useEffect(() => {
+        if (filter) {
+            if (filter !== 'all')
+                setFilteredNotes(allNotes.filter(note => note.color === filter))
+            else setFilteredNotes([...allNotes])
+        }
+    }, [filter, allNotes])
+
+    // Search notes
+    useEffect(() => {
+        if (props.search) {
+            const searchRegExp = new RegExp(`^${props.search}[a-z0-9-_]?`, 'i')
+            setFilteredNotes(filteredNotes.filter(note => note.title.toLowerCase().match(searchRegExp)))
+        } else setFilteredNotes(allNotes)
+    }, [props.search]) // eslint-disable-line
 
     function addNote() {
         const user = auth.currentUser?.uid
@@ -80,7 +110,8 @@ function Overview(props: Props) {
             text: "Order By",
             first: 'Title',
             type: "dropdown",
-            items: ["Title", "Creation", "Modification"]
+            items: ["Title", "Creation", "Modification"],
+            onOptionSelect: (order: string) => setOrder(order.toLowerCase())
         },
         {
             text: "Filter",
@@ -97,7 +128,8 @@ function Overview(props: Props) {
                 "Blue",
                 "Black",
                 "White"
-            ]
+            ],
+            onOptionSelect: (filter: string) => setFilter(filter.toLowerCase())
         },
         {
             text: "Multiselection",
@@ -127,6 +159,7 @@ function Overview(props: Props) {
     }, []) // eslint-disable-line
 
     useEffect(() => {
+        setAllNotes(props.notes)
         setFilteredNotes(props.notes)
     }, [props.notes])
 
@@ -258,7 +291,8 @@ function mapStateToProps(state: any) {
     return {
         notes: state.overview.notes,
         multiselection: state.navigation.multiselection,
-        currentUser: state.navigation.currentUser
+        currentUser: state.navigation.currentUser,
+        search: state.navigation.search
     }
 }
 
@@ -269,7 +303,7 @@ function mapDispatchToProps(dispatch: any) {
         sendToTrash(trash: any) { dispatch(deletedNotesActions.setTrash(trash)) },
         editNote(note: Note) { dispatch(navActions.setCurrentNote(note)) },
         setNotes(notes: Note[]) { dispatch(overviewActions.setNotes(notes)) },
-        setCurrentNote(note: Note) { dispatch(navActions.setCurrentNote(note))}
+        setCurrentNote(note: Note) { dispatch(navActions.setCurrentNote(note)) }
     }
 }
 
