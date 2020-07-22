@@ -21,6 +21,7 @@
 .EditNote form fieldset {
     border-radius: 8px 8px 0 0;
     margin-bottom: 8px;
+    position: relative;
 }
 
 .EditNote form fieldset legend {
@@ -43,6 +44,17 @@
     min-height: 100px;
 }
 
+.EditNote form fieldset .LetterCounter {
+    font-size: 0.7rem;
+    position: absolute;
+    bottom: 0;
+    right: 1%;
+}
+
+.EditNote .LetterCounter.Limit {
+    color: var(--primary-theme-red);
+}
+
 .EditNote form fieldset.Focus {
     border-color: var(--primary-theme-dark);
 } 
@@ -59,4 +71,13 @@
     margin-bottom: 8px;
     font-weight: bold;
     text-align: center;
+}
+
+.EditNote .SpinnerResizer {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
