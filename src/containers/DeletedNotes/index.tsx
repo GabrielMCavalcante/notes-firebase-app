@@ -1,35 +1,44 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+
+// Firebase
+import { database, auth } from 'firebase/init'
 
 // React redux connection
 import { connect } from 'react-redux'
 
 // Redux actions
+import overviewActions from 'store/actions/overview'
 import navActions from 'store/actions/navigation'
+import deletedNotesActions from 'store/actions/deletedNotes'
 
 // Components
 import Button from 'components/UI/Button'
+import Spinner from 'components/UI/Spinner'
 
 // Icons
 import { Icon } from '@iconify/react'
 import selectAllIcon from '@iconify/icons-mdi/select-all'
 import selectOffIcon from '@iconify/icons-mdi/select-off'
 import selectInverseIcon from '@iconify/icons-mdi/select-inverse'
-import deleteCircleOutlineIcon from '@iconify/icons-mdi/delete-circle-outline'
-import fileRestoreOutlineIcon from '@iconify/icons-mdi/file-restore-outline'
-import home from '@iconify/icons-mdi/home'
-import vector_arrange_above from '@iconify/icons-mdi/vector-arrange-above'
+import skullIcon from '@iconify/icons-mdi/skull'
+import homeIcon from '@iconify/icons-mdi/home'
+import vectorArrangeAboveIcon from '@iconify/icons-mdi/vector-arrange-above'
+import fileRestoreIcon from '@iconify/icons-mdi/file-restore'
 
 // CSS styles
 import './styles.css'
 
-interface Note {
-    title: string,
-    content: string,
-    creation: number,
-    modification: number,
-    selected: boolean,
-    color: string
-}
+// Interfaces
+import { Note, Option } from 'interfaces'
+
+// Global functions
+import {
+    selectAll,
+    unselectAll,
+    sendNotesTo,
+    sortFunction,
+    invertSelection
+} from 'globalfn'
 
 interface Props {
     trash: Note[],
@@ -38,13 +47,46 @@ interface Props {
 }
 
 function DeletedNotes(props: Props) {
+    const [allTrash, setAllTrash] = useState<Note[]>([])
+    const [filteredTrash, setFilteredTrash] = useState<Note[]>([])
+    const [filter, setFilter] = useState('all')
+    const [order, setOrder] = useState('title')
+    const [loading, setLoading] = useState(true)
 
-    const [filteredTrash, setFilteredTrash] = useState(props.trash)
+    // Order by
+    useEffect(() => {
+        if (filteredTrash.length > 0) {
+            const newfilteredTrash =
+                filteredTrash.sort((a, b) => sortFunction(a, b, order))
+            setFilteredTrash([...newfilteredTrash])
+        }
+    }, [order, filteredTrash.length]) // eslint-disable-line
 
-    const navOptions = [
+    // Filter by color
+    useEffect(() => {
+        if (filter) {
+            if (filter !== 'all')
+                setFilteredTrash(allTrash.filter(note => note.color === filter))
+            else setFilteredTrash([...allTrash])
+        }
+    }, [filter, allTrash])
+
+    // Search notes
+    useEffect(() => {
+        if (props.search) {
+            const searchRegExp = new RegExp(`^${props.search}[a-z0-9-_]?`, 'i')
+            setFilteredTrash(
+                filteredTrash.filter(
+                    note => note.title.toLowerCase().match(searchRegExp)
+                )
+            )
+        } else setFilteredTrash(allTrash)
+    }, [props.search]) // eslint-disable-line
+
+    const navOptions: Option[] = [
         {
             text: "Home",
-            icon: <Icon icon={home} />,
+            icon: <Icon icon={homeIcon} />,
             type: "normal",
             click: () => props.history.push('/home/overview')
         },
@@ -53,7 +95,10 @@ function DeletedNotes(props: Props) {
             first: 'Title',
             type: "dropdown",
             items: ["Title", "Creation", "Modification", "Deletion"],
-            click: function () { }
+            onOptionSelect: (ord: string) => {
+                const parsedOrder = ord.toLowerCase()
+                setOrder(parsedOrder)
+            }
         },
         {
             text: "Filter",
@@ -71,109 +116,158 @@ function DeletedNotes(props: Props) {
                 "Black",
                 "White"
             ],
-            click: function () { }
+            onOptionSelect: (filter: string) => setFilter(filter.toLowerCase())
         },
         {
             text: "Multiselection",
-            icon: <Icon icon={vector_arrange_above}/>,
+            icon: <Icon icon={vectorArrangeAboveIcon} />,
             type: "normal",
             click: props.toggleMultiselection
         }
     ]
 
     useEffect(() => {
+        props.toggleMultiselection(false)
+        auth.onAuthStateChanged(authState => {
+            if (authState) {
+                const user = auth.currentUser?.uid
+                database.collection('users').doc(user).get()
+                    .then(doc => {
+                        props.setTrash(doc.data()!.trash)
+                        setLoading(false)
+                    })
+            }
+        })
         props.setOptions(navOptions)
     }, []) // eslint-disable-line
 
-    function onNoteCardClick(noteIndex: number) {
+    useEffect(() => {
+        setAllTrash(props.trash)
+        setFilteredTrash([...props.trash.sort((a, b) => sortFunction(a, b, order))])
+    }, [props.trash]) // eslint-disable-line
+
+    function onNoteCardClick(noteId: string) {
         if (props.multiselection) {
-            const newNotes = filteredTrash.map((note, i) => {
-                if (i !== noteIndex) return note
+            const newNotes = filteredTrash.map(note => {
+                if (note.id !== noteId) return note
                 else return { ...note, selected: !note.selected }
             })
             setFilteredTrash(newNotes)
-        } else console.log('card click')
-    }
-
-    function selectAll() {
-        const newNotes = filteredTrash.map(note => ({ ...note, selected: true }))
-        setFilteredTrash(newNotes)
-    }
-
-    function unselectAll() {
-        const newNotes = filteredTrash.map(note => ({ ...note, selected: false }))
-        setFilteredTrash(newNotes)
-    }
-
-    function invertSelection() {
-        const newNotes = filteredTrash.map(note => {
-            if (note.selected) return { ...note, selected: false }
-            else return { ...note, selected: true }
-        })
-        setFilteredTrash(newNotes)
+        } else {
+            props.seeDeletedNote(filteredTrash.filter(note => note.id === noteId)[0])
+            props.history.push('/home/deleted-note')
+        }
     }
 
     function deleteSelected() {
-        const fltdNotes = filteredTrash.filter(note => !note.selected)
-        setFilteredTrash(fltdNotes)
+        setLoading(true)
+        const trash = filteredTrash.filter(note => !note.selected)
+        database.collection('users').doc(auth.currentUser?.uid).update({ trash })
+            .then(() => {
+                setLoading(false)
+                props.setTrash(trash)
+            })
     }
 
     function restoreSelected() {
-        const fltdNotes = filteredTrash.filter(note => note.selected)
-        console.log('restoring following notes:', fltdNotes)
+        const delNotes = filteredTrash.filter(note => note.selected)
+        setLoading(true)
+        sendNotesTo("trash", "notes", delNotes)
+            .then(res => {
+                setLoading(false)
+                props.setNotes(res.notes)
+                props.setTrash(res.trash)
+                props.toggleMultiselection()
+            })
     }
 
     return (
-        <div className="Overview">
-            <div className={["MultiselectionOptions", props.multiselection ? "Show" : ""].join(' ')}>
-                <Button onclick={selectAll}>
-                    <Icon icon={selectAllIcon} />
-                    <span>Select All</span>
-                </Button>
-                <Button onclick={unselectAll}>
-                    <Icon icon={selectOffIcon} />
-                    <span>Unselect All</span>
-                </Button>
-                <Button onclick={invertSelection}>
-                    <Icon icon={selectInverseIcon} />
-                    <span>Invert Selection</span>
-                </Button>
-                <Button btnType="Danger" onclick={deleteSelected}>
-                    <Icon icon={deleteCircleOutlineIcon} />
-                    <span>Delete Selected</span>
-                </Button>
-                <Button btnType="Success" onclick={restoreSelected}>
-                    <Icon icon={fileRestoreOutlineIcon} />
-                    <span>Restore Selected</span>
-                </Button>
-            </div>
+        <div className="DeletedNotes">
+            {
+                loading
+                    ? <div className="SpinnerResizer"><Spinner /></div>
+                    : (
+                        <>
+                            <div className={[
+                                "MultiselectionOptions",
+                                props.multiselection && filteredTrash.length > 0
+                                    ? "Show"
+                                    : ""
+                            ].join(' ')}>
+                                <Button
+                                    onclick={
+                                        () => setFilteredTrash(
+                                            selectAll(filteredTrash)
+                                        )}>
+                                    <Icon icon={selectAllIcon} />
+                                    <span>Select All</span>
+                                </Button>
+                                <Button
+                                    onclick={
+                                        () => setFilteredTrash(
+                                            unselectAll(filteredTrash)
+                                        )}>
+                                    <Icon icon={selectOffIcon} />
+                                    <span>Unselect All</span>
+                                </Button>
+                                <Button
+                                    onclick={() => setFilteredTrash(
+                                        invertSelection(filteredTrash)
+                                    )}>
+                                    <Icon icon={selectInverseIcon} />
+                                    <span>Invert Selection</span>
+                                </Button>
+                                <Button btnType="Danger" onclick={deleteSelected}>
+                                    <Icon icon={skullIcon} />
+                                    <span>Destroy Selected</span>
+                                </Button>
+                                <Button btnType="Success" onclick={restoreSelected}>
+                                    <Icon icon={fileRestoreIcon} />
+                                    <span>Restore Selected</span>
+                                </Button>
+                            </div>
 
-            <div className="NotesOverview">
-                {filteredTrash.map((note, i) => (
-                    <div key={i} className="NoteCard" onClick={() => onNoteCardClick(i)}>
-                        <div className="NoteCardSelector" style={{ backgroundColor: note.color }}>
-                            {
-                                props.multiselection &&
-                                <input
-                                    type="checkbox"
-                                    readOnly
-                                    checked={note.selected}
-                                />
-                            }
-                        </div>
-                        <div className="NoteCardContent">
-                            <span>{note.title}</span>
-                            <p>
-                                {
-                                    note.content.length <= 80
-                                        ? note.content
-                                        : note.content.substring(0, 79).concat('...')
-                                }
-                            </p>
-                        </div>
-                    </div>
-                ))}
-            </div>
+                            <div className="NotesOverview">
+                                {filteredTrash.map(note => (
+                                    <div
+                                        key={note.id}
+                                        className="NoteCard"
+                                        onClick={() => onNoteCardClick(note.id)}
+                                    >
+                                        <div
+                                            className="NoteCardSelector"
+                                            style={{ backgroundColor: note.color }}
+                                        >
+                                            {
+                                                props.multiselection &&
+                                                <input
+                                                    type="checkbox"
+                                                    readOnly
+                                                    checked={note.selected}
+                                                />
+                                            }
+                                        </div>
+                                        <div className="NoteCardContent">
+                                            <span>{note.title}</span>
+                                            <p>
+                                                {
+                                                    note.content &&
+                                                    (
+                                                        note.content.length <= 40
+                                                            ? note.content
+                                                            : note.content
+                                                                .substring(0, 39)
+                                                                .concat('...')
+                                                    )
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )
+            }
         </div>
     )
 }
@@ -181,14 +275,20 @@ function DeletedNotes(props: Props) {
 function mapStateToProps(state: any) {
     return {
         trash: state.deletedNotes.trash,
-        multiselection: state.navigation.multiselection
+        multiselection: state.navigation.multiselection,
+        currentUser: state.navigation.currentUser,
+        search: state.navigation.search
     }
 }
 
 function mapDispatchToProps(dispatch: any) {
     return {
         setOptions(options: any) { dispatch(navActions.setOptions(options)) },
-        toggleMultiselection() { dispatch(navActions.toggleMultiselection()) }
+        toggleMultiselection(mode?: boolean) { dispatch(navActions.toggleMultiselection(mode)) },
+        setTrash(trash: any) { dispatch(deletedNotesActions.setTrash(trash)) },
+        seeDeletedNote(note: Note) { dispatch(navActions.setCurrentNote(note)) },
+        setNotes(notes: Note[]) { dispatch(overviewActions.setNotes(notes)) },
+        setCurrentNote(note: Note) { dispatch(navActions.setCurrentNote(note)) }
     }
 }
 
