@@ -1,0 +1,64 @@
+.ViewDeletedNote {
+    width: 85%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ViewDeletedNote .NoteDates {
+    text-align: right;
+    font-size: 0.6rem;
+    color: var(--primary-theme-darker);
+    padding: 0 4px;
+}
+
+.ViewDeletedNote form {
+    padding: 4px 8px;
+}
+
+.ViewDeletedNote form fieldset {
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.ViewDeletedNote form fieldset legend {
+    color: var(--primary-theme-dark);
+    font-weight: bold;
+    font-size: 0.75rem;
+}
+
+.ViewDeletedNote form fieldset input,
+.ViewDeletedNote form fieldset textarea {
+    border: none;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    color: var(--primary-theme-dark);
+}
+
+.ViewDeletedNote form fieldset textarea {
+    resize: none;
+    min-height: 100px;
+}
+
+.ViewDeletedNote .NoteActions {
+    padding: 4px 8px;
+}
+
+.ViewDeletedNote .NoteActions .Button {
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.ViewDeletedNote .SpinnerResizer {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
