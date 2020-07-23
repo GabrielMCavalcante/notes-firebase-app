@@ -159,12 +159,13 @@ function DeletedNotes(props: Props) {
         }
     }
 
-    function deleteSelected() {
+    function destroySelected() {
         setLoading(true)
         const trash = filteredTrash.filter(note => !note.selected)
         database.collection('users').doc(auth.currentUser?.uid).update({ trash })
             .then(() => {
                 setLoading(false)
+                props.toggleMultiselection(false)
                 props.setTrash(trash)
             })
     }
@@ -217,7 +218,7 @@ function DeletedNotes(props: Props) {
                                     <Icon icon={selectInverseIcon} />
                                     <span>Invert Selection</span>
                                 </Button>
-                                <Button btnType="Danger" onclick={deleteSelected}>
+                                <Button btnType="Danger" onclick={destroySelected}>
                                     <Icon icon={skullIcon} />
                                     <span>Destroy Selected</span>
                                 </Button>
