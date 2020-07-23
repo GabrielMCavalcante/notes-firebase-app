@@ -11,6 +11,7 @@ import Navigation from 'containers/Navigation'
 import Overview from 'containers/Overview'
 import EditNote from 'containers/EditNote'
 import DeletedNotes from 'containers/DeletedNotes'
+import ViewDeletedNote from 'containers/ViewDeletedNote'
 
 // CSS styles
 import './styles.css'
@@ -31,6 +32,7 @@ function Home(props: any) {
                     <Route exact path="/home/overview" component={Overview} />
                     <Route exact path="/home/edit-note" component={EditNote} />
                     <Route exact path="/home/deleted-notes" component={DeletedNotes} />
+                    <Route exact path="/home/view-deleted-note" component={ViewDeletedNote} />
                     <Redirect to="/home/overview" />
                 </Switch>
             </div>
