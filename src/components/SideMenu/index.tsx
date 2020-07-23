@@ -25,10 +25,6 @@ function SideMenu(props: any) {
 
     const [classes, setClasses] = useState(props.classes)
 
-    function onLogout() {
-        auth.signOut().then(() => props.history.push('/'))
-    }
-
     useEffect(() => {
         setClasses(props.classes)
     }, [props.classes])
@@ -69,7 +65,7 @@ function SideMenu(props: any) {
                         <Icon icon={user} />
                         <span>{props.currentUser?.email}</span>
                     </div>
-                    <p onClick={onLogout}>Logout</p>
+                    <p onClick={() => auth.signOut()}>Logout</p>
                 </div>
                 <div className="Options">
                     <ul>{optionsEl}</ul>
