@@ -17,6 +17,7 @@ import deletedNotesActions from 'store/actions/deletedNotes'
 // Components
 import Button from 'components/UI/Button'
 import Spinner from 'components/UI/Spinner'
+import FeedbackModal from 'components/UI/FeedbackModal'
 
 // Icons
 import { Icon } from '@iconify/react'
@@ -25,9 +26,10 @@ import selectOffIcon from '@iconify/icons-mdi/select-off'
 import selectInverseIcon from '@iconify/icons-mdi/select-inverse'
 import deleteCircleIcon from '@iconify/icons-mdi/delete-circle'
 import plusIcon from '@iconify/icons-mdi/plus'
-import plus from '@iconify/icons-mdi/plus'
 import vector_arrange_above from '@iconify/icons-mdi/vector-arrange-above'
 import trashCanIcon from '@iconify/icons-mdi/trash-can'
+import closeIcon from '@iconify/icons-mdi/close'
+import magnifyIcon from '@iconify/icons-mdi/magnify'
 
 // CSS styles
 import './styles.css'
@@ -60,7 +62,7 @@ function Overview(props: Props) {
     // Order by
     useEffect(() => {
         if (filteredNotes.length > 0) {
-            const newFilteredNotes = 
+            const newFilteredNotes =
                 filteredNotes.sort((a, b) => sortFunction(a, b, order))
             setFilteredNotes([...newFilteredNotes])
         }
@@ -117,7 +119,7 @@ function Overview(props: Props) {
     const navOptions: Option[] = [
         {
             text: "Add note",
-            icon: <Icon icon={plus} />,
+            icon: <Icon icon={plusIcon} />,
             type: "normal",
             click: addNote
         },
@@ -208,92 +210,128 @@ function Overview(props: Props) {
             })
     }
 
+    const mainContent = (
+        <>
+            <div className={[
+                "MultiselectionOptions",
+                props.multiselection && filteredNotes.length > 0
+                    ? "Show"
+                    : ""
+            ].join(' ')}>
+                <Button
+                    onclick={
+                        () => setFilteredNotes(
+                            selectAll(filteredNotes)
+                        )}>
+                    <Icon icon={selectAllIcon} />
+                    <span>Select All</span>
+                </Button>
+                <Button
+                    onclick={
+                        () => setFilteredNotes(
+                            unselectAll(filteredNotes)
+                        )}>
+                    <Icon icon={selectOffIcon} />
+                    <span>Unselect All</span>
+                </Button>
+                <Button
+                    onclick={() => setFilteredNotes(
+                        invertSelection(filteredNotes)
+                    )}>
+                    <Icon icon={selectInverseIcon} />
+                    <span>Invert Selection</span>
+                </Button>
+                <Button btnType="Danger" onclick={deleteSelected}>
+                    <Icon icon={deleteCircleIcon} />
+                    <span>Delete Selected</span>
+                </Button>
+            </div>
+
+            <div className="NotesOverview">
+                {filteredNotes.map(note => (
+                    <div
+                        key={note.id}
+                        className="NoteCard"
+                        onClick={() => onNoteCardClick(note.id)}
+                    >
+                        <div
+                            className="NoteCardSelector"
+                            style={{ backgroundColor: note.color }}
+                        >
+                            {
+                                props.multiselection &&
+                                <input
+                                    type="checkbox"
+                                    readOnly
+                                    checked={note.selected}
+                                />
+                            }
+                        </div>
+                        <div className="NoteCardContent">
+                            <span>{note.title}</span>
+                            <p>
+                                {
+                                    note.content &&
+                                    (
+                                        note.content.length <= 40
+                                            ? note.content
+                                            : note.content
+                                                .substring(0, 39)
+                                                .concat('...')
+                                    )
+                                }
+                            </p>
+                        </div>
+                    </div>
+                ))}
+                {
+                    !props.search && (
+                        <div
+                            className="AddNoteCard"
+                            onClick={addNote}
+                        >
+                            <span>Add Note</span>
+                            <Icon icon={plusIcon} />
+                        </div>
+                    )
+                }
+            </div>
+        </>
+    )
+
+    const notesEmptyFeedback = (
+        <FeedbackModal
+            hasAction
+            onModalAction={addNote}
+            actionLabel="Create Note"
+            feedback={`Created notes will appear here. 
+            Click the button below to create a note.`}
+        />
+    )
+
+    const filteredNotesEmptyFeedback = (
+        <FeedbackModal
+            hasAction={false}
+            feedback={`No notes found. Try another filter / search.`}
+            icon={(
+                <div className="NoNotesFound">
+                    <Icon icon={magnifyIcon} />
+                    <Icon icon={closeIcon} />
+                </div>
+            )}
+        />
+    )
+
     return (
         <div className="Overview">
             {
                 loading
                     ? <div className="SpinnerResizer"><Spinner /></div>
-                    : (
-                        <>
-                            <div className={[
-                                "MultiselectionOptions",
-                                props.multiselection && filteredNotes.length > 0
-                                    ? "Show"
-                                    : ""
-                            ].join(' ')}>
-                                <Button
-                                    onclick={
-                                        () => setFilteredNotes(
-                                            selectAll(filteredNotes)
-                                        )}>
-                                    <Icon icon={selectAllIcon} />
-                                    <span>Select All</span>
-                                </Button>
-                                <Button
-                                    onclick={
-                                        () => setFilteredNotes(
-                                            unselectAll(filteredNotes)
-                                        )}>
-                                    <Icon icon={selectOffIcon} />
-                                    <span>Unselect All</span>
-                                </Button>
-                                <Button
-                                    onclick={() => setFilteredNotes(
-                                        invertSelection(filteredNotes)
-                                    )}>
-                                    <Icon icon={selectInverseIcon} />
-                                    <span>Invert Selection</span>
-                                </Button>
-                                <Button btnType="Danger" onclick={deleteSelected}>
-                                    <Icon icon={deleteCircleIcon} />
-                                    <span>Delete Selected</span>
-                                </Button>
-                            </div>
-
-                            <div className="NotesOverview">
-                                {filteredNotes.map(note => (
-                                    <div
-                                        key={note.id}
-                                        className="NoteCard"
-                                        onClick={() => onNoteCardClick(note.id)}
-                                    >
-                                        <div
-                                            className="NoteCardSelector"
-                                            style={{ backgroundColor: note.color }}
-                                        >
-                                            {
-                                                props.multiselection &&
-                                                <input
-                                                    type="checkbox"
-                                                    readOnly
-                                                    checked={note.selected}
-                                                />
-                                            }
-                                        </div>
-                                        <div className="NoteCardContent">
-                                            <span>{note.title}</span>
-                                            <p>
-                                                {
-                                                    note.content &&
-                                                    (
-                                                        note.content.length <= 40
-                                                            ? note.content
-                                                            : note.content
-                                                                .substring(0, 39)
-                                                                .concat('...')
-                                                    )
-                                                }
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                                <div className="AddNoteCard" onClick={addNote}>
-                                    <span>Add Note</span>
-                                    <Icon icon={plusIcon} />
-                                </div>
-                            </div>
-                        </>
-                    )
+                    : allNotes.length === 0
+                        ? notesEmptyFeedback
+                        : filteredNotes.length === 0
+                            ? filteredNotesEmptyFeedback
+                            : mainContent
             }
         </div>
     )
