@@ -77,8 +77,9 @@
 }
 
 .DeletedNotes .NotesOverview .NoteCard .NoteCardContent span {
-    width: 100%;
+    width: fit-content;
     text-align: center;
+    word-break: break-word; 
     font-weight: bold;
     font-size: 1.2rem;
     color: var(--primary-theme-dark);
@@ -86,6 +87,16 @@
 
 .DeletedNotes .NotesOverview .NoteCard .NoteCardContent p {
     width: 100%;
+    word-break: break-word;
     color: var(--primary-theme-dark);
     font-size: 0.8rem;
+}
+
+.DeletedNotes .SpinnerResizer {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
