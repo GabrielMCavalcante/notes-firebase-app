@@ -20,6 +20,7 @@ import Spinner from 'components/UI/Spinner'
 import { Icon } from '@iconify/react'
 import contentSaveIcon from '@iconify/icons-mdi/content-save'
 import deleteEmptyIcon from '@iconify/icons-mdi/delete-empty'
+import exitRunIcon from '@iconify/icons-mdi/exit-run'
 
 // Global Functions
 import { sendNotesTo } from 'globalfn'
@@ -39,13 +40,19 @@ function EditNote(props: any) {
     const [color, setColor] = useState(capitalize(props.currentNote?.color))
     const [titleClasses, setTitleClasses] = useState('')
     const [contentClasses, setContentClasses] = useState('')
-    const [loading, setLoading] = useState(false) 
+    const [loading, setLoading] = useState(false)
 
     function capitalize(string: string) {
         return string?.charAt(0).toUpperCase() + string?.slice(1, string?.length)
     }
 
     const navOptions: Option[] = [
+        {
+            text: "Save note",
+            icon: <Icon icon={contentSaveIcon} />,
+            type: "normal",
+            click: saveNote
+        },
         {
             text: "Color",
             first: color,
@@ -68,16 +75,16 @@ function EditNote(props: any) {
             }
         },
         {
-            text: "Save note",
-            icon: <Icon icon={contentSaveIcon} />,
-            type: "normal",
-            click: saveNote
-        },
-        {
             text: "Delete note",
             icon: <Icon icon={deleteEmptyIcon} />,
             type: "normal",
             click: deleteNote
+        },
+        {
+            text: "Return to menu",
+            icon: <Icon icon={exitRunIcon} />,
+            type: "normal",
+            click: () => props.history.push('/home/overview')
         }
     ]
 
@@ -119,7 +126,7 @@ function EditNote(props: any) {
                     props.setNotes(userNotes)
                     props.setCurrentNote(newData)
                     setLoading(false)
-                    if(exitOnSave) props.history.push('/home/overview')
+                    if (exitOnSave) props.history.push('/home/overview')
                 })
             })
     }
@@ -139,48 +146,49 @@ function EditNote(props: any) {
         <div className="EditNote">
             {
                 loading
-                ? <div className="SpinnerResizer"><Spinner /></div>
-                : (
-                    <>
-                        <div className="NoteDates">
-                            <p>Created on {moment(props.currentNote?.creation).format('lll')}</p>
-                            <p>Last modified: {moment(props.currentNote?.modification).format('lll')}</p>
-                        </div>
-                        <form onSubmit={e => e.preventDefault()}>
-                            <fieldset className={titleClasses}>
-                                <legend>Title</legend>
-                                <input
-                                    onBlur={() => setTitleClasses('')}
-                                    onFocus={() => setTitleClasses('Focus')}
-                                    value={title}
-                                    onChange={titleChangeHandler}
-                                />
-                                <span
-                                    className={[
-                                        'LetterCounter',
-                                        title?.length >= MAX_TITLE_LENGTH ? 'Limit' : ''
-                                    ].join(' ')}
-                                >{title?.length}/{MAX_TITLE_LENGTH}</span>
-                            </fieldset>
-                            <fieldset className={contentClasses}>
-                                <legend>Content</legend>
-                                <textarea
-                                    onBlur={() => setContentClasses('')}
-                                    onFocus={() => setContentClasses('Focus')}
-                                    value={content}
-                                    onChange={contentChangeHandler}
-                                />
-                            </fieldset>
-                        </form>
-                        <div className="NoteActions">
-                            <Button onclick={()=>saveNote(false)}>Save Note</Button>
-                            <Button onclick={()=>saveNote(true)}>Save and Exit</Button>
-                            <Button
-                                onclick={() => props.history.push('/home/overview')}
-                            >Exit without saving</Button>
-                        </div>
-                    </>
-                )
+                    ? <div className="SpinnerResizer"><Spinner /></div>
+                    : (
+                        <>
+                            <div className="NoteDates">
+                                <p>Created on {moment(props.currentNote?.creation).format('lll')}</p>
+                                <p>Last modified: {moment(props.currentNote?.modification).format('lll')}</p>
+                            </div>
+                            <form onSubmit={e => e.preventDefault()}>
+                                <fieldset className={titleClasses}>
+                                    <legend>Title</legend>
+                                    <input
+                                        onBlur={() => setTitleClasses('')}
+                                        onFocus={() => setTitleClasses('Focus')}
+                                        value={title}
+                                        onChange={titleChangeHandler}
+                                    />
+                                    <span
+                                        className={[
+                                            'LetterCounter',
+                                            title?.length >= MAX_TITLE_LENGTH ? 'Limit' : ''
+                                        ].join(' ')}
+                                    >{title?.length}/{MAX_TITLE_LENGTH}</span>
+                                </fieldset>
+                                <fieldset className={contentClasses}>
+                                    <legend>Content</legend>
+                                    <textarea
+                                        onBlur={() => setContentClasses('')}
+                                        onFocus={() => setContentClasses('Focus')}
+                                        value={content}
+                                        onChange={contentChangeHandler}
+                                    />
+                                </fieldset>
+                            </form>
+                            <div className="NoteActions">
+                                <Button onclick={() => saveNote(false)}>Save Note</Button>
+                                <Button onclick={() => saveNote(true)}>Save and Exit</Button>
+                                <Button onclick={deleteNote}>Delete Note</Button>
+                                <Button
+                                    onclick={() => props.history.push('/home/overview')}
+                                >Return to menu</Button>
+                            </div>
+                        </>
+                    )
             }
         </div>
     )
@@ -198,7 +206,7 @@ function mapDispatchToProps(dispatch: any) {
         setOptions(options: Option[]) { dispatch(navActions.setOptions(options)) },
         setCurrentNote(note: Note) { dispatch(navActions.setCurrentNote(note)) },
         setNotes(notes: Note[]) { dispatch(overviewActions.setNotes(notes)) },
-        setTrash(trash: Note[]) { dispatch(deletedNotesActions.setTrash(trash))}
+        setTrash(trash: Note[]) { dispatch(deletedNotesActions.setTrash(trash)) }
     }
 }
 
