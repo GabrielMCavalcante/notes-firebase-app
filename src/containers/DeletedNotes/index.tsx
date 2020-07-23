@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 
 // Firebase
 import { database, auth } from 'firebase/init'
@@ -85,7 +85,7 @@ function DeletedNotes(props: Props) {
 
     const navOptions: Option[] = [
         {
-            text: "Home",
+            text: "Notes",
             icon: <Icon icon={homeIcon} />,
             type: "normal",
             click: () => props.history.push('/home/overview')
@@ -155,7 +155,7 @@ function DeletedNotes(props: Props) {
             setFilteredTrash(newNotes)
         } else {
             props.seeDeletedNote(filteredTrash.filter(note => note.id === noteId)[0])
-            props.history.push('/home/deleted-note')
+            props.history.push('/home/view-deleted-note')
         }
     }
 
