@@ -22,7 +22,7 @@ import contentSaveIcon from '@iconify/icons-mdi/content-save'
 import deleteEmptyIcon from '@iconify/icons-mdi/delete-empty'
 
 // Global Functions
-import { sendToTrash } from 'globalfn'
+import { sendNotesTo } from 'globalfn'
 
 // CSS styles
 import './styles.css'
@@ -126,7 +126,7 @@ function EditNote(props: any) {
 
     function deleteNote() {
         setLoading(true)
-        sendToTrash([props.currentNote])
+        sendNotesTo("notes", "trash", [props.currentNote])
             .then((res: any) => {
                 setLoading(false)
                 props.setNotes(res.notes)
