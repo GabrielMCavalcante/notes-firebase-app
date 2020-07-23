@@ -127,3 +127,14 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.Overview .NoNotesFound {
+    position: relative;
+}
+
+.Overview .NoNotesFound svg:last-child {
+    position: absolute;
+    top: 22%;
+    left: 24%;
+    font-size: 2rem;
+}
