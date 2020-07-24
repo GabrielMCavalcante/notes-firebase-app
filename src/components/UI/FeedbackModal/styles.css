@@ -23,7 +23,15 @@
     font-size: 6rem;
 }
 
-.FeedbackModal .Button {
+.FeedbackModal .ModalActions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.FeedbackModal .ModalActions .Button {
     text-transform: uppercase;
     font-weight: bold;
+    margin: 0 4px;
 }
