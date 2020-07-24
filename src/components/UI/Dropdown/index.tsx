@@ -14,7 +14,6 @@ interface Props {
 }
 
 function Dropdown(props: Props) {
-
     const [classes, setClasses] = useState(["Dropdown", "Close"])
     const [selected, setSelected] = useState(props.selected)
 
@@ -42,6 +41,10 @@ function Dropdown(props: Props) {
     useEffect(() => {
         props.onOptionSelect(selected)
     }, [selected]) //eslint-disable-line
+
+    useEffect(() => {
+        setSelected(props.selected)
+    }, [props.selected])
 
     return (
         <div className={classes.join(' ')}>
