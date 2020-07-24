@@ -175,6 +175,17 @@ function EditNote(props: any) {
                         actionLabel={["Ok"]}
                     />
                 ))
+            }).catch(error => {
+                setLoading(false)
+                setFeedbackModal((
+                    <FeedbackModal
+                        feedback={`An error occurred while deleting the note: ${error.message}`}
+                        hasAction
+                        icon={<Icon icon={errorIcon} />}
+                        onModalAction={[() => setFeedbackModal(null)]}
+                        actionLabel={["Ok"]}
+                    />
+                ))
             })
     }
 
