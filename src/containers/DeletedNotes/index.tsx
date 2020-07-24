@@ -14,6 +14,7 @@ import deletedNotesActions from 'store/actions/deletedNotes'
 // Components
 import Button from 'components/UI/Button'
 import Spinner from 'components/UI/Spinner'
+import FeedbackModal from 'components/UI/FeedbackModal'
 
 // Icons
 import { Icon } from '@iconify/react'
@@ -24,6 +25,8 @@ import skullIcon from '@iconify/icons-mdi/skull'
 import homeIcon from '@iconify/icons-mdi/home'
 import vectorArrangeAboveIcon from '@iconify/icons-mdi/vector-arrange-above'
 import fileRestoreIcon from '@iconify/icons-mdi/file-restore'
+import magnifyIcon from '@iconify/icons-mdi/magnify'
+import closeIcon from '@iconify/icons-mdi/close'
 
 // CSS styles
 import './styles.css'
@@ -76,7 +79,7 @@ function DeletedNotes(props: Props) {
         if (props.search) {
             const searchRegExp = new RegExp(`^${props.search}[a-z0-9-_]?`, 'i')
             setFilteredTrash(
-                filteredTrash.filter(
+                allTrash.filter(
                     note => note.title.toLowerCase().match(searchRegExp)
                 )
             )
@@ -182,92 +185,118 @@ function DeletedNotes(props: Props) {
             })
     }
 
+    const mainContent = (
+        <>
+            <div className={[
+                "MultiselectionOptions",
+                props.multiselection && filteredTrash.length > 0
+                    ? "Show"
+                    : ""
+            ].join(' ')}>
+                <Button
+                    onclick={
+                        () => setFilteredTrash(
+                            selectAll(filteredTrash)
+                        )}>
+                    <Icon icon={selectAllIcon} />
+                    <span>Select All</span>
+                </Button>
+                <Button
+                    onclick={
+                        () => setFilteredTrash(
+                            unselectAll(filteredTrash)
+                        )}>
+                    <Icon icon={selectOffIcon} />
+                    <span>Unselect All</span>
+                </Button>
+                <Button
+                    onclick={() => setFilteredTrash(
+                        invertSelection(filteredTrash)
+                    )}>
+                    <Icon icon={selectInverseIcon} />
+                    <span>Invert Selection</span>
+                </Button>
+                <Button btnType="Danger" onclick={destroySelected}>
+                    <Icon icon={skullIcon} />
+                    <span>Destroy Selected</span>
+                </Button>
+                <Button btnType="Success" onclick={restoreSelected}>
+                    <Icon icon={fileRestoreIcon} />
+                    <span>Restore Selected</span>
+                </Button>
+            </div>
+
+            <div className="NotesOverview">
+                {filteredTrash.map(note => (
+                    <div
+                        key={note.id}
+                        className="NoteCard"
+                        onClick={() => onNoteCardClick(note.id)}
+                    >
+                        <div
+                            className="NoteCardSelector"
+                            style={{ backgroundColor: note.color }}
+                        >
+                            {
+                                props.multiselection &&
+                                <input
+                                    type="checkbox"
+                                    readOnly
+                                    checked={note.selected}
+                                />
+                            }
+                        </div>
+                        <div className="NoteCardContent">
+                            <span>{note.title}</span>
+                            <p>
+                                {
+                                    note.content &&
+                                    (
+                                        note.content.length <= 40
+                                            ? note.content
+                                            : note.content
+                                                .substring(0, 39)
+                                                .concat('...')
+                                    )
+                                }
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </>
+    )
+
+    const trashEmptyFeedback = (
+        <FeedbackModal
+            hasAction={false}
+            feedback={`Deleted notes will appear here.`}
+        />
+    )
+
+    const filteredTrashEmptyFeedback = (
+        <FeedbackModal
+            hasAction={false}
+            feedback={`No notes found. Try another filter / search.`}
+            icon={(
+                <div className="NoNotesFound">
+                    <Icon icon={magnifyIcon} />
+                    <Icon icon={closeIcon} />
+                </div>
+            )}
+        />
+    )
+
     return (
         <div className="DeletedNotes">
             {
                 loading
-                    ? <div className="SpinnerResizer"><Spinner /></div>
-                    : (
-                        <>
-                            <div className={[
-                                "MultiselectionOptions",
-                                props.multiselection && filteredTrash.length > 0
-                                    ? "Show"
-                                    : ""
-                            ].join(' ')}>
-                                <Button
-                                    onclick={
-                                        () => setFilteredTrash(
-                                            selectAll(filteredTrash)
-                                        )}>
-                                    <Icon icon={selectAllIcon} />
-                                    <span>Select All</span>
-                                </Button>
-                                <Button
-                                    onclick={
-                                        () => setFilteredTrash(
-                                            unselectAll(filteredTrash)
-                                        )}>
-                                    <Icon icon={selectOffIcon} />
-                                    <span>Unselect All</span>
-                                </Button>
-                                <Button
-                                    onclick={() => setFilteredTrash(
-                                        invertSelection(filteredTrash)
-                                    )}>
-                                    <Icon icon={selectInverseIcon} />
-                                    <span>Invert Selection</span>
-                                </Button>
-                                <Button btnType="Danger" onclick={destroySelected}>
-                                    <Icon icon={skullIcon} />
-                                    <span>Destroy Selected</span>
-                                </Button>
-                                <Button btnType="Success" onclick={restoreSelected}>
-                                    <Icon icon={fileRestoreIcon} />
-                                    <span>Restore Selected</span>
-                                </Button>
-                            </div>
-
-                            <div className="NotesOverview">
-                                {filteredTrash.map(note => (
-                                    <div
-                                        key={note.id}
-                                        className="NoteCard"
-                                        onClick={() => onNoteCardClick(note.id)}
-                                    >
-                                        <div
-                                            className="NoteCardSelector"
-                                            style={{ backgroundColor: note.color }}
-                                        >
-                                            {
-                                                props.multiselection &&
-                                                <input
-                                                    type="checkbox"
-                                                    readOnly
-                                                    checked={note.selected}
-                                                />
-                                            }
-                                        </div>
-                                        <div className="NoteCardContent">
-                                            <span>{note.title}</span>
-                                            <p>
-                                                {
-                                                    note.content &&
-                                                    (
-                                                        note.content.length <= 40
-                                                            ? note.content
-                                                            : note.content
-                                                                .substring(0, 39)
-                                                                .concat('...')
-                                                    )
-                                                }
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    )
+                ? <div className="SpinnerResizer"><Spinner /></div>
+                : allTrash.length === 0
+                    ? trashEmptyFeedback
+                    : filteredTrash.length === 0
+                        ? filteredTrashEmptyFeedback
+                        : mainContent
             }
         </div>
     )
