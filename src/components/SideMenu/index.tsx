@@ -49,7 +49,11 @@ function SideMenu(props: any) {
             return (
                 <li key={i} className="DropdownOption">
                     {option.text}
-                    <Dropdown onOptionSelect={option.onOptionSelect!} selected={option.first!} items={option.items!} />
+                    <Dropdown 
+                        onOptionSelect={option.onOptionSelect!} 
+                        selected={option.first!} 
+                        items={option.items!} 
+                    />
                 </li>
             )
         }
