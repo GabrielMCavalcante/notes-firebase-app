@@ -14,12 +14,17 @@
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-top: 10px;
+    width: 90%;
 }
 
 .DeletedNotes .MultiselectionOptions .Button {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.DeletedNotes .MultiselectionOptions .Button:nth-child(3) {
+    grid-column: 1/3;
 }
 
 .DeletedNotes .MultiselectionOptions .Button svg {
