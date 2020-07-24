@@ -30,6 +30,8 @@ import vector_arrange_above from '@iconify/icons-mdi/vector-arrange-above'
 import trashCanIcon from '@iconify/icons-mdi/trash-can'
 import closeIcon from '@iconify/icons-mdi/close'
 import magnifyIcon from '@iconify/icons-mdi/magnify'
+import successIcon from '@iconify/icons-mdi/checkbox-marked-circle-outline'
+import errorIcon from '@iconify/icons-mdi/close-circle-outline'
 
 // CSS styles
 import './styles.css'
@@ -58,6 +60,7 @@ function Overview(props: Props) {
     const [filter, setFilter] = useState('all')
     const [order, setOrder] = useState('title')
     const [loading, setLoading] = useState(true)
+    const [feedbackModal, setFeedbackModal] = useState<JSX.Element | null>(null)
 
     // Order by
     useEffect(() => {
@@ -198,16 +201,49 @@ function Overview(props: Props) {
         }
     }
 
-    function deleteSelected() {
-        const delNotes = filteredNotes.filter(note => note.selected)
+    function deleteSelectedProcess() {
         setLoading(true)
+        const delNotes = filteredNotes.filter(note => note.selected)
         sendNotesTo("notes", "trash", delNotes)
             .then(res => {
                 setLoading(false)
-                props.setNotes(res.notes)
-                props.setTrash(res.trash)
-                props.toggleMultiselection()
+                setFeedbackModal((
+                    <FeedbackModal
+                        feedback="Notes deleted successfully."
+                        icon={<Icon icon={successIcon} />}
+                        hasAction
+                        onModalAction={[() => {
+                            props.setNotes(res.notes)
+                            props.setTrash(res.trash)
+                            props.toggleMultiselection(false)
+                            setFeedbackModal(null)
+                        }]}
+                        actionLabel={["Ok"]}
+                    />
+                ))
+            }).catch(error => {
+                setLoading(false)
+                setFeedbackModal((
+                    <FeedbackModal
+                        feedback={`An error occurred while deleting the notes: ${error.message}`}
+                        hasAction
+                        icon={<Icon icon={errorIcon} />}
+                        onModalAction={[() => setFeedbackModal(null)]}
+                        actionLabel={["Ok"]}
+                    />
+                ))
             })
+    }
+
+    function deleteSelected() {
+        setFeedbackModal((
+            <FeedbackModal
+                feedback="All selected notes will be sent to the trash. Continue?"
+                hasAction
+                actionLabel={["Continue", "Cancel"]}
+                onModalAction={[deleteSelectedProcess, () => setFeedbackModal(null)]}
+            />
+        ))
     }
 
     const mainContent = (
@@ -331,7 +367,9 @@ function Overview(props: Props) {
                         ? notesEmptyFeedback
                         : filteredNotes.length === 0
                             ? filteredNotesEmptyFeedback
-                            : mainContent
+                            : feedbackModal
+                                ? feedbackModal
+                                : mainContent
             }
         </div>
     )
