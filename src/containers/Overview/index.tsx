@@ -277,10 +277,15 @@ function Overview(props: Props) {
                     <Icon icon={selectInverseIcon} />
                     <span>Invert Selection</span>
                 </Button>
-                <Button btnType="Danger" onclick={deleteSelected}>
-                    <Icon icon={deleteCircleIcon} />
-                    <span>Delete Selected</span>
-                </Button>
+                {
+                    filteredNotes.filter(note => note.selected).length > 0
+                    && (
+                        <Button btnType="Danger" onclick={deleteSelected}>
+                            <Icon icon={deleteCircleIcon} />
+                            <span>Delete Selected</span>
+                        </Button>
+                    )
+                }
             </div>
 
             <div className="NotesOverview">

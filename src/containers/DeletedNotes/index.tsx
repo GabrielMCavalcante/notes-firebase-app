@@ -287,14 +287,20 @@ function DeletedNotes(props: Props) {
                     <Icon icon={selectInverseIcon} />
                     <span>Invert Selection</span>
                 </Button>
-                <Button btnType="Danger" onclick={destroySelected}>
-                    <Icon icon={skullIcon} />
-                    <span>Destroy Selected</span>
-                </Button>
-                <Button btnType="Success" onclick={restoreSelected}>
-                    <Icon icon={fileRestoreIcon} />
-                    <span>Restore Selected</span>
-                </Button>
+                {
+                    filteredTrash.filter(note => note.selected).length > 0 && (
+                        <>
+                            <Button btnType="Success" onclick={restoreSelected}>
+                                <Icon icon={fileRestoreIcon} />
+                                <span>Restore Selected</span>
+                            </Button>
+                            <Button btnType="Danger" onclick={destroySelected}>
+                                <Icon icon={skullIcon} />
+                                <span>Destroy Selected</span>
+                            </Button>
+                        </>
+                    )
+                }
             </div>
 
             <div className="NotesOverview">
