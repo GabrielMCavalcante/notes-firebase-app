@@ -302,8 +302,8 @@ function Overview(props: Props) {
     const notesEmptyFeedback = (
         <FeedbackModal
             hasAction
-            onModalAction={addNote}
-            actionLabel="Create Note"
+            onModalAction={[addNote]}
+            actionLabel={["Create Note"]}
             feedback={`Created notes will appear here. 
             Click the button below to create a note.`}
         />
