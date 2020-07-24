@@ -157,31 +157,33 @@ function EditNote(props: any) {
             })
     }
 
+    function deleteNoteProcess() {
+        setLoading(true)
+        sendNotesTo("notes", "trash", [props.currentNote])
+            .then((res: any) => {
+                setLoading(false)
+                setFeedbackModal((
+                    <FeedbackModal
+                        feedback="Note deleted successfully."
+                        icon={<Icon icon={successIcon} />}
+                        hasAction
+                        onModalAction={[() => {
+                            props.setNotes(res.notes)
+                            props.setTrash(res.trash)
+                            props.history.push('/home/overview')
+                        }]}
+                        actionLabel={["Ok"]}
+                    />
+                ))
+            })
+    }
+
     function deleteNote() {
         setFeedbackModal((
             <FeedbackModal
                 feedback="The note will be sent to the trash. Continue?"
                 hasAction
-                onModalAction={[() => {
-                    setLoading(true)
-                    sendNotesTo("notes", "trash", [props.currentNote])
-                        .then((res: any) => {
-                            setLoading(false)
-                            setFeedbackModal((
-                                <FeedbackModal
-                                    feedback="Note deleted successfully."
-                                    icon={<Icon icon={successIcon} />}
-                                    hasAction
-                                    onModalAction={[() => {
-                                        props.setNotes(res.notes)
-                                        props.setTrash(res.trash)
-                                        props.history.push('/home/overview')
-                                    }]}
-                                    actionLabel={["Ok"]}
-                                />
-                            ))
-                        })
-                }, () => setFeedbackModal(null)]}
+                onModalAction={[deleteNoteProcess, () => setFeedbackModal(null)]}
                 actionLabel={["Continue", "Cancel"]}
             />
         ))
