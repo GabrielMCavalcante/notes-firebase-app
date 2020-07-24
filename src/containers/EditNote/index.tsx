@@ -15,12 +15,15 @@ import deletedNotesActions from 'store/actions/deletedNotes'
 // Components
 import Button from 'components/UI/Button'
 import Spinner from 'components/UI/Spinner'
+import FeedbackModal from 'components/UI/FeedbackModal'
 
 // Icons
 import { Icon } from '@iconify/react'
 import contentSaveIcon from '@iconify/icons-mdi/content-save'
 import deleteEmptyIcon from '@iconify/icons-mdi/delete-empty'
 import exitRunIcon from '@iconify/icons-mdi/exit-run'
+import successIcon from '@iconify/icons-mdi/checkbox-marked-circle-outline'
+import errorIcon from '@iconify/icons-mdi/close-circle-outline'
 
 // Global Functions
 import { sendNotesTo } from 'globalfn'
@@ -34,13 +37,13 @@ import { Note, Option } from 'interfaces'
 const MAX_TITLE_LENGTH = 15
 
 function EditNote(props: any) {
-
     const [title, setTitle] = useState(props.currentNote?.title)
     const [content, setContent] = useState(props.currentNote?.content)
     const [color, setColor] = useState(capitalize(props.currentNote?.color))
     const [titleClasses, setTitleClasses] = useState('')
     const [contentClasses, setContentClasses] = useState('')
     const [loading, setLoading] = useState(false)
+    const [feedbackModal, setFeedbackModal] = useState<JSX.Element | null>(null)
 
     function capitalize(string: string) {
         return string?.charAt(0).toUpperCase() + string?.slice(1, string?.length)
@@ -55,7 +58,7 @@ function EditNote(props: any) {
         },
         {
             text: "Color",
-            first: color,
+            first: capitalize(props.currentNote?.color),
             type: "dropdown",
             items: [
                 "Orange",
@@ -126,69 +129,115 @@ function EditNote(props: any) {
                     props.setNotes(userNotes)
                     props.setCurrentNote(newData)
                     setLoading(false)
-                    if (exitOnSave) props.history.push('/home/overview')
+                    setFeedbackModal((
+                        <FeedbackModal
+                            feedback="Note saved successfully."
+                            icon={<Icon icon={successIcon} />}
+                            hasAction
+                            onModalAction={[() => {
+                                if (exitOnSave) {
+                                    props.history.push('/home/overview')
+                                } else setFeedbackModal(null)
+                            }]}
+                            actionLabel={["Ok"]}
+                        />
+                    ))
+                }).catch(error => {
+                    setLoading(false)
+                    setFeedbackModal((
+                        <FeedbackModal
+                            feedback={`An error occurred while saving the note: ${error.message}`}
+                            hasAction
+                            icon={<Icon icon={errorIcon} />}
+                            onModalAction={[() => setFeedbackModal(null)]}
+                            actionLabel={["Ok"]}
+                        />
+                    ))
                 })
             })
     }
 
     function deleteNote() {
-        setLoading(true)
-        sendNotesTo("notes", "trash", [props.currentNote])
-            .then((res: any) => {
-                setLoading(false)
-                props.setNotes(res.notes)
-                props.setTrash(res.trash)
-                props.history.push('/home/overview')
-            })
+        setFeedbackModal((
+            <FeedbackModal
+                feedback="The note will be sent to the trash. Continue?"
+                hasAction
+                onModalAction={[() => {
+                    setLoading(true)
+                    sendNotesTo("notes", "trash", [props.currentNote])
+                        .then((res: any) => {
+                            setLoading(false)
+                            setFeedbackModal((
+                                <FeedbackModal
+                                    feedback="Note deleted successfully."
+                                    icon={<Icon icon={successIcon} />}
+                                    hasAction
+                                    onModalAction={[() => {
+                                        props.setNotes(res.notes)
+                                        props.setTrash(res.trash)
+                                        props.history.push('/home/overview')
+                                    }]}
+                                    actionLabel={["Ok"]}
+                                />
+                            ))
+                        })
+                }, () => setFeedbackModal(null)]}
+                actionLabel={["Continue", "Cancel"]}
+            />
+        ))
     }
+
+    const mainContent = (
+        <>
+            <div className="NoteDates">
+                <p>Created on {moment(props.currentNote?.creation).format('lll')}</p>
+                <p>Last modified: {moment(props.currentNote?.modification).format('lll')}</p>
+            </div>
+            <form onSubmit={e => e.preventDefault()}>
+                <fieldset className={titleClasses}>
+                    <legend>Title</legend>
+                    <input
+                        onBlur={() => setTitleClasses('')}
+                        onFocus={() => setTitleClasses('Focus')}
+                        value={title}
+                        onChange={titleChangeHandler}
+                    />
+                    <span
+                        className={[
+                            'LetterCounter',
+                            title?.length >= MAX_TITLE_LENGTH ? 'Limit' : ''
+                        ].join(' ')}
+                    >{title?.length}/{MAX_TITLE_LENGTH}</span>
+                </fieldset>
+                <fieldset className={contentClasses}>
+                    <legend>Content</legend>
+                    <textarea
+                        onBlur={() => setContentClasses('')}
+                        onFocus={() => setContentClasses('Focus')}
+                        value={content}
+                        onChange={contentChangeHandler}
+                    />
+                </fieldset>
+            </form>
+            <div className="NoteActions">
+                <Button onclick={() => saveNote(false)}>Save Note</Button>
+                <Button onclick={() => saveNote(true)}>Save and Exit</Button>
+                <Button onclick={deleteNote}>Delete Note</Button>
+                <Button
+                    onclick={() => props.history.push('/home/overview')}
+                >Return to menu</Button>
+            </div>
+        </>
+    )
 
     return (
         <div className="EditNote">
             {
                 loading
                     ? <div className="SpinnerResizer"><Spinner /></div>
-                    : (
-                        <>
-                            <div className="NoteDates">
-                                <p>Created on {moment(props.currentNote?.creation).format('lll')}</p>
-                                <p>Last modified: {moment(props.currentNote?.modification).format('lll')}</p>
-                            </div>
-                            <form onSubmit={e => e.preventDefault()}>
-                                <fieldset className={titleClasses}>
-                                    <legend>Title</legend>
-                                    <input
-                                        onBlur={() => setTitleClasses('')}
-                                        onFocus={() => setTitleClasses('Focus')}
-                                        value={title}
-                                        onChange={titleChangeHandler}
-                                    />
-                                    <span
-                                        className={[
-                                            'LetterCounter',
-                                            title?.length >= MAX_TITLE_LENGTH ? 'Limit' : ''
-                                        ].join(' ')}
-                                    >{title?.length}/{MAX_TITLE_LENGTH}</span>
-                                </fieldset>
-                                <fieldset className={contentClasses}>
-                                    <legend>Content</legend>
-                                    <textarea
-                                        onBlur={() => setContentClasses('')}
-                                        onFocus={() => setContentClasses('Focus')}
-                                        value={content}
-                                        onChange={contentChangeHandler}
-                                    />
-                                </fieldset>
-                            </form>
-                            <div className="NoteActions">
-                                <Button onclick={() => saveNote(false)}>Save Note</Button>
-                                <Button onclick={() => saveNote(true)}>Save and Exit</Button>
-                                <Button onclick={deleteNote}>Delete Note</Button>
-                                <Button
-                                    onclick={() => props.history.push('/home/overview')}
-                                >Return to menu</Button>
-                            </div>
-                        </>
-                    )
+                    : feedbackModal !== null
+                        ? feedbackModal
+                        : mainContent
             }
         </div>
     )
