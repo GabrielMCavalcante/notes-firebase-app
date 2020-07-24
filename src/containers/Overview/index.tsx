@@ -82,7 +82,7 @@ function Overview(props: Props) {
         if (props.search) {
             const searchRegExp = new RegExp(`^${props.search}[a-z0-9-_]?`, 'i')
             setFilteredNotes(
-                filteredNotes.filter(
+                allNotes.filter(
                     note => note.title.toLowerCase().match(searchRegExp)
                 )
             )
