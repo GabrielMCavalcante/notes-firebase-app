@@ -35,3 +35,14 @@
     font-weight: bold;
     margin: 0 4px;
 }
+
+.FeedbackModal .NoNotesFound {
+    position: relative;
+}
+
+.FeedbackModal .NoNotesFound svg:last-child {
+    position: absolute;
+    top: 22%;
+    left: 24%;
+    font-size: 2rem;
+}
