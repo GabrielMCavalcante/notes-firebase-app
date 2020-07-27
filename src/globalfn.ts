@@ -45,8 +45,8 @@ export function sendNotesTo(from: "notes" | "trash", to: "notes" | "trash", note
 export function sortFunction(a: any, b: any, order: string) {
     const elA = typeof a[order] === 'string' ? a[order].toLowerCase() : a[order]
     const elB = typeof b[order] === 'string' ? b[order].toLowerCase() : b[order]
-    if (elA > elB) return 1
-    else if (elA < elB) return -1
+    if (elA > elB) return order === 'title' ? 1 : -1
+    else if (elA < elB) return order === 'title' ? -1 : 1
     else return 0
 }
 
