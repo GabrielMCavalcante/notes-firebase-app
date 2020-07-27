@@ -1,0 +1,49 @@
+@media screen and (min-width: 700px) {
+    .Navigation .NavigationHeader {
+        right: 0;
+        width: calc(100% - 34%);
+    }
+    .Navigation .NavigationHeader img {
+        display: none;
+    }
+    .Navigation .NavigationHeader>div:first-child {
+        display: none;
+    }
+    .Navigation .NavigationHeader .SearchBar {
+        width: 100%;
+    }
+    .Navigation .NavigationHeader .SearchBar input {
+        font-size: 1.5rem;
+    }
+    .Navigation .NavigationHeader .SearchBar .SearchIcon {
+        font-size: 2rem;
+    }
+    .Navigation .SideMenu.Closed, .Navigation .SideMenu.Close, .Navigation .SideMenu.Open {
+        width: 35% !important;
+        height: 100% !important;
+        overflow: auto !important;
+        background: var(--primary-theme) !important;
+        position: fixed !important;
+        top: 0 !important;
+        z-index: 101 !important;
+        transform: translate(0) !important;
+    }
+    .Navigation .SideMenu>div:first-child {
+        display: none;
+    }
+    .Navigation .SideMenu .CurrentUser .User {
+        font-size: 1.15rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User .svg {
+        font-size: 2rem;
+    }
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 1.3rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption, .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 1.5rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption svg {
+        font-size: 1.8rem;
+    }
+}
