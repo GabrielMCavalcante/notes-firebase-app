@@ -170,6 +170,7 @@ function Overview(props: Props) {
 
     useEffect(() => {
         props.toggleMultiselection(false)
+        props.setSearch('')
         auth.onAuthStateChanged(authState => {
             if (authState) {
                 const user = auth.currentUser?.uid
@@ -240,6 +241,7 @@ function Overview(props: Props) {
             <FeedbackModal
                 feedback="All selected notes will be sent to the trash. Continue?"
                 hasAction
+                icon={<Icon icon={trashCanIcon}/>}
                 actionLabel={["Continue", "Cancel"]}
                 onModalAction={[deleteSelectedProcess, () => setFeedbackModal(null)]}
             />
@@ -396,7 +398,8 @@ function mapDispatchToProps(dispatch: any) {
         setTrash(trash: any) { dispatch(deletedNotesActions.setTrash(trash)) },
         editNote(note: Note) { dispatch(navActions.setCurrentNote(note)) },
         setNotes(notes: Note[]) { dispatch(overviewActions.setNotes(notes)) },
-        setCurrentNote(note: Note) { dispatch(navActions.setCurrentNote(note)) }
+        setCurrentNote(note: Note) { dispatch(navActions.setCurrentNote(note)) },
+        setSearch(search: string) { dispatch(navActions.setSearch(search))}
     }
 }
 

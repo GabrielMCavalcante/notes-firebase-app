@@ -104,6 +104,7 @@ function EditNote(props: any) {
             <FeedbackModal
                 feedback="The note will be restored. Continue?"
                 hasAction
+                icon={<Icon icon={fileRestoreIcon} />}
                 actionLabel={["Continue", "Cancel"]}
                 onModalAction={[restoreNoteProcess, () => setFeedbackModal(null)]}
             />
@@ -150,6 +151,7 @@ function EditNote(props: any) {
                 feedback={`The note will be destroyed. 
                 This action cannot be undone. Continue?`}
                 hasAction
+                icon={<Icon icon={skullIcon} />}
                 actionLabel={["Continue", "Cancel"]}
                 onModalAction={[destroyNoteProcess, () => setFeedbackModal(null)]}
             />
@@ -180,8 +182,8 @@ function EditNote(props: any) {
                 </fieldset>
             </form>
             <div className="NoteActions">
-                <Button onclick={() => restoreNote()}>Restore Note</Button>
-                <Button onclick={() => destroyNote()}>Destroy Note</Button>
+                <Button btnType="Success" onclick={() => restoreNote()}>Restore Note</Button>
+                <Button btnType="Danger" onclick={() => destroyNote()}>Destroy Note</Button>
                 <Button
                     onclick={() => props.history.push('/home/deleted-notes')}
                 >Return to menu</Button>

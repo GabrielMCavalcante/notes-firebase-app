@@ -204,6 +204,7 @@ function DeletedNotes(props: Props) {
                 feedback={`All notes selected will be destroyed. 
                 This action cannot be undone. Continue?`}
                 hasAction
+                icon={<Icon icon={skullIcon} />}
                 actionLabel={["Continue", "Cancel"]}
                 onModalAction={[destroySelectedProcess, () => setFeedbackModal(null)]}
             />
@@ -249,6 +250,7 @@ function DeletedNotes(props: Props) {
             <FeedbackModal
                 feedback="All notes selected will be restored. Continue?"
                 hasAction
+                icon={<Icon icon={fileRestoreIcon} />}
                 actionLabel={["Continue", "Cancel"]}
                 onModalAction={[restoreSelectedProcess, () => setFeedbackModal(null)]}
             />

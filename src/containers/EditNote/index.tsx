@@ -194,6 +194,7 @@ function EditNote(props: any) {
             <FeedbackModal
                 feedback="The note will be sent to the trash. Continue?"
                 hasAction
+                icon={<Icon icon={deleteEmptyIcon} />}
                 onModalAction={[deleteNoteProcess, () => setFeedbackModal(null)]}
                 actionLabel={["Continue", "Cancel"]}
             />
@@ -233,9 +234,9 @@ function EditNote(props: any) {
                 </fieldset>
             </form>
             <div className="NoteActions">
-                <Button onclick={() => saveNote(false)}>Save Note</Button>
-                <Button onclick={() => saveNote(true)}>Save and Exit</Button>
-                <Button onclick={deleteNote}>Delete Note</Button>
+                <Button btnType="Success" onclick={() => saveNote(false)}>Save Note</Button>
+                <Button btnType="Success" onclick={() => saveNote(true)}>Save and Exit</Button>
+                <Button btnType="Danger" onclick={deleteNote}>Delete Note</Button>
                 <Button
                     onclick={() => props.history.push('/home/overview')}
                 >Return to menu</Button>
