@@ -18,13 +18,16 @@
     .Navigation .NavigationHeader .SearchBar .SearchIcon {
         font-size: 2rem;
     }
-    .Navigation .SideMenu.Closed, .Navigation .SideMenu.Close, .Navigation .SideMenu.Open {
+    .Navigation .SideMenu.Closed, 
+    .Navigation .SideMenu.Close, 
+    .Navigation .SideMenu.Open {
         width: 35% !important;
         height: 100% !important;
         overflow: auto !important;
         background: var(--primary-theme) !important;
         position: fixed !important;
         top: 0 !important;
+        left: 0 !important;
         z-index: 101 !important;
         transform: translate(0) !important;
     }
@@ -32,10 +35,13 @@
         display: none;
     }
     .Navigation .SideMenu .CurrentUser .User {
-        font-size: 1.15rem;
+        flex-direction: column;
     }
-    .Navigation .SideMenu .CurrentUser .User .svg {
-        font-size: 2rem;
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 1.35rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 3rem;
     }
     .Navigation .SideMenu .CurrentUser p {
         font-size: 1.3rem;
