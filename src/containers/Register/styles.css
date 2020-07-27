@@ -61,4 +61,8 @@
     .Form button {
         font-size: 2rem;
     }
+    .Form .SpinnerResizer {
+        width: 40px;
+        height: 40px;
+    }
 }
