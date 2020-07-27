@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 
 // React redux connection
 import { connect } from 'react-redux'
@@ -21,19 +22,24 @@ function NavigationHeader(props: any) {
     function filterNotes(event: React.ChangeEvent<HTMLInputElement>) {
         props.setSearch(event.target.value)
     }
-
     return (
         <nav className="NavigationHeader">
             <div onClick={props.onOpen}>
                 <Icon className="MenuToggler" icon={menu} />
             </div>
             <img src={logo} alt="Logo"/>
-            <div className="SearchBar">
-                <input onChange={filterNotes} type="text" placeholder="Search note..."/>
+            <div style={{display: ["/home/edit-note", "/home/view-deleted-note"].includes(props.location.pathname) ? 'none' : 'block'}} className="SearchBar">
+                <input value={props.search ? props.search : ''} onChange={filterNotes} type="text" placeholder="Search note..."/>
                 <Icon className="SearchIcon" icon={magnify}/>
             </div>
         </nav>
     )
+}
+
+function mapStateToProps(state: any) {
+    return {
+        search: state.navigation.search
+    }
 }
 
 function mapDispatchToProps(dispatch: any) {
@@ -42,4 +48,4 @@ function mapDispatchToProps(dispatch: any) {
     }
 }
 
-export default connect(null, mapDispatchToProps)(NavigationHeader)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NavigationHeader))
