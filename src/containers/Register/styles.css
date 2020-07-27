@@ -36,3 +36,29 @@
 .MethodToggler:hover {
     font-weight: 500;
 }
+
+@media screen and (min-width: 700px) {
+    .Login h2,
+    .Signup h2 {
+        font-size: 2.5rem;
+    }
+    .Register .Content .MethodToggler {
+        font-size: 1.6rem;
+    }
+    .Form .InputArea {
+        width: 90%;
+    }
+    .Form input {
+        height: 80px;
+        font-size: 2.2rem;
+    }
+    .Form .InputArea svg {
+        font-size: 3.8rem;
+    }
+    .Form p {
+        font-size: 1.5rem;
+    }
+    .Form button {
+        font-size: 2rem;
+    }
+}
