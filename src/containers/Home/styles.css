@@ -2,6 +2,71 @@
     width: 100vw;
 }
 
-.Home > div {
+.Home>div {
     margin-top: 70px;
+}
+
+@media screen and (min-width: 700px) {
+    .Home {
+        position: absolute;
+        right: 0;
+        width: calc(100% - 34%);
+        height: 100vh;
+    }
+    .Home .NotesOverview .NoteCard, .Home .Overview .NotesOverview .AddNoteCard {
+        width: 200px;
+        height: 200px;
+    }
+    .Home .NotesOverview .NoteCard .NoteCardContent span, .Home .Overview .NotesOverview .AddNoteCard span {
+        font-size: 1.5rem;
+    }
+    .Home .NotesOverview .NoteCard .NoteCardContent p {
+        font-size: 1.35rem;
+    }
+    .Home .Overview .NotesOverview .AddNoteCard svg {
+        font-size: 5.5rem;
+    }
+    .Home .MultiselectionOptions .Button {
+        font-size: 1.5rem;
+    }
+    .Home .MultiselectionOptions .Button svg {
+        font-size: 2rem;
+    }
+    .Home .NotesOverview .NoteCard .NoteCardSelector input[type="checkbox"] {
+        right: -80%;
+        width: 25px;
+        height: 25px;
+    }
+    .Home .FeedbackModal .ModalContent {
+        font-size: 2rem;
+    }
+    .Home .FeedbackModal .NoNotesFound svg:first-child, .Home .FeedbackModal svg {
+        font-size: 10rem;
+    }
+    .Home .FeedbackModal .NoNotesFound svg:last-child {
+        font-size: 4rem;
+        top: 19%;
+        left: 21%;
+    }
+    .Home .FeedbackModal .ModalActions .Button, .Home .NoteActions .Button {
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    .Home .NoteDates {
+        font-size: 1rem;
+    }
+    .Home form fieldset legend, .Home .EditNote form fieldset .LetterCounter {
+        font-size: 1.3rem;
+    }
+    .Home form fieldset input,
+    .Home form fieldset textarea {
+        font-size: 1.5rem;
+    }
+    .Home form fieldset textarea {
+        min-height: 424px;
+    }
+    .Home .SpinnerResizer {
+        width: 200px;
+        height: 200px;
+    }
 }
