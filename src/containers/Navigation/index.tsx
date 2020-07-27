@@ -13,6 +13,9 @@ import SideMenu from 'components/SideMenu'
 // Store actions
 import navActions from 'store/actions/navigation'
 
+// CSS styles
+import './styles.css'
+
 function Navigation(props: any) {
     const [sideMenuClasses, setSideMenuClasses] = 
         useState<[string, string]>(["SideMenu", "Closed"])
