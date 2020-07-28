@@ -17,9 +17,30 @@
     position: relative;
 }
 
-.Register .Content img {
+.Register .Content .Logo {
+    background: url('../../assets/logo.png') no-repeat 50% 50%;
     width: 100%;
+    height: 200px;
     margin: 0 auto;
+    background-size: cover;
+}
+
+.Register .RegisterForm {
+    margin-top: -50px;
+}
+
+.Register .RegisterForm h2 {
+    text-align: center;
+}
+
+.Register .RegisterForm .Form .InputArea {
+    width: 100%;
+}
+
+.Register .RegisterForm .Feedback {
+    width: 100%;
+    text-align: center;
+    color: crimson;
 }
 
 .Register .Content .MethodToggler {
@@ -38,15 +59,14 @@
 }
 
 @media screen and (min-width: 700px) {
-    .Login h2,
-    .Signup h2 {
+    .Register .Content .RegisterForm h2 {
         font-size: 2.5rem;
     }
-    .Register .Content .MethodToggler {
-        font-size: 1.6rem;
+    .Register .Content .RegisterForm .Feedback {
+        font-size: 1.7rem;
     }
-    .Form .InputArea {
-        width: 90%;
+    .Register .Content .MethodToggler {
+        font-size: 1.7rem;
     }
     .Form input {
         height: 80px;
@@ -56,13 +76,37 @@
         font-size: 3.8rem;
     }
     .Form p {
-        font-size: 1.5rem;
+        font-size: 1.7rem;
     }
     .Form button {
         font-size: 2rem;
+        height: 60px;
     }
     .Form .SpinnerResizer {
         width: 40px;
         height: 40px;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .Register .Content .RegisterForm h2 {
+        font-size: 3.5rem;
+    }
+    .Register .Content .RegisterForm .Form input {
+        height: 85px;
+        font-size: 2.7rem;
+    }
+    .Register .Content .RegisterForm .Form p, 
+    .Register .Content .RegisterForm .Feedback, 
+    .Register .Content .MethodToggler {
+        font-size: 2rem;
+    }
+    .Form button {
+        font-size: 2.3rem;
+        height: 70px;
+    }
+    .Form .SpinnerResizer {
+        width: 50px;
+        height: 50px;
     }
 }
