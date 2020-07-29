@@ -189,6 +189,16 @@ function Overview(props: Props) {
         setFilteredNotes([...props.notes.sort((a, b) => sortFunction(a, b, order))])
     }, [props.notes]) // eslint-disable-line
 
+    useEffect(() => {
+        if(!props.multiselection) {
+            const newNotes = filteredNotes.map(note => {
+                if (!note.selected) return note
+                else return { ...note, selected: false }
+            })
+            setFilteredNotes(newNotes)
+        }
+    }, [props.multiselection]) // eslint-disable-line
+
     function onNoteCardClick(noteId: string) {
         if (props.multiselection) {
             const newNotes = filteredNotes.map(note => {

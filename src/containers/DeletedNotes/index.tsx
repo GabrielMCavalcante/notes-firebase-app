@@ -152,6 +152,16 @@ function DeletedNotes(props: Props) {
         setFilteredTrash([...props.trash.sort((a, b) => sortFunction(a, b, order))])
     }, [props.trash]) // eslint-disable-line
 
+    useEffect(() => {
+        if(!props.multiselection) {
+            const newTrash = filteredTrash.map(note => {
+                if (!note.selected) return note
+                else return { ...note, selected: false }
+            })
+            setFilteredTrash(newTrash)
+        }
+    }, [props.multiselection]) // eslint-disable-line
+
     function onNoteCardClick(noteId: string) {
         if (props.multiselection) {
             const newNotes = filteredTrash.map(note => {
