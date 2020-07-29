@@ -14,3 +14,15 @@ body {
   --primary-theme-dark: rgb(77, 76, 76);
   --primary-theme-red: #EF5350;
 }
+
+::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-theme-darker);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-theme);
+}
