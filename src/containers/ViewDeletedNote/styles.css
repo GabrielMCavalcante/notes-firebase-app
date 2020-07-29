@@ -37,7 +37,7 @@
 
 .ViewDeletedNote form fieldset textarea {
     resize: none;
-    min-height: 100px;
+    min-height: 40vh;
 }
 
 .ViewDeletedNote .NoteActions {

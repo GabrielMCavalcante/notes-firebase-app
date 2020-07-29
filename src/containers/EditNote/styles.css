@@ -1,6 +1,7 @@
 .EditNote {
     width: 90%;
     margin: calc(68px + 30px) auto 0;
+    margin-top: 0;
 }
 
 .EditNote .NoteDates {
@@ -37,7 +38,7 @@
 
 .EditNote form fieldset textarea {
     resize: none;
-    min-height: 100px;
+    min-height: 40vh;
 }
 
 .EditNote form fieldset .LetterCounter {
