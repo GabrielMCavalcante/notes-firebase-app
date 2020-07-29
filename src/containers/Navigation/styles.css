@@ -57,10 +57,10 @@
         height: 115px;
     }
     .Navigation .SideMenu.Closed, .Navigation .SideMenu.Close, .Navigation .SideMenu.Open {
-        width: 21% !important;
+        width: var(--side-menu-width) !important;
     }
     .Navigation .NavigationHeader {
-        width: calc(100% - 21%);
+        width: calc(100% - var(--side-menu-width));
     }
     .Navigation .SideMenu .Options .NormalOption, .Navigation .SideMenu .Options .DropdownOption {
         font-size: 1.3rem;
