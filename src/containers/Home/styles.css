@@ -339,10 +339,6 @@
     .Home form fieldset input, .Home form fieldset textarea {
         font-size: 3.5rem;
     }
-
-    /* .Home form fieldset textarea {
-        min-height: 836px;
-    } */
 }
 
 @media only screen and (min-width: 4200px) {
@@ -422,8 +418,4 @@
     .Home form fieldset input, .Home form fieldset textarea {
         font-size: 5rem;
     }
-
-    /* .Home form fieldset textarea {
-        min-height: 1245px;
-    } */
 }
