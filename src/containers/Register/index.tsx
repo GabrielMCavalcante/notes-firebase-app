@@ -3,9 +3,6 @@ import React, { useState, useEffect } from 'react'
 // Components
 import Form from 'components/UI/Form'
 
-// Logo
-import logo from 'assets/logo.png'
-
 // Firebase
 import { auth } from 'firebase/init'
 
