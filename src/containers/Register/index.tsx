@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react'
 import Form from 'components/UI/Form'
 
 // Firebase
-import { auth } from 'firebase/init'
+import { auth, database } from 'firebase/init'
 
 // Icons
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react' 
 import lock from '@iconify/icons-mdi/lock'
 import email from '@iconify/icons-mdi/email'
 import emailPlus from '@iconify/icons-mdi/email-plus'
@@ -81,9 +81,17 @@ function Register(props: any) {
                 })
         } else {
             auth.createUserWithEmailAndPassword(userData.email, userData.password)
-                .then(() => {
-                    setLoading(false)
-                    props.history.push('/home/overview')
+                .then(res => {
+                    const userId = res.user?.uid
+                    database.collection('users').doc(userId).set({ notes: [], trash: [] })
+                        .then(() => {
+                            setLoading(false)
+                            props.history.push('/home/overview')
+                        })
+                        .catch(err => {
+                            setLoading(false)
+                            setFeedback(err.message)
+                        })
                 })
                 .catch(err => {
                     setLoading(false)
