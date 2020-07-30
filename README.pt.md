@@ -1,10 +1,10 @@
-<p align="center"><img src="src/.github/app-logo.png" width=250 height=150 alt="App Logo"/></p>
+<p align="center"><img src="github/app-logo.png" width="100" height=100 alt="App Logo"/></p>
 
 # Notes
 
 > Um aplicativo da web para criar, editar e excluir notas pessoais.
 
-![home](src/.github/home.png)
+![home](github/home.jpg)
 
 Leia este documento em sua língua de preferência: 
 - [English](README.md) 
@@ -16,12 +16,11 @@ criar uma conta ou se autenticar se já possuírem uma conta no aplicativo web.
 
 ## Tecnologias utilizadas
 
-- Vue
-  - Vue CLI 3
-  - Vuetify
-  - Vue Router
-  - Vuex
+- React
+  - React Router
+  - Redux
 - npm
+  - iconify
   - uuid
   - moment
 - Firebase
@@ -41,9 +40,9 @@ criar uma conta ou se autenticar se já possuírem uma conta no aplicativo web.
 0. Certifique-se de ter instalado o NodeJS no seu computador
 1. Clone este repositório usando git
 1. Abra o terminal de sua preferência no diretório do repositório clonado
-1. Execute o comando ``npm install`` para instalar todas as dependências do projeto
+1. Execute o comando ``npm install`` ou, para usuários ``yarn``, utilize o comando ``yarn add`` para instalar todas as dependências do projeto
 1. Vá para src/firebase/init.js e adicione sua configuração do Firebase Firestore (gerada pelo Firebase)
-1. Execute o comando ``npm run serve`` para executar o projeto no localhost
+1. Execute o comando ``npm start`` ou, para usuários ``yarn``, utilize o comando ``yarn start`` para executar o projeto no localhost
 
 [Voltar ao topo](#notes) <br>
 [Voltar ao sumário](#sumario)
@@ -57,23 +56,23 @@ Então, siga os passos abaixo:</p>
   <p>Todos os usuários devem se registrar antes de usar o Notes. Para isso, basta digitar o e-mail e a senha da sua conta na tela de login.
   Se você não possui uma, clique no link 'Não tenho uma conta' e inscreva-se.</p>
   
-  ![signup](src/.github/signup.png)
+ ![signup](github/signup.jpg)
   
   <hr>
   
 2. Página principal
   <p>Após o registro, o usuário será redirecionado para a página principal. Aqui, o usuário pode executar a maioria das funcionalidades do aplicativo, como criar uma nova nota, clicando no botão gigante 'Adicionar nota' ou selecionando esta opção no menu da barra lateral à esquerda, além de editar uma uma nota existente simplesmente clicando nela.</p>
   
-  ![notes-saved](src/.github/notes-saved.png "Notas criadas pelo usuário")
+  ![notes-saved](github/home.jpg "Notes created by the user")
   
-  ![creating-note](src/.github/creating-note.png "Editando nota")
+  ![creating-note](github/editing-note.jpg "Editting note")
   
   <hr>
   
 3. Notas deletads
   <p>Quando um usuário exclui uma nota, ela é enviada para a lixeira. Lá, o usuário pode restaurar as notas excluídas ou removê-las permanentemente. Há também a possibilidade de ler notas excluídas, mas não de editá-las (é necessário restaurá-las primeiro).</p>
   
-  ![view-deleted](src/.github/view-deleted.png)
+  ![view-deleted](github/view-deleted.jpg)
   
   <hr>
   
@@ -82,15 +81,15 @@ Então, siga os passos abaixo:</p>
   
   - Order by
     > <p>Ordena todas as notas por título, data de criação ou modificação</p>
-    ![order-by](src/.github/order-by.png)
   
   - Filter
     > <p>Filtra as notas por sua cor, que podem ser alteradas na tela de edição</p>
-    ![filter](src/.github/filter.png)
+    
+    ![orderby-and-filter](github/orderby-filter.jpg)
   
   - Multiselection
     > <p>A seleção múltipla permite ao usuário selecionar várias notas de uma só vez e excluí-las com apenas um clique</p>
-    ![multiselection](src/.github/multiselection.png)
+    ![multiselection](github/multiselection.jpg)
   
 [Voltar ao topo](#notes) <br>
 [Voltar ao sumário](#sumario)
