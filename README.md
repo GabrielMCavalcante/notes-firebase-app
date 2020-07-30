@@ -1,4 +1,4 @@
-<p align="center"><img src="github/app-logo.png" width=250 height=150 alt="App Logo"/></p>
+<p align="center"><img src="github/app-logo.png" width="100" height=100 alt="App Logo"/></p>
 
 # Notes
 
