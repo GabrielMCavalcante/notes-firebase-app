@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+:root {
+  --primary-theme: #eee;
+  --primary-theme-darker: rgba(0, 0, 0, 0.54);
+  --primary-theme-dark: rgb(77, 76, 76);
+  --primary-theme-red: #EF5350;
+  
+  --side-menu-width: 21%;
+}
+
+::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-theme-darker);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-theme);
+}

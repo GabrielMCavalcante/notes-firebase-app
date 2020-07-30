@@ -1,0 +1,48 @@
+.FeedbackModal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 98;
+    left: 0;
+    top: 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background: #ccc;
+}
+
+.FeedbackModal .ModalContent {
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.FeedbackModal svg {
+    font-size: 6rem;
+}
+
+.FeedbackModal .ModalActions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.FeedbackModal .ModalActions .Button {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0 4px;
+}
+
+.FeedbackModal .NoNotesFound {
+    position: relative;
+}
+
+.FeedbackModal .NoNotesFound svg:last-child {
+    position: absolute;
+    top: 22%;
+    left: 24%;
+    font-size: 2rem;
+}

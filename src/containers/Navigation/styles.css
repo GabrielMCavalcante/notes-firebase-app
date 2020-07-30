@@ -1,0 +1,450 @@
+@media screen and (min-width: 700px) {
+    .Navigation .NavigationHeader {
+        right: 0;
+        width: calc(100% - 34%);
+    }
+    .Navigation .NavigationHeader img {
+        display: none;
+    }
+    .Navigation .NavigationHeader>div:first-child {
+        display: none;
+    }
+    .Navigation .NavigationHeader .SearchBar {
+        width: 100%;
+    }
+    .Navigation .NavigationHeader .SearchBar input {
+        font-size: 1.5rem;
+    }
+    .Navigation .NavigationHeader .SearchBar .SearchIcon {
+        font-size: 2rem;
+    }
+    .Navigation .SideMenu.Closed, .Navigation .SideMenu.Close, .Navigation .SideMenu.Open {
+        width: 35% !important;
+        height: 100% !important;
+        overflow: auto !important;
+        background: var(--primary-theme) !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        z-index: 101 !important;
+        transform: translate(0) !important;
+    }
+    .Navigation .SideMenu>div:first-child {
+        display: none;
+    }
+    .Navigation .SideMenu .CurrentUser .User {
+        flex-direction: column;
+    }
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 1.35rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 3rem;
+    }
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 1.3rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption, .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 1.5rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption svg {
+        font-size: 1.8rem;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .SideMenu .Logo {
+        height: 115px;
+    }
+    .Navigation .SideMenu.Closed, .Navigation .SideMenu.Close, .Navigation .SideMenu.Open {
+        width: var(--side-menu-width) !important;
+    }
+    .Navigation .NavigationHeader {
+        width: calc(100% - var(--side-menu-width));
+    }
+    .Navigation .SideMenu .Options .NormalOption, .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 1.3rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 1.7rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 1.2rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .SideMenu .Logo {
+        height: 132px;
+    }
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 1.1rem;
+    }
+    .Navigation .NavigationHeader {
+        height: 75px;
+    }
+    .Navigation .NavigationHeader .SearchBar input {
+        font-size: 1.65rem;
+        padding: 0 8px;
+        height: 45px;
+    }
+    .Navigation .NavigationHeader .SearchBar .SearchIcon {
+        font-size: 2rem;
+        height: auto;
+        margin-top: 6px;
+    }
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 1.35rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 1.8rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption svg {
+        font-size: 2.1rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption, .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 1.45rem;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    .SideMenu .Logo {
+        height: 155px;
+    }
+    .Navigation .SideMenu .Options .NormalOption svg {
+        font-size: 2.4rem;
+    }
+    .Navigation .NavigationHeader .SearchBar input {
+        font-size: 1.85rem;
+        padding: 0 8px;
+        height: 52px;
+    }
+    .Navigation .NavigationHeader {
+        height: 85px;
+    }
+    .Navigation .NavigationHeader .SearchBar .SearchIcon {
+        font-size: 2.2rem;
+        margin-top: 9px;
+    }
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 1.5rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 2.1rem;
+    }
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 1.3rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption, .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 1.6rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption {
+        height: 64px;
+    }
+    .Navigation .Dropdown .DropdownSelector svg {
+        font-size: 2rem;
+    }
+    .Navigation .Dropdown ul {
+        max-height: 155px;
+    }
+}
+
+@media only screen and (min-width: 1800px) {
+    .Navigation .Dropdown {
+        padding: 4px 10px;
+        border-radius: 12px;
+        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    }
+    .SideMenu .Logo {
+        height: 168px;
+    }
+    .Navigation .NavigationHeader .SearchBar .SearchIcon {
+        font-size: 2.2rem;
+        margin-top: 9px;
+    }
+    .Navigation .SideMenu .Options .NormalOption {
+        height: 64px;
+    }
+    .Navigation .Dropdown .DropdownSelector svg {
+        font-size: 2rem;
+    }
+    .Navigation .NavigationHeader {
+        height: 90px;
+    }
+    .Navigation .NavigationHeader .SearchBar input {
+        font-size: 2rem;
+        height: 57px;
+    }
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 1.6rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 2.3rem;
+    }
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 1.4rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption, .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 1.7rem;
+    }
+    .Navigation .Dropdown ul {
+        max-height: 165px;
+    }
+    .Navigation .SideMenu .Options .NormalOption svg {
+        font-size: 2.5rem;
+    }
+}
+
+@media only screen and (min-width: 2000px) {
+    .Navigation .SideMenu.Closed, 
+    .Navigation .SideMenu.Close, 
+    .Navigation .SideMenu.Open {
+        padding: 0 8px;
+    }
+    .SideMenu .Logo {
+        height: 195px;
+    }
+    .Navigation .SideMenu .Options .NormalOption {
+        height: 64px;
+    }
+    .Navigation .Dropdown ul {
+        max-height: 175px;
+    }
+    .Navigation .NavigationHeader {
+        height: 102px;
+    }
+    .Navigation .NavigationHeader .SearchBar input {
+        font-size: 2.3rem;
+        height: 62px;
+    }
+    .Navigation .NavigationHeader .SearchBar .SearchIcon {
+        font-size: 2.5rem;
+        margin-top: 11px;
+    }
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 1.8rem;
+    }
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 2.5rem;
+    }
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 1.6rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption, .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 1.9rem;
+    }
+    .Navigation .SideMenu .Options .NormalOption svg {
+        font-size: 2.7rem;
+    }
+    .Navigation .Dropdown .DropdownSelector svg {
+        font-size: 2.5rem;
+    }
+}
+
+@media only screen and (min-width: 2600px) {
+    .Navigation .Dropdown {
+        padding: 8px 20px;
+        border-radius: 16px;
+        box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .Navigation .SideMenu.Closed, 
+    .Navigation .SideMenu.Close, 
+    .Navigation .SideMenu.Open {
+        padding: 0 16px;
+    }
+
+    .Navigation .NavigationHeader {
+        height: 135px;
+    }
+
+    .Navigation .NavigationHeader .SearchBar input {
+        font-size: 3rem;
+        height: 83px;
+    }
+
+    .Navigation .NavigationHeader .SearchBar .SearchIcon {
+        font-size: 3.5rem;
+        margin-top: 14px;
+    }
+    
+    .SideMenu .Logo {
+        height: 270px;
+    }
+    
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 2.4rem;
+    }
+    
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 3.5rem;
+    }
+    
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 2.2rem;
+    }
+
+    .Navigation .SideMenu .Options .NormalOption, 
+    .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 2.5rem;
+    }
+
+    .Navigation .SideMenu .Options .NormalOption {
+        height: 80px;
+    }
+    
+    .Navigation .SideMenu .Options .NormalOption svg {
+        font-size: 3.4rem;
+    }
+    
+    .Navigation .Dropdown .DropdownSelector svg {
+        font-size: 3.3rem;
+    }
+    
+    .Navigation .Dropdown ul {
+        max-height: 210px;
+    }
+}
+
+@media only screen and (min-width: 3800px) {
+    .Navigation .Dropdown {
+        padding: 12px 30px;
+        border-radius: 24px;
+        box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .Navigation .SideMenu.Closed, 
+    .Navigation .SideMenu.Close, 
+    .Navigation .SideMenu.Open {
+        padding: 0 40px;
+    }
+
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 3.2rem;
+        padding: 10px;
+    }
+
+    .Navigation .NavigationHeader {
+        height: 205px;
+    }
+    
+    .Navigation .NavigationHeader .SearchBar input {
+        font-size: 4.5rem;
+        height: 127px;
+    }
+    
+    .Navigation .NavigationHeader .SearchBar .SearchIcon {
+        font-size: 5.5rem;
+        margin-top: 22px;
+    }
+    
+    .SideMenu .Logo {
+        height: 423px;
+    }
+    
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 3.6rem;
+    }
+    
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 5rem;
+    }
+    
+    .Navigation .SideMenu .Options .NormalOption, 
+    .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 3.7rem;
+    }
+    
+    .Navigation .SideMenu .Options .NormalOption {
+        height: 140px;
+    }
+    
+    .Navigation .SideMenu .Options .NormalOption svg {
+        font-size: 5.4rem;
+    }
+    
+    .Navigation .Dropdown .DropdownSelector svg {
+        font-size: 5.3rem;
+    }
+    
+    .Navigation .Dropdown ul {
+        max-height: 285px;
+    }    
+}
+
+@media only screen and (min-width: 4200px) {
+    .Navigation .SideMenu.Closed, 
+    .Navigation .SideMenu.Close, 
+    .Navigation .SideMenu.Open {
+        padding: 0 64px;
+    }
+
+    .Navigation .NavigationHeader {
+        height: 270px;
+    }
+    
+    .Navigation .NavigationHeader .SearchBar input {
+        font-size: 6rem;
+        height: 165px;
+    }
+    
+    .Navigation .NavigationHeader .SearchBar .SearchIcon {
+        font-size: 6.5rem;
+        margin-top: 33px;
+    }
+    
+    .SideMenu .Logo {
+        height: 580px;
+    }
+    
+    .Navigation .SideMenu .CurrentUser .User span {
+        font-size: 4.7rem;
+    }
+    
+    .Navigation .SideMenu .CurrentUser .User svg {
+        font-size: 7rem;
+    }
+    
+    .Navigation .SideMenu .CurrentUser p {
+        font-size: 4.2rem;
+        padding: 13px;
+        border-radius: 25px;
+        margin-left: 40px;
+    }
+    
+    .Navigation .SideMenu .Options .NormalOption {
+        height: 185px;
+    }
+    
+    .Navigation .SideMenu .Options .NormalOption, 
+    .Navigation .SideMenu .Options .DropdownOption {
+        font-size: 5rem;
+    }
+    
+    .Navigation .SideMenu .Options .NormalOption svg {
+        font-size: 7rem;
+    }
+
+    .Navigation .Dropdown {
+        padding: 16px 40px;
+        border-radius: 32px;
+        box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .Navigation .Dropdown .DropdownSelector svg {
+        font-size: 6.3rem;
+    }
+    
+    .Navigation .Dropdown ul {
+        max-height: 355px;
+    }
+}

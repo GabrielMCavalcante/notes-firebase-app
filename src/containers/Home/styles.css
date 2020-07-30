@@ -1,0 +1,421 @@
+.Home {
+    width: 100vw;
+}
+
+.Home>div {
+    margin-top: 70px;
+}
+
+@media only screen and (max-width: 314px) {
+    .Home .NotesOverview {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .Home {
+        position: absolute;
+        right: 0;
+        width: calc(100% - 34%);
+        height: 100vh;
+    }
+    .Home .NotesOverview .NoteCard, .Home .Overview .NotesOverview .AddNoteCard {
+        width: 200px;
+        height: 200px;
+    }
+    .Home .NotesOverview .NoteCard .NoteCardContent span, .Home .Overview .NotesOverview .AddNoteCard span {
+        font-size: 1.5rem;
+    }
+    .Home .NotesOverview .NoteCard .NoteCardContent p {
+        font-size: 1.35rem;
+    }
+    .Home .Overview .NotesOverview .AddNoteCard svg {
+        font-size: 5.5rem;
+    }
+    .Home .MultiselectionOptions .Button {
+        font-size: 1.5rem;
+    }
+    .Home .MultiselectionOptions .Button svg {
+        font-size: 2rem;
+    }
+    .Home .NotesOverview .NoteCard .NoteCardSelector input[type="checkbox"] {
+        right: -80%;
+        width: 25px;
+        height: 25px;
+    }
+    .Home .FeedbackModal .ModalContent {
+        font-size: 2rem;
+    }
+    .Home .FeedbackModal .NoNotesFound svg:first-child, .Home .FeedbackModal svg {
+        font-size: 10rem;
+    }
+    .Home .FeedbackModal .NoNotesFound svg:last-child {
+        font-size: 4rem;
+        top: 19%;
+        left: 21%;
+    }
+    .Home .FeedbackModal .ModalActions .Button, .Home .NoteActions .Button {
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    .Home .NoteDates {
+        font-size: 1rem;
+    }
+    .Home form fieldset legend, .Home .EditNote form fieldset .LetterCounter {
+        font-size: 1.3rem;
+    }
+    .Home form fieldset input,
+    .Home form fieldset textarea {
+        font-size: 1.5rem;
+    }
+    .Home form fieldset textarea {
+        min-height: 424px;
+    }
+    .Home .SpinnerResizer {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .Home .NotesOverview {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .Home .EditNote textarea, 
+    .Home .ViewDeletedNote textarea {
+        min-height: 58vh;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .Home {
+        width: calc(100% - var(--side-menu-width));
+    }
+
+    .Home .NotesOverview {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .Home .MultiselectionOptions.Show {
+        margin-top: 15px;
+        width: fit-content;
+    }
+
+    .Home .FeedbackModal .ModalActions {
+        width: 85%;
+    }
+
+    .Home .FeedbackModal .NoNotesFound svg:last-child {
+        left: 20%;
+    }
+}
+
+@media only screen and (min-width: 1300px) {
+    .Home .NotesOverview {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    .Home>div {
+        margin-top: 80px;
+    }
+
+    .Home .NotesOverview {
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    .Home .MultiselectionOptions.Show {
+        margin-top: 20px;
+    }
+
+    .Home .FeedbackModal .ModalActions {
+        width: 66%;
+    }
+}
+
+@media only screen and (min-width: 2000px) {
+    .Home>div {
+        margin-top: 100px;
+    }
+
+    .Home .NotesOverview {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .Home .MultiselectionOptions.Show {
+        margin-top: 25px;
+    }
+
+    .Home .MultiselectionOptions .Button {
+        font-size: 1.8rem;
+    }
+
+    .Home .FeedbackModal .ModalActions {
+        width: 52%;
+    }
+
+    .Home .FeedbackModal .ModalActions .Button, .Home .NoteActions .Button {
+        height: 82px;
+        font-size: 2rem;
+    }
+
+    .Home .FeedbackModal .ModalContent {
+        font-size: 3rem;
+    }
+
+    .Home .FeedbackModal .NoNotesFound svg:first-child, 
+    .Home .FeedbackModal svg {
+        font-size: 14rem;
+    }
+
+    .Home .FeedbackModal .NoNotesFound svg:last-child {
+        left: 23%;
+        top: 21%;
+        font-size: 5rem;
+    }
+
+    .Home .EditNote {
+        margin: calc(68px + 45px) auto 0;
+    }
+
+    .Home .NoteDates {
+        font-size: 1.3rem;
+    }
+}
+
+@media only screen and (min-width: 2600px) {
+    .Home>div {
+        margin-top: 140px;
+    }
+
+    .Home .NotesOverview .NoteCard, 
+    .Home .Overview .NotesOverview .AddNoteCard {
+        width: 250px;
+        height: 250px;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardContent span, 
+    .Home .Overview .NotesOverview .AddNoteCard span {
+        font-size: 1.9rem;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardContent p {
+        font-size: 1.7rem;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardSelector {
+        min-height: 14px;
+    }
+
+    .Home .NotesOverview {
+        grid-template-columns: repeat(8, 1fr);
+    }
+
+    .Home .MultiselectionOptions.Show {
+        margin-top: 10px;
+    }
+
+    .Home .MultiselectionOptions .Button {
+        font-size: 2.3rem;
+    }
+
+    .Home .MultiselectionOptions .Button svg {
+        font-size: 3rem;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardSelector input[type="checkbox"] {
+        right: -84%;
+        width: 30px;
+        height: 30px;
+    }
+
+    .Home .EditNote {
+        margin: calc(68px + 88px) auto 0;
+    }
+
+    .Home .NoteDates {
+        font-size: 1.8rem;
+    }
+
+    .Home form fieldset legend, 
+    .Home .EditNote form fieldset .LetterCounter {
+        font-size: 1.6rem;
+    }
+
+    .Home form fieldset input, .Home form fieldset textarea {
+        font-size: 2.2rem;
+    }
+}
+
+@media only screen and (min-width: 3800px) {
+    .Home>div {
+        margin-top: 210px;
+    }
+
+    .Home .NotesOverview .NoteCard, 
+    .Home .Overview .NotesOverview .AddNoteCard {
+        width: 300px;
+        height: 300px;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardContent span, 
+    .Home .Overview .NotesOverview .AddNoteCard span {
+        font-size: 2.45rem;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardContent p {
+        font-size: 2.1rem;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardSelector {
+        min-height: 20px;
+    }
+
+    .Home .NotesOverview {
+        grid-template-columns: repeat(10, 1fr);
+    }
+
+    .Home .MultiselectionOptions .Button {
+        font-size: 3.3rem;
+        padding: 10px 48px;
+    }
+
+    .Home .MultiselectionOptions .Button svg {
+        font-size: 4rem;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardSelector input[type="checkbox"] {
+        right: -82%;
+        width: 40px;
+        height: 40px;
+    }
+
+    .Home .FeedbackModal .ModalActions .Button, .Home .NoteActions .Button {
+        height: 118px;
+        font-size: 3rem;
+        border-radius: 24px;
+    }
+
+    .Home .FeedbackModal .ModalContent {
+        font-size: 4rem;
+    }
+
+    .Home .FeedbackModal .NoNotesFound svg:first-child, 
+    .Home .FeedbackModal svg {
+        font-size: 18rem;
+    }
+
+    .Home .FeedbackModal .NoNotesFound svg:last-child {
+        left: 20%;
+        top: 20%;
+        font-size: 7rem;
+    }
+
+    .Home .EditNote {
+        margin: calc(68px + 156px) auto 0;
+    }
+
+    .Home .NoteDates {
+        font-size: 2.8rem;
+    }
+
+    .Home form fieldset legend, 
+    .Home .EditNote form fieldset .LetterCounter {
+        font-size: 2.6rem;
+    }
+
+    .Home form fieldset input, 
+    .Home form fieldset textarea {
+        font-size: 2.2rem;
+    }
+
+    .EditNote form fieldset {
+        border-radius: 16px 16px 0 0;
+        margin-bottom: 32px;
+    }
+
+    .Home form fieldset input, .Home form fieldset textarea {
+        font-size: 3.5rem;
+    }
+}
+
+@media only screen and (min-width: 4200px) {
+    .Home>div {
+        margin-top: 280px;
+    }
+
+    .Home .NotesOverview .NoteCard, 
+    .Home .Overview .NotesOverview .AddNoteCard {
+        width: 400px;
+        height: 400px;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardContent span, 
+    .Home .Overview .NotesOverview .AddNoteCard span {
+        font-size: 3.35rem;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardContent p {
+        font-size: 3rem;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardSelector {
+        min-height: 25px;
+    }
+
+    .Home .NotesOverview {
+        grid-template-columns: repeat(10, 1fr);
+    }
+
+    .Home .MultiselectionOptions .Button,
+    .Home .MultiselectionOptions .Button svg {
+        font-size: 5rem;
+    }
+
+    .Home .NotesOverview .NoteCard .NoteCardSelector input[type="checkbox"] {
+        right: -83%;
+        top: 3px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .Home .FeedbackModal .NoNotesFound svg:first-child, .Home .FeedbackModal svg {
+        font-size: 24rem;
+    }
+
+    .Home .FeedbackModal .ModalContent {
+        font-size: 6rem;
+    }
+
+    .Home .FeedbackModal .ModalActions .Button, 
+    .Home .NoteActions .Button {
+        height: 162px;
+        font-size: 4rem;
+        border-radius: 32px;
+    }
+
+    .Home .FeedbackModal .NoNotesFound svg:last-child {
+        left: 21%;
+        top: 20%;
+        font-size: 9rem;
+    }
+
+    .Home .NoteDates {
+        font-size: 3.8rem;
+    }
+
+    .Home .EditNote {
+        margin: calc(68px + 251px) auto 0;
+    }
+
+    .Home form fieldset legend, 
+    .Home .EditNote form fieldset .LetterCounter {
+        font-size: 3.6rem;
+    }
+
+    .Home form fieldset input, .Home form fieldset textarea {
+        font-size: 5rem;
+    }
+}

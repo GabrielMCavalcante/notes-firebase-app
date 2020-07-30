@@ -1,0 +1,135 @@
+.Overview {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Overview .MultiselectionOptions {
+    display: none;
+}
+
+.Overview .MultiselectionOptions.Show {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+    width: 90%;
+}
+
+.Overview .MultiselectionOptions .Button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Overview .MultiselectionOptions .Button:nth-child(3),
+.Overview .MultiselectionOptions .Button:nth-child(4) {
+    grid-column: 1/3;
+}
+
+.Overview .MultiselectionOptions .Button svg {
+    font-size: 1.5rem;
+    margin-right: 8px;
+}
+
+.Overview .MultiselectionOptions .Button span {
+    font-weight: bold;
+}
+
+.Overview .NotesOverview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 16px;
+    gap: 8px;
+}
+
+.Overview .NotesOverview .NoteCard, 
+.Overview .NotesOverview .AddNoteCard {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    background: var(--primary-theme);
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: box-shadow 300ms ease;
+}
+
+.Overview .NotesOverview .NoteCard:hover {
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+.Overview .NotesOverview .AddNoteCard {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+}
+
+.Overview .NotesOverview .AddNoteCard:hover {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6);
+}
+
+.Overview .NotesOverview .AddNoteCard span {
+    font-size: 1.2rem;
+    color: var(--primary-theme-dark);
+    font-weight: bold;
+}
+
+.Overview .NotesOverview .AddNoteCard svg {
+    font-size: 4.5rem;
+    color: var(--primary-theme-dark);
+}
+
+.Overview .NotesOverview .NoteCard {
+    position: relative;
+    z-index: 0;
+}
+
+.Overview .NotesOverview .NoteCard .NoteCardSelector {
+    border-radius: 8px 8px 0 0;
+    min-height: 10px;
+}
+
+.Overview .NotesOverview .NoteCard .NoteCardSelector input[type="checkbox"] {
+    position: relative;
+    right: -83%;
+    width: 15px;
+    height: 15px;
+}
+
+.Overview .NotesOverview .NoteCard .NoteCardContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 16px;
+}
+
+.Overview .NotesOverview .NoteCard .NoteCardContent span {
+    width: fit-content;
+    text-align: center;
+    word-break: break-word; 
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--primary-theme-dark);
+}
+
+.Overview .NotesOverview .NoteCard .NoteCardContent p {
+    width: 100%;
+    word-break: break-word;
+    color: var(--primary-theme-dark);
+    font-size: 0.8rem;
+}
+
+.Overview .SpinnerResizer {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

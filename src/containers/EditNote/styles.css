@@ -1,0 +1,80 @@
+.EditNote {
+    width: 90%;
+    margin: calc(68px + 30px) auto 0;
+    margin-top: 0;
+}
+
+.EditNote .NoteDates {
+    text-align: right;
+    font-size: 0.6rem;
+    color: var(--primary-theme-darker);
+    padding: 0 4px;
+}
+
+.EditNote form {
+    padding: 4px 8px;
+}
+
+.EditNote form fieldset {
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.EditNote form fieldset legend {
+    color: var(--primary-theme-dark);
+    font-weight: bold;
+    font-size: 0.75rem;
+}
+
+.EditNote form fieldset input,
+.EditNote form fieldset textarea {
+    border: none;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    color: var(--primary-theme-dark);
+}
+
+.EditNote form fieldset textarea {
+    resize: none;
+    min-height: 40vh;
+}
+
+.EditNote form fieldset .LetterCounter {
+    font-size: 0.7rem;
+    position: absolute;
+    bottom: 0;
+    right: 1%;
+}
+
+.EditNote .LetterCounter.Limit {
+    color: var(--primary-theme-red);
+}
+
+.EditNote form fieldset.Focus {
+    border-color: var(--primary-theme-dark);
+} 
+
+.EditNote form fieldset.Focus legend {
+    color: var(--primary-theme-dark);
+}
+
+.EditNote .NoteActions {
+    padding: 4px 8px;
+}
+
+.EditNote .NoteActions .Button {
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.EditNote .SpinnerResizer {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

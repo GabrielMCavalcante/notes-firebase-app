@@ -1,0 +1,35 @@
+.Button {
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    color: var(--primary-theme-dark);
+    background: var(--primary-theme);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.Button:hover {
+    background: #ddd;
+}
+
+.Button.Danger {
+    background: var(--primary-theme-red);
+    color: #f4f4f4;
+}
+
+.Button.Danger:hover {
+    background: #d64441;
+}
+
+.Button.Success {
+    background: rgb(3, 202, 93);
+    color: #f4f4f4;
+}
+
+.Button.Success:hover {
+    background: rgb(3, 161, 74);
+}
