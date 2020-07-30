@@ -30,9 +30,9 @@ criar uma conta ou se autenticar se já possuírem uma conta no aplicativo web.
 
 ## Sumário
 
-- [Instalação](#instalacao)
+- [Instalação](#instalação)
 - [Como usar](#como-usar)
-- [Licença](#licenca)
+- [Licença](#licença)
 - [Sobre](#sobre)
 
 ## Instalação
@@ -45,7 +45,7 @@ criar uma conta ou se autenticar se já possuírem uma conta no aplicativo web.
 1. Execute o comando ``npm start`` ou, para usuários ``yarn``, utilize o comando ``yarn start`` para executar o projeto no localhost
 
 [Voltar ao topo](#notes) <br>
-[Voltar ao sumário](#sumario)
+[Voltar ao sumário](#sumário)
 
 ## Como usar
 
@@ -92,7 +92,7 @@ Então, siga os passos abaixo:</p>
     ![multiselection](github/multiselection.jpg)
   
 [Voltar ao topo](#notes) <br>
-[Voltar ao sumário](#sumario)
+[Voltar ao sumário](#sumário)
 
 ## Licença
 MIT License
@@ -118,7 +118,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 [Voltar ao topo](#notes) <br>
-[Voltar ao sumário](#sumario)
+[Voltar ao sumário](#sumário)
 
 ## Sobre
 
@@ -127,4 +127,4 @@ SOFTWARE.
 - LinkedIn - [Gabriel Cavalcante](https://linkedin.com/in/gabrielmcavalcante)
 
 [Voltar ao topo](#notes) <br>
-[Voltar ao sumário](#sumario)
+[Voltar ao sumário](#sumário)
