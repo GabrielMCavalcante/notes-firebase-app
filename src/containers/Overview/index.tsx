@@ -61,6 +61,7 @@ function Overview(props: Props) {
     const [order, setOrder] = useState('title')
     const [loading, setLoading] = useState(true)
     const [feedbackModal, setFeedbackModal] = useState<JSX.Element | null>(null)
+    const [shouldFilter, setShouldFilter] = useState(true)
 
     // Order by
     useEffect(() => {
@@ -73,12 +74,13 @@ function Overview(props: Props) {
 
     // Filter by color
     useEffect(() => {
-        if (filter) {
+        if (filter && shouldFilter) {
+            setShouldFilter(false)
             if (filter !== 'all')
                 setFilteredNotes(allNotes.filter(note => note.color === filter))
             else setFilteredNotes([...allNotes])
         }
-    }, [filter, allNotes])
+    }, [filter, allNotes, filteredNotes]) // eslint-disable-line
 
     // Search notes
     useEffect(() => {
@@ -89,7 +91,10 @@ function Overview(props: Props) {
                     note => note.title.toLowerCase().match(searchRegExp)
                 )
             )
-        } else setFilteredNotes(allNotes)
+        } else {
+            setFilteredNotes(allNotes)
+            setShouldFilter(true) 
+        }
     }, [props.search]) // eslint-disable-line
 
     function addNote() {
@@ -152,7 +157,10 @@ function Overview(props: Props) {
                 "Black",
                 "White"
             ],
-            onOptionSelect: (filter: string) => setFilter(filter.toLowerCase())
+            onOptionSelect: (filter: string) => {
+                setFilter(filter.toLowerCase())
+                setShouldFilter(true)
+            }
         },
         {
             text: "Multiselection",

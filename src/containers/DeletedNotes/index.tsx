@@ -58,6 +58,7 @@ function DeletedNotes(props: Props) {
     const [order, setOrder] = useState('title')
     const [loading, setLoading] = useState(true)
     const [feedbackModal, setFeedbackModal] = useState<JSX.Element | null>(null)
+    const [shouldFilter, setShouldFilter] = useState(true)
 
     // Order by
     useEffect(() => {
@@ -70,12 +71,13 @@ function DeletedNotes(props: Props) {
 
     // Filter by color
     useEffect(() => {
-        if (filter) {
+        if (filter && shouldFilter) {
+            setShouldFilter(false)
             if (filter !== 'all')
                 setFilteredTrash(allTrash.filter(note => note.color === filter))
             else setFilteredTrash([...allTrash])
         }
-    }, [filter, allTrash])
+    }, [filter, allTrash, filteredTrash]) // eslint-disable-line
 
     // Search notes
     useEffect(() => {
@@ -86,7 +88,10 @@ function DeletedNotes(props: Props) {
                     note => note.title.toLowerCase().match(searchRegExp)
                 )
             )
-        } else setFilteredTrash(allTrash)
+        } else {
+            setFilteredTrash(allTrash)
+            setShouldFilter(true)
+        }
     }, [props.search]) // eslint-disable-line
 
     const navOptions: Option[] = [
@@ -122,7 +127,10 @@ function DeletedNotes(props: Props) {
                 "Black",
                 "White"
             ],
-            onOptionSelect: (filter: string) => setFilter(filter.toLowerCase())
+            onOptionSelect: (filter: string) => {
+                setFilter(filter.toLowerCase())
+                setShouldFilter(true)
+            }
         },
         {
             text: "Multiselection",
